@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.IdentityServer", "IdentityServer\GRP.IdentityServer\GRP.IdentityServer.csproj", "{75F81963-461E-4CB5-BBBC-A7A53DFDAE12}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdentityServer", "IdentityServer", "{F404B739-2B48-4BD7-87F6-6DEDA3F14447}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{28722BEC-F0CF-4EF1-A94E-FC13872CA45B}"
@@ -17,15 +15,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{8A2719
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReactWebApp", "ReactWebApp", "{680CC665-8451-4E1E-B37E-A78BF62DDC69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Shared.Core", "Shared\GRP.Shared.Core\GRP.Shared.Core.csproj", "{2108BC24-F535-4BF7-B110-662F019B0A5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Shared.Core", "Shared\GRP.Shared.Core\GRP.Shared.Core.csproj", "{2108BC24-F535-4BF7-B110-662F019B0A5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Gateway", "Gateway\GRP.Gateway\GRP.Gateway.csproj", "{AAD7D8B2-4661-4FC7-83FB-A93A412773C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Gateway", "Gateway\GRP.Gateway\GRP.Gateway.csproj", "{AAD7D8B2-4661-4FC7-83FB-A93A412773C0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WaterTankCalculator", "WaterTankCalculator", "{6C3F9833-F227-47E5-AAF0-14EA4FB85DD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Services.WaterTankCalculator", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator\GRP.Services.WaterTankCalculator.csproj", "{FB6C3E20-0566-4BAD-BB6E-0CD3D35B6DB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Services.WaterTankCalculator", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator\GRP.Services.WaterTankCalculator.csproj", "{FB6C3E20-0566-4BAD-BB6E-0CD3D35B6DB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Shared", "Shared\GRP.Shared\GRP.Shared.csproj", "{CC1D71A3-31D0-415A-B0F5-36B95428DF96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Shared", "Shared\GRP.Shared\GRP.Shared.csproj", "{CC1D71A3-31D0-415A-B0F5-36B95428DF96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.IdentityServer", "IdentityServer\GRP.IdentityServer\GRP.IdentityServer.csproj", "{EA41F9F1-6544-4BB4-9EC9-A365C05C5F16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{75F81963-461E-4CB5-BBBC-A7A53DFDAE12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{75F81963-461E-4CB5-BBBC-A7A53DFDAE12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{75F81963-461E-4CB5-BBBC-A7A53DFDAE12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{75F81963-461E-4CB5-BBBC-A7A53DFDAE12}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2108BC24-F535-4BF7-B110-662F019B0A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2108BC24-F535-4BF7-B110-662F019B0A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2108BC24-F535-4BF7-B110-662F019B0A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,18 +49,22 @@ Global
 		{CC1D71A3-31D0-415A-B0F5-36B95428DF96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC1D71A3-31D0-415A-B0F5-36B95428DF96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC1D71A3-31D0-415A-B0F5-36B95428DF96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA41F9F1-6544-4BB4-9EC9-A365C05C5F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA41F9F1-6544-4BB4-9EC9-A365C05C5F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA41F9F1-6544-4BB4-9EC9-A365C05C5F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA41F9F1-6544-4BB4-9EC9-A365C05C5F16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{75F81963-461E-4CB5-BBBC-A7A53DFDAE12} = {F404B739-2B48-4BD7-87F6-6DEDA3F14447}
 		{680CC665-8451-4E1E-B37E-A78BF62DDC69} = {28722BEC-F0CF-4EF1-A94E-FC13872CA45B}
 		{2108BC24-F535-4BF7-B110-662F019B0A5E} = {8A271992-D3D1-4FA4-A69D-DC918167E07C}
 		{AAD7D8B2-4661-4FC7-83FB-A93A412773C0} = {BAF3B236-AEDA-4D62-A424-43AA802B0234}
 		{6C3F9833-F227-47E5-AAF0-14EA4FB85DD0} = {55D11A66-3000-4327-9D1C-AB1144EC0C7C}
 		{FB6C3E20-0566-4BAD-BB6E-0CD3D35B6DB4} = {6C3F9833-F227-47E5-AAF0-14EA4FB85DD0}
 		{CC1D71A3-31D0-415A-B0F5-36B95428DF96} = {8A271992-D3D1-4FA4-A69D-DC918167E07C}
+		{EA41F9F1-6544-4BB4-9EC9-A365C05C5F16} = {F404B739-2B48-4BD7-87F6-6DEDA3F14447}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C03B91F8-DFFF-402B-98F6-E3C5033F2E2C}

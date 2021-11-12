@@ -1,62 +1,56 @@
-﻿// Copyright (c) Duende Software. All rights reserved.
-// See LICENSE in the project root for license information.
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
+using Duende.IdentityServer.EntityFramework.DbContexts;
+
+using GRP.IdentityServer.Data;
+using GRP.IdentityServer.Seeding;
+using GRP.Shared.Core.ExtensionMethods;
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
 using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.SystemConsole.Themes;
-using System;
-using System.Linq;
+
 
 namespace GRP.IdentityServer
 {
     public class Program
     {
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
-                .MinimumLevel.Override("System", LogEventLevel.Warning)
-                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                // uncomment to write to Azure diagnostics stream
-                //.WriteTo.File(
-                //    @"D:\home\LogFiles\Application\identityserver.txt",
-                //    fileSizeLimitBytes: 1_000_000,
-                //    rollOnFileSizeLimit: true,
-                //    shared: true,
-                //    flushToDiskInterval: TimeSpan.FromSeconds(1))
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Code)
-                .CreateLogger();
-
             try
             {
-                var seed = args.Contains("/seed");
-                if (seed)
-                {
-                    args = args.Except(new[] { "/seed" }).ToArray();
-                }
+                IHost host = CreateHostBuilder(args).Build();
 
-                var host = CreateHostBuilder(args).Build();
+                using IServiceScope serviceScope = host.Services.CreateScope();
 
-                if (seed)
+                IServiceProvider services = serviceScope.ServiceProvider;
+
+                ConfigurationDbContext configurationDbContext = services.GetRequiredService<ConfigurationDbContext>();
+                ApplicationDbContext applicationDbContext = services.GetRequiredService<ApplicationDbContext>();
+                PersistedGrantDbContext persistedGrantDbContext = services.GetRequiredService<PersistedGrantDbContext>();
+
+                await Task.WhenAll(new List<Task>() {
+                     applicationDbContext.Database.MigrateAsync(),
+                     configurationDbContext.Database.MigrateAsync(),
+                     persistedGrantDbContext.Database.MigrateAsync()
+                });
+
+
+                await Task.WhenAll(new List<Task>()
                 {
-                    Log.Information("Seeding database...");
-                    var config = host.Services.GetRequiredService<IConfiguration>();
-                    var connectionString = config.GetConnectionString("DefaultConnection");
-                    SeedData.EnsureSeedData(connectionString);
-                    Log.Information("Done seeding database.");
-                    return 0;
-                }
+                    IdentityServerSeedData.SeedConfiguration(configurationDbContext), 
+                    IdentityServerSeedData.SeedUserData(services)
+                });
 
                 Log.Information("Starting host...");
-                host.Run();
+                await host.RunAsync();
                 return 0;
             }
             catch (Exception ex)
@@ -71,11 +65,18 @@ namespace GRP.IdentityServer
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .UseSerilog()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+             Host.CreateDefaultBuilder(args)
+                    .ConfigureWebHostDefaults(webBuilder =>
+                    {
+                        webBuilder.UseStartup<Startup>()
+                        .ConfigureLogging((hostingContext, config) =>
+                        {
+                            config.ClearProviders();
+                            config.AddSerilog(LoggerExtensionMethods.SerilogInit());
+                        });
+                    }).ConfigureAppConfiguration((context, config) =>
+                    {
+                        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                    });
     }
 }
