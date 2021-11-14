@@ -47,7 +47,7 @@ namespace GRP.Shared.Core.ExtensionMethods
         {
             ConnectionType conType = environment.GetConnectionType(test);
             string connectionTypeName = Enum.GetName(typeof(ConnectionType), conType);
-            string result = configuration.GetSection($"WebApi:{connectionTypeName}").Get<string>();
+            string result = configuration.GetSection($"WaterTankCalculator:{connectionTypeName}").Get<string>();
             return result;
         }
     }
