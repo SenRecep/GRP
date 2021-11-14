@@ -27,16 +27,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Shared", "Shared\GRP.Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.IdentityServer", "IdentityServer\GRP.IdentityServer\GRP.IdentityServer.csproj", "{EA41F9F1-6544-4BB4-9EC9-A365C05C5F16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Services.WaterTankCalculator.Entities", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator.Entities\GRP.Services.WaterTankCalculator.Entities.csproj", "{EE5CA272-6494-4915-A52A-0D56ACB5979E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Services.WaterTankCalculator.Entities", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator.Entities\GRP.Services.WaterTankCalculator.Entities.csproj", "{EE5CA272-6494-4915-A52A-0D56ACB5979E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Services.WaterTankCalculator.DAL", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator.DAL\GRP.Services.WaterTankCalculator.DAL.csproj", "{D5264302-E6D9-4B78-A782-C0E9CAEF61D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Services.WaterTankCalculator.DAL", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator.DAL\GRP.Services.WaterTankCalculator.DAL.csproj", "{D5264302-E6D9-4B78-A782-C0E9CAEF61D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Services.WaterTankCalculator.BLL", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator.BLL\GRP.Services.WaterTankCalculator.BLL.csproj", "{5F37B092-43D5-497C-B5AA-E9F31329848E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Services.WaterTankCalculator.BLL", "Services\WaterTankCalculator\GRP.Services.WaterTankCalculator.BLL\GRP.Services.WaterTankCalculator.BLL.csproj", "{5F37B092-43D5-497C-B5AA-E9F31329848E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GRP.Core", "Shared\GRP.Core\GRP.Core.csproj", "{180F9604-F8B8-4247-B352-0DBD6031F113}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GRP.Core", "Shared\GRP.Core\GRP.Core.csproj", "{180F9604-F8B8-4247-B352-0DBD6031F113}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{BBD87BDB-1401-4690-8347-4EC7D2858617}"
 	ProjectSection(SolutionItems) = preProject
+		Notes\ClientInfo.txt = Notes\ClientInfo.txt
 		Ports.txt = Ports.txt
 	EndProjectSection
 EndProject
