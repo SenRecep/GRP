@@ -1,0 +1,2 @@
+IdentityServer:5101
+WaterTankCalculator :5102

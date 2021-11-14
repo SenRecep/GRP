@@ -10,7 +10,6 @@ namespace GRP.Shared.Core.ExtensionMethods
         public static IActionResult CreateResponseInstance<T>(this Response<T> response)
         {
             if (response.IsNull())
-            {
                 return new ObjectResult(Response<T>.Fail(
                     statusCode: StatusCodes.Status500InternalServerError,
                     isShow: false,
@@ -20,7 +19,7 @@ namespace GRP.Shared.Core.ExtensionMethods
                 {
                     StatusCode = StatusCodes.Status500InternalServerError
                 };
-            }
+
             return new ObjectResult(response)
             {
                 StatusCode = response.StatusCode == StatusCodes.Status204NoContent ? StatusCodes.Status200OK : response.StatusCode
