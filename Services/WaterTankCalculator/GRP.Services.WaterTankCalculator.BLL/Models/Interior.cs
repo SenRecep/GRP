@@ -1,0 +1,1 @@
+﻿public record Interior(float Top, float Bottom, float Side);

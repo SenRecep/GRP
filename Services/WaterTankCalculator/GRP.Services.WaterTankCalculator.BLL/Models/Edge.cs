@@ -1,0 +1,1 @@
+﻿public record Edge(float Top, float Bottom, float Side);

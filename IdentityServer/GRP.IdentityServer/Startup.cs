@@ -89,7 +89,8 @@ namespace GRP.IdentityServer
 
             builder.AddDeveloperSigningCredential()
                 .AddProfileService<CustomProfileService>()
-                .AddResourceOwnerValidator<IdentityResourceOwnerPasswordValidator>();
+                .AddResourceOwnerValidator<IdentityResourceOwnerPasswordValidator>()
+                .AddExtensionGrantValidator<TokenExchangeExtensionGrantValidator>();
         }
 
         public void Configure(IApplicationBuilder app)

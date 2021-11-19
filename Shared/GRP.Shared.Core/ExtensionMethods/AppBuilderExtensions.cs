@@ -26,14 +26,9 @@ namespace GRP.Shared.Core.ExtensionMethods
                     if (error != null)
                     {
                         System.Exception ex = error.Error;
-                        bool isShow = false;
-
-                        if (ex is CustomException)
-                            isShow = true;
-
                         Response<NoContent> response = Response<NoContent>.Fail(
                             statusCode: StatusCodes.Status500InternalServerError,
-                            isShow: isShow,
+                            isShow: ex is CustomException,
                             path: error.Path,
                             ex.Message
                             );

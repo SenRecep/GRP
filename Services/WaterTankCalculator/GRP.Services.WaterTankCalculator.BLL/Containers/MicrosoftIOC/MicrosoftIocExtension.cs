@@ -1,5 +1,7 @@
 ﻿using FluentValidation.AspNetCore;
 
+using GRP.Services.WaterTankCalculator.BLL.Interfaces;
+using GRP.Services.WaterTankCalculator.BLL.Managers;
 using GRP.Shared.BLL.Interfaces;
 using GRP.Shared.BLL.Managers;
 using GRP.Shared.Core.ExtensionMethods;
@@ -10,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 using System.Reflection;
 
@@ -24,7 +27,7 @@ public static class MicrosoftIocExtension
         IWebHostEnvironment environment)
     {
         string connectionString = configuration.GetCustomConnectionString(environment.GetConnectionType());
-        string migrationName = "GRP.Services.WaterTankCalculator";
+        string migrationName = nameof(GRP.Services.WaterTankCalculator);
 
         //services.AddTransient<DbContext, DietPlannerDbContext>();
 
@@ -40,6 +43,9 @@ public static class MicrosoftIocExtension
         #region Services
         services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
         services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
+
+        services.AddScoped<IEdgeService, EdgeManager>();
+        services.AddScoped<IModuleService, ModuleManager>();
         #endregion
 
         #region Repositoryies
@@ -51,8 +57,8 @@ public static class MicrosoftIocExtension
         services.AddScoped<ICustomMapper, CustomMapper>();
 
 
-        //services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
-        //services.AddSingleton<IMailSettings>(sp => sp.GetRequiredService<IOptions<MailSettings>>().Value);
+        services.Configure<ModuleGroup>(configuration.GetSection("ModuleGroup"));
+        services.AddScoped(sp => sp.GetRequiredService<IOptions<ModuleGroup>>().Value);
 
 
     }

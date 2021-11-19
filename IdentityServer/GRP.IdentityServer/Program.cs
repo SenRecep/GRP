@@ -45,7 +45,7 @@ namespace GRP.IdentityServer
 
                 await Task.WhenAll(new List<Task>()
                 {
-                    IdentityServerSeedData.SeedConfiguration(configurationDbContext), 
+                    IdentityServerSeedData.SeedConfiguration(configurationDbContext),
                     IdentityServerSeedData.SeedUserData(services)
                 });
 

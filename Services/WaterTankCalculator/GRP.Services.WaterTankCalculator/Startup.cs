@@ -16,11 +16,13 @@ public class Startup
 {
     public IWebHostEnvironment Environment { get; }
     public IConfiguration Configuration { get; }
+    public string IdentityServerUrl { get; init; }
 
     public Startup(IWebHostEnvironment environment, IConfiguration configuration)
     {
         Environment = environment;
         Configuration = configuration;
+        IdentityServerUrl = Environment.GetIdentityServerUrl(Configuration);
     }
 
     public void ConfigureServices(IServiceCollection services)
@@ -40,8 +42,8 @@ public class Startup
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
             {
-                opt.Authority = Environment.GetIdentityServerUrl(Configuration);
-                opt.Audience = "resource_webapi";
+                opt.Authority = IdentityServerUrl;
+                opt.Audience = "resource_watertankcalculator";
                 opt.RequireHttpsMetadata = !Environment.IsDevelopment();
             });
 
@@ -140,6 +142,7 @@ public class Startup
         }).ConfigureAppConfiguration(config =>
         {
             config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            config.AddJsonFile("modules.json");
         });
     }
 }

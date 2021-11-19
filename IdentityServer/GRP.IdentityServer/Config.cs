@@ -12,17 +12,19 @@ namespace GRP.IdentityServer
     {
         public static IEnumerable<ApiResource> ApiResources => new ApiResource[]
         {
-            new ApiResource("resource_webapi")
-            {
-                Scopes={"webapi_fullpermission"},
-                ApiSecrets=new []{ new Secret("webapi_secret".Sha256())}
-                },
+            new ApiResource("resource_watertankcalculator"){
+                Scopes={"watertankcalculator_fullpermission"},
+                ApiSecrets=new []{ new Secret("watertankcalculator_secret".Sha256())}},
+            new ApiResource("resource_gateway"){
+                Scopes={"gateway_fullpermission"},
+                ApiSecrets=new []{ new Secret("gateway_secret".Sha256())}},
             new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
         };
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("webapi_fullpermission","WEB API ICIN TUM IZINLER"),
+                new ApiScope("watertankcalculator_fullpermission","Water Tank Calculator ICIN TUM IZINLER"),
+                new ApiScope("gateway_fullpermission","GATEWAY ICIN TUM IZINLER"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
         public static IEnumerable<IdentityResource> IdentityResources =>
@@ -46,7 +48,7 @@ namespace GRP.IdentityServer
                     AllowedScopes =
                     {
                         IdentityServerConstants.LocalApi.ScopeName,
-                        "webapi_fullpermission"
+                        "gateway_fullpermission"
                     }
                 },
 
@@ -66,13 +68,28 @@ namespace GRP.IdentityServer
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         IdentityServerConstants.LocalApi.ScopeName,
-                        "webapi_fullpermission",
+                        "watertankcalculator_fullpermission",
+                        "gateway_fullpermission",
                         "roles"
                     },
                     AccessTokenLifetime =(int)TimeSpan.FromDays(5).TotalSeconds,
                     RefreshTokenUsage=TokenUsage.ReUse,
                     RefreshTokenExpiration=TokenExpiration.Absolute,
                     AbsoluteRefreshTokenLifetime=(int)TimeSpan.FromDays(20).TotalSeconds
+                },
+                new Client
+                {
+                    ClientId = "Token_Exchange_Clinet",
+                    ClientName = "Token Exchange Clinet",
+
+                    AllowedGrantTypes = new []{"urn:ietf:params:oauth:grant-type:token-exchange"},
+                    ClientSecrets = { new Secret("webclient_client_secret".Sha256()) },
+                    //todo api dan api a istek yaparken ikinci api tarafinin izilerinin bildirilmesi gerek
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        "watertankcalculator_fullpermission"
+                    }
                 }
             };
     }

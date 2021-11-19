@@ -1,0 +1,1 @@
+﻿public record  CalculateModel(float Width, float Length, float Height);

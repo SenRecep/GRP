@@ -1,0 +1,70 @@
+﻿{
+  "ModuleGroup": {
+    "YIC19": {
+      "Name": "İÇ BOMBE",
+      "Weight": 19,
+      "Dimensions": "100cm*100cm",
+      "Type": "Yan Panel"
+    },
+    "YIC21": {
+      "Name": "İÇ BOMBE",
+      "Weight": 21,
+      "Dimensions": "100cm*100cm",
+      "Type": "Yan Panel"
+    },
+    "YIC25": {
+      "Name": "İÇ BOMBE",
+      "Weight": 25,
+      "Dimensions": "100cm*100cm",
+      "Type": "Yan Panel"
+    },
+    "YIC22": {
+      "Name": "İÇ BOMBE",
+      "Weight": 22,
+      "Dimensions": "100cm*150cm",
+      "Type": "Yeni Yan Panel"
+    },
+    "YIC28": {
+      "Name": "İÇ BOMBE",
+      "Weight": 28,
+      "Dimensions": "100cm*150cm",
+      "Type": "Eski Yan Panel"
+    },
+    "YIC13": {
+      "Name": "İÇ BOMBE",
+      "Weight": 13,
+      "Dimensions": "50cm*100cm",
+      "Type": "Yarım Panel"
+    },
+    "ADTT": {
+      "Name": "DÜZ (TABAN veya TAVAN)",
+      "Weight": 10.8,
+      "Dimensions": "100cm*100cm",
+      "Type": "Düz Taban"
+    },
+    "ADBTT": {
+      "Name": "TERS BOMBE (TABAN veya TAVAN)",
+      "Weight": 15,
+      "Dimensions": "100cm*100cm",
+      "Type": "Kiriş Taban"
+    },
+    "ATB": {
+      "Name": "TERS BOMBE ",
+      "Weight": 25.5,
+      "Dimensions": "100cm*100cm",
+      "Type": "Taban Paneli"
+    },
+    "UDB22": {
+      "Name": "DIŞ BOMBE",
+      "Weight": 2.2,
+      "Dimensions": "60cm*60cm",
+      "Type": "Kapak"
+    },
+    "UDB13": {
+      "Name": "DIŞ BOMBE",
+      "Weight": 13,
+      "Dimensions": "100cm*100cm",
+      "Type": "Çerçeve"
+    }
+  }
+}

@@ -65,34 +65,24 @@ namespace GRP.IdentityServer.Seeding
         }
 
 
+        public static async Task ClearConfiguration(ConfigurationDbContext context)
+        {
+            await context.Clients.ClearAsync();
+            await context.ApiResources.ClearAsync();
+            await context.ApiScopes.ClearAsync();
+            await context.IdentityResources.ClearAsync();
+        }
+
         public static async Task SeedConfiguration(ConfigurationDbContext context)
         {
-            List<Task> tasks = new List<Task>();
-
-            if (context.Clients.Count() != Config.Clients.Count())
+            await ClearConfiguration(context);
+            await Task.WhenAll(new List<Task>
             {
-                await context.Clients.ClearAsync();
-                tasks.Add(context.Clients.AddRangeAsync(Config.Clients.Select(x => x.ToEntity())));
-            }
-            if (context.ApiResources.Count() != Config.ApiResources.Count())
-            {
-                await context.ApiResources.ClearAsync();
-                tasks.Add(context.ApiResources.AddRangeAsync(Config.ApiResources.Select(x => x.ToEntity())));
-            }
-
-            if (context.ApiScopes.Count() != Config.ApiScopes.Count())
-            {
-                await context.ApiScopes.ClearAsync();
-                tasks.Add(context.ApiScopes.AddRangeAsync(Config.ApiScopes.Select(x => x.ToEntity())));
-            }
-
-            if (context.IdentityResources.Count() != Config.IdentityResources.Count())
-            {
-                await context.IdentityResources.ClearAsync();
-                tasks.Add(context.IdentityResources.AddRangeAsync(Config.IdentityResources.Select(x => x.ToEntity())));
-            }
-
-            await Task.WhenAll(tasks);
+                context.Clients.AddRangeAsync(Config.Clients.Select(x => x.ToEntity())),
+                context.ApiResources.AddRangeAsync(Config.ApiResources.Select(x => x.ToEntity())),
+                context.ApiScopes.AddRangeAsync(Config.ApiScopes.Select(x => x.ToEntity())),
+                context.IdentityResources.AddRangeAsync(Config.IdentityResources.Select(x => x.ToEntity()))
+            });
             await context.SaveChangesAsync();
         }
     }

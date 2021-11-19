@@ -1,2 +1,4 @@
+Gateway:5100
 IdentityServer:5101
-WaterTankCalculator :5102
+Services
+	-WaterTankCalculator :5102
