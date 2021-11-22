@@ -71,6 +71,8 @@ public static class MicrosoftIocExtension
         services.AddSetting<ModuleGroup>(configuration, "ModuleGroup");
         services.AddSetting<ProductGroup>(configuration, "Products");
         services.AddSetting<RATGroup>(configuration, "rats");
+
+        services.AddHttpClient<IExchangeService,ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.exchangerate.host/latest?base=USD&symbols=TRY"));
     }
 
     public static void AddValidationDependencies(this IMvcBuilder mvcBuilder)
