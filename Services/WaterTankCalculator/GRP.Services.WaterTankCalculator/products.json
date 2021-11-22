@@ -1,0 +1,109 @@
+﻿{
+  "Products": {
+    "FM": {
+      "Name": "Fabrika İmalatı",
+      "UnitPrice": 55
+    },
+    "MM": {
+      "Name": "Montaj Maliyeti",
+      "UnitPrice": 50
+    },
+    "C360": {
+      "Name": "3x60 Conta",
+      "UnitPrice": 2.75
+    },
+    "M1045GC": {
+      "Name": "M10x45 Galvaniz Civata",
+      "UnitPrice": 0.72
+    },
+    "M1045GS": {
+      "Name": "M10x45 Galvaniz Somun",
+      "UnitPrice": 0.2
+    },
+    "M1045GP": {
+      "Name": "M10x45 Paslanmaz Cıvata",
+      "UnitPrice": 0.11
+    },
+    "M1045PC": {
+      "Name": "M10x45 Galvaniz Pul",
+      "UnitPrice": 3
+    },
+    "M10PS": {
+      "Name": "M10 Paslanmaz Somun",
+      "UnitPrice": 1
+    },
+    "M10PP": {
+      "Name": "M10 Paslanmaz Pul",
+      "UnitPrice": 0.48
+    },
+    "M1045KC": {
+      "Name": "M10x45 Kaplamalı Cıvata",
+      "UnitPrice": 2
+    },
+    "M12120PGS": {
+      "Name": "M12x120 Paslanmaz Gergi Saplaması",
+      "UnitPrice": 10
+    },
+    "M12GS": {
+      "Name": "M12 Galvaniz Somun",
+      "UnitPrice": 0.37
+    },
+    "M12GGP": {
+      "Name": "M12 Galvaniz Geniş Pul",
+      "UnitPrice": 0.23
+    },
+    "M12US": {
+      "Name": "M12 Uzatma Somunu",
+      "UnitPrice": 6.25
+    },
+    "M12PS": {
+      "Name": "M12 Paslanmaz Somun",
+      "UnitPrice": 1.15
+    },
+    "DBS": {
+      "Name": "Dyson Beyaz Silikon",
+      "UnitPrice": 30
+    },
+    "G502": {
+      "Name": "502 Yapıştırıcı",
+      "UnitPrice": 8
+    },
+    "DBRP": {
+      "Name": "Depo Bağlantı Rekoru Pirinç 2`",
+      "UnitPrice": 92,
+      "Quantity": 2
+    },
+    "DBRPVC": {
+      "Name": "Depo Bağlantı Rekoru PVC 2`",
+      "UnitPrice": 17.25,
+      "Quantity": 2
+    },
+    "SGM": {
+      "Name": "Seviye Göstergesi Manşonu 1`",
+      "UnitPrice": 20,
+      "Quantity": 1
+    },
+    "DMG": {
+      "Name": "Dış Merdiven Galvaniz",
+      "UnitPrice": 120,
+      "Quantity": 0
+    },
+    "DMP": {
+      "Name": "Dış Merdiven Paslanmaz",
+      "UnitPrice": 300,
+      "Quantity": 1
+    },
+    "IM": {
+      "Name": "İç Mediven",
+      "UnitPrice": 300
+    },
+    "PPRCD": {
+      "Name": "PPRC Dikme",
+      "UnitPrice": 75
+    },
+    "PK": {
+      "Name": "Kaide",
+      "UnitPrice": 2.5
+    }
+  }
+}

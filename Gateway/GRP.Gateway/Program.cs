@@ -1,25 +1,32 @@
+using GRP.Gateway.DelegateHandlers;
+using GRP.Shared.Core.ExtensionMethods;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+builder.Host.ConfigureAppConfiguration((context, config) =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    config
+    .AddJsonFile($"configuration.{context.HostingEnvironment.EnvironmentName.ToLower()}.json")
+    .AddEnvironmentVariables();
+});
 
-app.UseHttpsRedirection();
+string identityUrl = builder.Environment.GetIdentityServerUrl(builder.Configuration);
+bool isDevelopment = builder.Environment.IsDevelopment();
+builder.Services.AddAuthentication()
+           .AddJwtBearer("GatewayAuthanticationScheme", opt =>
+           {
+               opt.Authority = identityUrl;
+               opt.Audience = "resource_gateway";
+               opt.RequireHttpsMetadata = !isDevelopment;
+           });
 
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+builder.Services.AddHttpClient<TokenExchangeDelegateHandler>();
+builder.Services.AddOcelot().AddDelegatingHandler<TokenExchangeDelegateHandler>();
+var app = builder.Build();
+app.UseCustomExceptionHandler();
+await app.UseOcelot();
+await app.RunAsync();

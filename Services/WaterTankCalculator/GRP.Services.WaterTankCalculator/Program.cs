@@ -1,25 +1,24 @@
-var builder = WebApplication.CreateBuilder(args);
+using GRP.Services.WaterTankCalculator;
+using Serilog;
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+try
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var builder = WebApplication.CreateBuilder(args);
+    var startup = new Startup(builder.Environment,builder.Configuration);
+    startup.ConfigureServices(builder.Services);
+    startup.ConfigureHost(builder.Host);
+    Log.Information("Starting host...");
+    var app = builder.Build();
+    startup.Configure(app);
+    await app.RunAsync();
+    return 0;
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Host terminated unexpectedly.");
+    return 1;
+}
+finally
+{
+    Log.CloseAndFlush();
+}

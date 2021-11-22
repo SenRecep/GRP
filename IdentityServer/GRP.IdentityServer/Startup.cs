@@ -1,10 +1,13 @@
-﻿// Copyright (c) Duende Software. All rights reserved.
-// See LICENSE in the project root for license information.
+﻿
+using FluentValidation.AspNetCore;
 
-
-using Duende.IdentityServer;
 using GRP.IdentityServer.Data;
-using IdentityServerHost.Models;
+using GRP.IdentityServer.Mapping.AutoMapper;
+using GRP.IdentityServer.Models;
+using GRP.IdentityServer.Services;
+using GRP.Shared.Core.ExtensionMethods;
+using GRP.Shared.Core.Filters;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -26,44 +29,68 @@ namespace GRP.IdentityServer
             Configuration = configuration;
         }
 
+        public string GetConnectionString() => Configuration.GetCustomConnectionString(Environment.GetConnectionType());
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            string connectionString = GetConnectionString();
+            string migrationName = this.GetType().Namespace;
+
+            services.AddLocalApiAuthentication();
+
+            services.AddControllers(opt =>
+            {
+                opt.Filters.Add<ValidateModelAttribute>();
+            }).AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
+
+
+            services.AddAutoMapper(typeof(ApplicationUserMapProfile));
+
+
+            services.AddCustomValidationResponse();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), 
-                    o => o.MigrationsAssembly(typeof(Startup).Assembly.FullName)));
+                options.UseSqlServer(connectionString));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            {
+                opt.User.RequireUniqueEmail = true;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
-            var builder = services.AddIdentityServer(options =>
+            IIdentityServerBuilder builder = services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
-                // see https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
                 options.EmitStaticAudienceClaim = true;
             })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
+                .AddConfigurationStore(opt =>
+                    opt.ConfigureDbContext = cOpt =>
+                        cOpt.UseSqlServer(connectionString, sqlOpt =>
+                            sqlOpt.MigrationsAssembly(migrationName)
+                        )
+                )
+                .AddOperationalStore(opt =>
+                    opt.ConfigureDbContext = cOpt =>
+                        cOpt.UseSqlServer(connectionString, sqlOpt =>
+                            sqlOpt.MigrationsAssembly(migrationName)
+                        )
+                )
                 .AddAspNetIdentity<ApplicationUser>();
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to https://localhost:5001/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
-                });
+            builder.AddDeveloperSigningCredential()
+                .AddProfileService<CustomProfileService>()
+                .AddResourceOwnerValidator<IdentityResourceOwnerPasswordValidator>()
+                .AddExtensionGrantValidator<TokenExchangeExtensionGrantValidator>();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -72,16 +99,18 @@ namespace GRP.IdentityServer
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                app.UseDelayRequestDevelopment();
             }
-
+            app.UseCustomExceptionHandler();
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllers();
             });
         }
     }
