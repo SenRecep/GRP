@@ -1,6 +1,7 @@
 ﻿
 
 using GRP.Services.WaterTankCalculator.BLL.Models;
+using GRP.Shared.Core.ExtensionMethods;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -40,11 +41,11 @@ public class FlatPlinthController : ControllerBase
             .Success(new
             {
                 constants,
-                moduleGroup,
-                productGroup,
-                ratGroup,
+                moduleGroup = moduleGroup.ObjectToList<Module>(),
+                productGroup = productGroup.ObjectToList<Product>(),
+                ratGroup = ratGroup.ObjectToList<RAT>(),
                 totalCost
-            },StatusCodes.Status200OK)
+            }, StatusCodes.Status200OK)
             .CreateResponseInstance();
     }
 }

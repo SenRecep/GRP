@@ -52,9 +52,9 @@ public class PlinthController : ControllerBase
             .Success(new
             {
                 constants,
-                moduleGroup,
-                productGroup,
-                ratGroup,
+                moduleGroup = moduleGroup.ObjectToList<Module>(),
+                productGroup = productGroup.ObjectToList<Product>(),
+                ratGroup = ratGroup.ObjectToList<RAT>(),
                 totalCost
             }, StatusCodes.Status200OK)
             .CreateResponseInstance();
