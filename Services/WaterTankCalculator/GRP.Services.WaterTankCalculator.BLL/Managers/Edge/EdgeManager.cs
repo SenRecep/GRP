@@ -19,7 +19,6 @@ public class EdgeManager : IEdgeService
             Side: edge_side);
         return new(capacity, edge, interior, outside);
     }
-
     private static Capacity CalculateCapacity(CalculateModel model) => new(model.Width * model.Length * model.Height);
     private static Interior CalculateInterior(CalculateModel model)
     {

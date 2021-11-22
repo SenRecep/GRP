@@ -1,4 +1,6 @@
-﻿public record Module
+﻿namespace GRP.Services.WaterTankCalculator.BLL.Models;
+
+public record Module
 {
     public string? Name { get; set; }
     public float Weight { get; set; }

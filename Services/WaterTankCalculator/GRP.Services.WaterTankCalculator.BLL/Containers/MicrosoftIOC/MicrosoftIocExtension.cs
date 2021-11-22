@@ -2,6 +2,7 @@
 
 using GRP.Services.WaterTankCalculator.BLL.Interfaces;
 using GRP.Services.WaterTankCalculator.BLL.Managers;
+using GRP.Services.WaterTankCalculator.BLL.Models;
 using GRP.Shared.BLL.Interfaces;
 using GRP.Shared.BLL.Managers;
 using GRP.Shared.Core.ExtensionMethods;
@@ -23,7 +24,7 @@ public static class MicrosoftIocExtension
 
     public static void AddDependencies(
         this IServiceCollection services,
-        IConfiguration configuration, 
+        IConfiguration configuration,
         IWebHostEnvironment environment)
     {
         string connectionString = configuration.GetCustomConnectionString(environment.GetConnectionType());
@@ -45,8 +46,19 @@ public static class MicrosoftIocExtension
         services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
 
         services.AddScoped<IEdgeService, EdgeManager>();
-        services.AddScoped<IModuleService, ModuleManager>();
+
+        services.AddScoped<IFlatModuleService, FlatModuleManager>();
+        services.AddScoped<IBeamModuleService, BeamModuleManager>();
+
+        services.AddScoped<IFlatProductService, FlatProductManager>();
+        services.AddScoped<IBeamProductService, BeamProductManager>();
+
+        services.AddScoped<IFlatRATService, FlatRATManager>();
+        services.AddScoped<IBeamRATService, BeamRATManager>();
+
+        services.AddScoped<ITotalCostService, TotalCostManager>();
         #endregion
+
 
         #region Repositoryies
         services.AddTransient(typeof(IGenericCommandRepository<>), typeof(EfGenericCommandRepository<>));
@@ -56,17 +68,15 @@ public static class MicrosoftIocExtension
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<ICustomMapper, CustomMapper>();
 
-
-        services.Configure<ModuleGroup>(configuration.GetSection("ModuleGroup"));
-        services.AddScoped(sp => sp.GetRequiredService<IOptions<ModuleGroup>>().Value);
-
-
+        services.AddSetting<ModuleGroup>(configuration, "ModuleGroup");
+        services.AddSetting<ProductGroup>(configuration, "Products");
+        services.AddSetting<RATGroup>(configuration, "rats");
     }
 
     public static void AddValidationDependencies(this IMvcBuilder mvcBuilder)
     {
         mvcBuilder.AddFluentValidation(opt => { }
-            //opt.RegisterValidatorsFromAssemblyContaining<ValidationLayer>()
+        //opt.RegisterValidatorsFromAssemblyContaining<ValidationLayer>()
         );
     }
 }

@@ -1,0 +1,53 @@
+﻿{
+  "rats": {
+    "TLG": {
+      "Name": "Takviye Laması Galvaniz",
+      "Weight": 0.35,
+      "DKPS": 12.5,
+      "LC": 2.75,
+      "DIP": 2.75,
+      "RUB": 0
+    },
+    "DGKG": {
+      "Name": "Dış Gergi (küçük) Galvaniz",
+      "Weight": 0.35,
+      "DKPS": 12.5,
+      "LC": 2.75,
+      "DIP": 2.75,
+      "RUB": 0,
+      "Quantity": 0
+    },
+    "DGBG": {
+      "Name": "Dış Gergi (büyük) Galvaniz",
+      "Weight": 0.75,
+      "DKPS": 12.5,
+      "LC": 2.75,
+      "DIP": 2.75,
+      "RUB": 0
+    },
+    "K1G": {
+      "Name": "Köşebent 1mt Galvaniz",
+      "Weight": 3.12,
+      "DKPS": 12.5,
+      "LC": 2.75,
+      "DIP": 2.75,
+      "RUB": 0
+    },
+    "IGK": {
+      "Name": "İç Gergi Kulağı (316)",
+      "Weight": 0.275,
+      "DKPS": 57,
+      "LC": 6.5,
+      "DIP": 0,
+      "RUB": 0
+    },
+    "M12GT": {
+      "Name": "M 12 Gergi Tiji (316)",
+      "Weight": 0.75,
+      "DKPS": 55,
+      "LC": 0,
+      "DIP": 0,
+      "RUB": 6
+    }
+  }
+}

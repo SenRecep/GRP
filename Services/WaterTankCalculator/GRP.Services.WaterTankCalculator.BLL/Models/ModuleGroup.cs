@@ -1,4 +1,8 @@
-﻿#nullable disable
+﻿namespace GRP.Services.WaterTankCalculator.BLL.Models;
+
+#nullable disable
+using GRP.Shared.Core.ExtensionMethods;
+
 public record ModuleGroup
 {
     public Module YIC19 { get; set; }
@@ -14,4 +18,13 @@ public record ModuleGroup
     public Module UDB13 { get; set; }
     public float TotalWeight { get; set; }   
     public float TotalCost { get; set; }   
+    public List<Module> Modules()
+    {
+        return GetType().GetProperties().ToList().Select(p =>
+        {
+            if (p.PropertyType != typeof(Module)) return null;
+            Module module = p.GetValue(this).Cast<Module>();
+            return module;
+        }).Where(x => x.IsNotNull()).ToList();
+    }
 }

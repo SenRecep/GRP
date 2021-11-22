@@ -143,6 +143,8 @@ public class Startup
         {
             config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
             config.AddJsonFile("modules.json");
+            config.AddJsonFile("products.json");
+            config.AddJsonFile("rats.json");
         });
     }
 }

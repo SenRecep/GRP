@@ -58,13 +58,15 @@
       "Name": "DIŞ BOMBE",
       "Weight": 2.2,
       "Dimensions": "60cm*60cm",
-      "Type": "Kapak"
+      "Type": "Kapak",
+      "TotalOrders": 1
     },
     "UDB13": {
       "Name": "DIŞ BOMBE",
       "Weight": 13,
       "Dimensions": "100cm*100cm",
-      "Type": "Çerçeve"
+      "Type": "Çerçeve",
+      "TotalOrders": 1
     }
   }
 }
