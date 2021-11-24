@@ -1,5 +1,6 @@
 ﻿using GRP.Services.WaterTankCalculator.BLL.Enums;
 using GRP.Services.WaterTankCalculator.BLL.Models;
+using GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -13,6 +14,7 @@ public class PlinthController : ControllerBase
     private IRATService? ratService;
     private readonly ITotalCostService totalCostService;
     private readonly IServiceProvider serviceProvider;
+    private readonly IGenericDefaultService genericDefaultService;
 
     public PlinthController(IServiceProvider serviceProvider)
     {
@@ -20,6 +22,7 @@ public class PlinthController : ControllerBase
         this.edgeService = serviceProvider.GetRequiredService<IEdgeService>();
         this.totalCostService = serviceProvider.GetRequiredService<ITotalCostService>();
         this.exchangeService = serviceProvider.GetRequiredService<IExchangeService>();
+        this.genericDefaultService = serviceProvider.GetRequiredService<IGenericDefaultService>();
     }
 
     [HttpPost]
@@ -39,10 +42,10 @@ public class PlinthController : ControllerBase
         }
 
         var dollar = await exchangeService.GetCurrentDollarValueAsync();
-        var constants = new Constants() { GRPKgPrice = 2, Dollar = dollar, IntercityTransportation = 108 };
-        var moduleGroup = serviceProvider.GetRequiredService<ModuleGroup>() with { };
-        var productGroup = serviceProvider.GetRequiredService<ProductGroup>() with { };
-        var ratGroup = serviceProvider.GetRequiredService<RATGroup>() with { };
+        var constants = new Constants() { GRPKgPrice = 2.25f, Dollar = dollar, IntercityTransportation = 108 };
+        var moduleGroup = await genericDefaultService.GetGroupAsync<ModuleGroup,ModuleDefault,Module>();
+        var productGroup = await genericDefaultService.GetGroupAsync<ProductGroup,ProductDefault,Product>();
+        var ratGroup = await genericDefaultService.GetGroupAsync<RATGroup,RATDefault,RAT>();
         CalculatedEdgeModel calculatedEdge = edgeService.EdgeCalculate(model);
         moduleService.ModulesCalculate(moduleGroup, model, calculatedEdge.Capacity, constants);
         ratService.RATSCalculate(ratGroup, model, constants);

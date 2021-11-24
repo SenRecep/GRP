@@ -15,7 +15,18 @@ namespace GRP.Shared.Core.ExtensionMethods
         public static T Cast<T>(this object obj) => (T)obj;
         public static bool IsTrue(this bool con) => con;
         public static bool IsFalse(this bool con) => !con;
-
+        public static IDictionary<string,T> ObjectToTList<T>(this object src)
+        {
+            IDictionary<string, T> list = new Dictionary<string,T>();
+            src.GetType().GetProperties().ToList().ForEach(x =>
+            {
+                if (x.PropertyType != typeof(T)) return;
+                var module = x.GetValue(src).Cast<T>();
+                if (module == null) return;
+                list.Add(x.Name,module);
+            });
+            return list;
+        }
         public static dynamic ObjectToList<T>(this object src)
         {
             dynamic obj = new ExpandoObject();
@@ -27,7 +38,7 @@ namespace GRP.Shared.Core.ExtensionMethods
                     var key = char.ToLowerInvariant(x.Name[0]) + x.Name.Substring(1);
                     ((IDictionary<string, object>)obj)[key] = x.GetValue(src);
                     return;
-                };
+                }
                 var module = x.GetValue(src).Cast<T>();
                 if (module == null) return;
                 list.Add(module);

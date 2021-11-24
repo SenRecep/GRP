@@ -1,4 +1,9 @@
 using GRP.Services.WaterTankCalculator;
+using GRP.Services.WaterTankCalculator.BLL.Seeding;
+using GRP.Services.WaterTankCalculator.DAL.Concrete.EntityFrameworkCore.Contexts;
+
+using Microsoft.EntityFrameworkCore;
+
 using Serilog;
 
 try
@@ -10,6 +15,12 @@ try
     Log.Information("Starting host...");
     var app = builder.Build();
     startup.Configure(app);
+    using IServiceScope serviceScope = app.Services.CreateScope();
+    IServiceProvider services = serviceScope.ServiceProvider;
+    WaterTankCalculatorDbContext context = services.GetRequiredService<WaterTankCalculatorDbContext>();
+    DefaultsSeeder seeder = services.GetRequiredService<DefaultsSeeder>();
+    await context.Database.MigrateAsync();
+    await seeder.SeedAsync();
     await app.RunAsync();
     return 0;
 }

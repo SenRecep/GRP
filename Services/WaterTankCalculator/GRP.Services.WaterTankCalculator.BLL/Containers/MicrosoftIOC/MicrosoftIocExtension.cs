@@ -3,6 +3,8 @@
 using GRP.Services.WaterTankCalculator.BLL.Interfaces;
 using GRP.Services.WaterTankCalculator.BLL.Managers;
 using GRP.Services.WaterTankCalculator.BLL.Models;
+using GRP.Services.WaterTankCalculator.BLL.Seeding;
+using GRP.Services.WaterTankCalculator.DAL.Concrete.EntityFrameworkCore.Contexts;
 using GRP.Shared.BLL.Interfaces;
 using GRP.Shared.BLL.Managers;
 using GRP.Shared.Core.ExtensionMethods;
@@ -28,15 +30,15 @@ public static class MicrosoftIocExtension
         IWebHostEnvironment environment)
     {
         string connectionString = configuration.GetCustomConnectionString(environment.GetConnectionType());
-        string migrationName = nameof(GRP.Services.WaterTankCalculator);
+        string migrationName = "GRP.Services.WaterTankCalculator";
 
-        //services.AddTransient<DbContext, DietPlannerDbContext>();
+        services.AddTransient<DbContext, WaterTankCalculatorDbContext>();
 
-        //services.AddDbContext<DietPlannerDbContext>(opt =>
-        //    opt.UseSqlServer(connectionString, sqlOpt =>
-        //        sqlOpt.MigrationsAssembly(migrationName)
-        //        )
-        //);
+        services.AddDbContext<WaterTankCalculatorDbContext>(opt =>
+            opt.UseSqlServer(connectionString, sqlOpt =>
+                sqlOpt.MigrationsAssembly(migrationName)
+                )
+        );
 
         services.AddHttpContextAccessor();
 
@@ -57,6 +59,12 @@ public static class MicrosoftIocExtension
         services.AddScoped<IBeamRATService, BeamRATManager>();
 
         services.AddScoped<ITotalCostService, TotalCostManager>();
+
+        services.AddScoped<IGenericDefaultService,GenericDefaultManager>();
+
+        services.AddScoped<DefaultRecords>();
+        services.AddScoped<DefaultsSeeder>();
+
         #endregion
 
 
@@ -72,7 +80,7 @@ public static class MicrosoftIocExtension
         services.AddSetting<ProductGroup>(configuration, "Products");
         services.AddSetting<RATGroup>(configuration, "rats");
 
-        services.AddHttpClient<IExchangeService,ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.exchangerate.host/latest?base=USD&symbols=TRY"));
+        services.AddHttpClient<IExchangeService,ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.genelpara.com/embed/doviz.json"));
     }
 
     public static void AddValidationDependencies(this IMvcBuilder mvcBuilder)

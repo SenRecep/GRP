@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Managers\ExcahangeManager.cs~RF966a2b1.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="StringInfos\" />
     <Folder Include="Settings\" />
   </ItemGroup>
@@ -16,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\GRP.Shared\GRP.Shared.csproj" />
     <ProjectReference Include="..\GRP.Services.WaterTankCalculator.DAL\GRP.Services.WaterTankCalculator.DAL.csproj" />
   </ItemGroup>
 

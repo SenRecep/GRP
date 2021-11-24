@@ -18,8 +18,8 @@ public class ExcahangeManager:IExchangeService
     {
         var res = await httpClient.GetAsync("");
         if (!res.IsSuccessStatusCode)
-            return 11.4f;
+            return 13;
         var content = await res.Content.ReadFromJsonAsync<Exchange>();
-        return content.rates.TRY;
+        return Convert.ToSingle(content.USD.Alis);
     }
 }
