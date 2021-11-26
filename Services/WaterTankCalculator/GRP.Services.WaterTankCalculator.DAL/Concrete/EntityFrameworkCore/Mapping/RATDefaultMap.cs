@@ -19,5 +19,6 @@ public class RATDefaultMap : IEntityTypeConfiguration<RATDefault>
         builder.Property(x => x.DIP).IsRequired();
         builder.Property(x => x.RUB).IsRequired();
         builder.Property(x => x.Quantity).IsRequired();
+        builder.HasAlternateKey(x => x.Key);
     }
 }

@@ -40,7 +40,7 @@ namespace GRP.IdentityServer.Controllers
             ApplicationUser user = new ApplicationUser()
             {
                 UserName = model.UserName,
-                Email = model.Email,
+                Email = model.Email
             };
 
             IdentityResult result = await userManager.CreateAsync(user, model.Password);

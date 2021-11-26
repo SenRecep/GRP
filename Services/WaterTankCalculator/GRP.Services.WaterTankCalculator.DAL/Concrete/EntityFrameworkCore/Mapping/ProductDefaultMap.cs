@@ -15,5 +15,6 @@ public class ProductDefaultMap : IEntityTypeConfiguration<ProductDefault>
         builder.Property(x => x.UnitPrice).IsRequired();
         builder.Property(x => x.Quantity).IsRequired();
         builder.Property(x => x.Key).IsRequired();
+        builder.HasAlternateKey(x => x.Key);
     }
 }

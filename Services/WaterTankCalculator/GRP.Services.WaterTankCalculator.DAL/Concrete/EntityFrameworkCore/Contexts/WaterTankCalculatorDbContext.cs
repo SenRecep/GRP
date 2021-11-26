@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using GRP.Services.WaterTankCalculator.DAL.Concrete.EntityFrameworkCore.Mapping;
 using GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults;
+using GRP.Services.WaterTankCalculator.Entities.Concrete.History;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -20,4 +21,7 @@ public class WaterTankCalculatorDbContext:DbContext
     public DbSet<ProductDefault> ProductDefaults { get; set; }
     public DbSet<ModuleDefault> ModuleDefaults { get; set; }
     public DbSet<RATDefault> RATDefaults { get; set; }
+    public DbSet<ModuleHistory> ModuleHistories { get; set; }
+    public DbSet<ProductHistory> ProductHistories { get; set; }
+    public DbSet<RATHistory> RATHistories { get; set; }
 }

@@ -20,6 +20,6 @@ public class ExcahangeManager:IExchangeService
         if (!res.IsSuccessStatusCode)
             return 13;
         var content = await res.Content.ReadFromJsonAsync<Exchange>();
-        return Convert.ToSingle(content.USD.Alis);
+        return Convert.ToSingle(content?.USD.Alis);
     }
 }

@@ -1,6 +1,6 @@
-﻿using GRP.Services.WaterTankCalculator.BLL.Enums;
-using GRP.Services.WaterTankCalculator.BLL.Models;
+﻿using GRP.Services.WaterTankCalculator.BLL.Models;
 using GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults;
+using GRP.Services.WaterTankCalculator.Entities.Enums;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -25,10 +25,9 @@ public class PlinthController : ControllerBase
         this.genericDefaultService = serviceProvider.GetRequiredService<IGenericDefaultService>();
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Calculate(CalculateModel model)
+    private void LoadServices(PlinthType plinthType)
     {
-        if (model.PlinthType==PlinthType.Flat)
+        if (plinthType == PlinthType.Flat)
         {
             moduleService = serviceProvider.GetRequiredService<IFlatModuleService>();
             productService = serviceProvider.GetRequiredService<IFlatProductService>();
@@ -40,16 +39,21 @@ public class PlinthController : ControllerBase
             productService = serviceProvider.GetRequiredService<IBeamProductService>();
             ratService = serviceProvider.GetRequiredService<IBeamRATService>();
         }
+    }
 
+    [HttpPost]
+    public async Task<IActionResult> Calculate(CalculateModel model)
+    {
+        LoadServices(model.PlinthType);
         var dollar = await exchangeService.GetCurrentDollarValueAsync();
         var constants = new Constants() { GRPKgPrice = 2.25f, Dollar = dollar, IntercityTransportation = 108 };
         var moduleGroup = await genericDefaultService.GetGroupAsync<ModuleGroup,ModuleDefault,Module>();
         var productGroup = await genericDefaultService.GetGroupAsync<ProductGroup,ProductDefault,Product>();
         var ratGroup = await genericDefaultService.GetGroupAsync<RATGroup,RATDefault,RAT>();
         CalculatedEdgeModel calculatedEdge = edgeService.EdgeCalculate(model);
-        moduleService.ModulesCalculate(moduleGroup, model, calculatedEdge.Capacity, constants);
-        ratService.RATSCalculate(ratGroup, model, constants);
-        productService.ProductsCalculate(productGroup, model, calculatedEdge, moduleGroup, constants, ratGroup);
+        moduleService?.ModulesCalculate(moduleGroup, model, calculatedEdge.Capacity, constants);
+        ratService?.RATSCalculate(ratGroup, model, constants);
+        productService?.ProductsCalculate(productGroup, model, calculatedEdge, moduleGroup, constants, ratGroup);
         var totalCost = totalCostService.TotalCostCalculate(new(), moduleGroup, productGroup, ratGroup, constants);
         return Response<dynamic>
             .Success(new

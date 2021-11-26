@@ -17,5 +17,6 @@ public class ModuleDefaultMap : IEntityTypeConfiguration<ModuleDefault>
         builder.Property(x => x.Weight).IsRequired();
         builder.Property(x => x.Type).IsRequired();
         builder.Property(x => x.TotalOrders).IsRequired();
+        builder.HasAlternateKey(x =>x.Key);
     }
 }

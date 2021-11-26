@@ -2,7 +2,7 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
@@ -11,7 +11,7 @@
       ],
       "UpstreamPathTemplate": "/services/watertankcalculator/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Patch", "Delete" ],
-      "UpstreamSchema": "https",
+      "UpstreamSchema": "http",
       // "DelegatingHandlers": [ "TokenExchangeDelegateHandler" ], api dan api ya istek olurken kullanilacak 
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthanticationScheme",
@@ -20,6 +20,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:5100"
+    "BaseUrl": "http://localhost:5100"
   }
 }
