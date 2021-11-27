@@ -40,12 +40,11 @@ public class PlinthController : ControllerBase
             Transportation = transportation.Value
         };
         ICollection<CalculateResponse> calculateResponses = new List<CalculateResponse>();
-        await Parallel.ForEachAsync(model.CalculateModels,
-            async (item, cancellationToken) =>
-            {
-                var totalcosts = await calculateService.CalculateAsync(constantsModel, item, cancellationToken);
-                calculateResponses.Add(new(item,totalcosts));
-            });
+        foreach (var item in model.CalculateModels)
+        {
+            var totalcosts = await calculateService.CalculateAsync(constantsModel, item);
+            calculateResponses.Add(new(item, totalcosts));
+        }
 
         return Response<ICollection<CalculateResponse>>
             .Success(calculateResponses, StatusCodes.Status200OK)
