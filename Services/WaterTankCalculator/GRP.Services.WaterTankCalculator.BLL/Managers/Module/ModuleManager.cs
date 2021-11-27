@@ -6,7 +6,7 @@ namespace GRP.Services.WaterTankCalculator.BLL.Managers;
 
 public abstract class ModuleManager : IModuleService
 {
-    public ModuleGroup ModulesCalculate(ModuleGroup moduleGroup, CalculateModel calculateModel, Capacity capacity, Constants constants)
+    public ModuleGroup ModulesCalculate(ModuleGroup moduleGroup, CalculateModel calculateModel, Capacity capacity, ConstantsModel constants)
     {
         YIC19(moduleGroup.YIC19);
         YIC21(moduleGroup.YIC21, calculateModel, capacity);

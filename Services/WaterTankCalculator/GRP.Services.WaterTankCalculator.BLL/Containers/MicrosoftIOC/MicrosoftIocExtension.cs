@@ -4,7 +4,9 @@ using GRP.Services.WaterTankCalculator.BLL.Interfaces;
 using GRP.Services.WaterTankCalculator.BLL.Managers;
 using GRP.Services.WaterTankCalculator.BLL.Models;
 using GRP.Services.WaterTankCalculator.BLL.Seeding;
+using GRP.Services.WaterTankCalculator.BLL.Settings;
 using GRP.Services.WaterTankCalculator.DAL.Concrete.EntityFrameworkCore.Contexts;
+using GRP.Services.WaterTankCalculator.Entities.Concrete;
 using GRP.Shared.BLL.Interfaces;
 using GRP.Shared.BLL.Managers;
 using GRP.Shared.Core.ExtensionMethods;
@@ -60,10 +62,13 @@ public static class MicrosoftIocExtension
 
         services.AddScoped<ITotalCostService, TotalCostManager>();
 
-        services.AddScoped<IGenericDefaultService,GenericDefaultManager>();
+        services.AddScoped<IGenericDefaultService, GenericDefaultManager>();
 
         services.AddScoped<DefaultRecords>();
         services.AddScoped<DefaultsSeeder>();
+
+        services.AddScoped<ICalculateService, CalculateManager>();
+        services.AddScoped<ITransportationService, TransportationManager>();
 
         #endregion
 
@@ -79,8 +84,9 @@ public static class MicrosoftIocExtension
         services.AddSetting<ModuleGroup>(configuration, "ModuleGroup");
         services.AddSetting<ProductGroup>(configuration, "Products");
         services.AddSetting<RATGroup>(configuration, "rats");
+        services.AddSetting<ConstantsSetting>(configuration, "constants");
 
-        services.AddHttpClient<IExchangeService,ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.genelpara.com/embed/doviz.json"));
+        services.AddHttpClient<IExchangeService, ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.genelpara.com/embed/doviz.json"));
     }
 
     public static void AddValidationDependencies(this IMvcBuilder mvcBuilder)

@@ -1,69 +1,54 @@
-﻿using GRP.Services.WaterTankCalculator.BLL.Models;
-using GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults;
+﻿#nullable disable
+using GRP.Services.WaterTankCalculator.BLL.Models;
+using GRP.Services.WaterTankCalculator.Entities.Concrete;
 using GRP.Services.WaterTankCalculator.Entities.Enums;
+using GRP.Shared.DAL.Interfaces;
 
 [Route("api/[controller]")]
 [ApiController]
 [AllowAnonymous]
 public class PlinthController : ControllerBase
 {
-    private readonly IEdgeService edgeService;
+    private readonly ICalculateService calculateService;
+    private readonly ITransportationService transportationService;
+    private readonly IGenericQueryRepository<Constants> genericQueryRepository;
     private readonly IExchangeService exchangeService;
-    private IModuleService? moduleService;
-    private IProductService? productService;
-    private IRATService? ratService;
-    private readonly ITotalCostService totalCostService;
-    private readonly IServiceProvider serviceProvider;
-    private readonly IGenericDefaultService genericDefaultService;
 
-    public PlinthController(IServiceProvider serviceProvider)
+    public PlinthController(
+        ICalculateService calculateService,
+        ITransportationService transportationService,
+        IGenericQueryRepository<Constants> genericQueryRepository,
+        IExchangeService exchangeService)
     {
-        this.serviceProvider = serviceProvider;
-        this.edgeService = serviceProvider.GetRequiredService<IEdgeService>();
-        this.totalCostService = serviceProvider.GetRequiredService<ITotalCostService>();
-        this.exchangeService = serviceProvider.GetRequiredService<IExchangeService>();
-        this.genericDefaultService = serviceProvider.GetRequiredService<IGenericDefaultService>();
+        this.calculateService = calculateService;
+        this.transportationService = transportationService;
+        this.genericQueryRepository = genericQueryRepository;
+        this.exchangeService = exchangeService;
     }
 
-    private void LoadServices(PlinthType plinthType)
-    {
-        if (plinthType == PlinthType.Flat)
-        {
-            moduleService = serviceProvider.GetRequiredService<IFlatModuleService>();
-            productService = serviceProvider.GetRequiredService<IFlatProductService>();
-            ratService = serviceProvider.GetRequiredService<IFlatRATService>();
-        }
-        else
-        {
-            moduleService = serviceProvider.GetRequiredService<IBeamModuleService>();
-            productService = serviceProvider.GetRequiredService<IBeamProductService>();
-            ratService = serviceProvider.GetRequiredService<IBeamRATService>();
-        }
-    }
 
     [HttpPost]
-    public async Task<IActionResult> Calculate(CalculateModel model)
+    public async Task<IActionResult> Calculate(MultipleCalculateModel model)
     {
-        LoadServices(model.PlinthType);
-        var dollar = await exchangeService.GetCurrentDollarValueAsync();
-        var constants = new Constants() { GRPKgPrice = 2.25f, Dollar = dollar, IntercityTransportation = 108 };
-        var moduleGroup = await genericDefaultService.GetGroupAsync<ModuleGroup,ModuleDefault,Module>();
-        var productGroup = await genericDefaultService.GetGroupAsync<ProductGroup,ProductDefault,Product>();
-        var ratGroup = await genericDefaultService.GetGroupAsync<RATGroup,RATDefault,RAT>();
-        CalculatedEdgeModel calculatedEdge = edgeService.EdgeCalculate(model);
-        moduleService?.ModulesCalculate(moduleGroup, model, calculatedEdge.Capacity, constants);
-        ratService?.RATSCalculate(ratGroup, model, constants);
-        productService?.ProductsCalculate(productGroup, model, calculatedEdge, moduleGroup, constants, ratGroup);
-        var totalCost = totalCostService.TotalCostCalculate(new(), moduleGroup, productGroup, ratGroup, constants);
-        return Response<dynamic>
-            .Success(new
+        var constants = (await genericQueryRepository.GetAllAsync()).FirstOrDefault();
+        var transportation = transportationService.Calculate(constants, model);
+        var Dollar = await exchangeService.GetCurrentDollarValueAsync();
+        var constantsModel = new ConstantsModel()
+        {
+            GRPKgPrice = constants.GRPKgPrice,
+            Dollar = Dollar,
+            Transportation = transportation.Value
+        };
+        ICollection<CalculateResponse> calculateResponses = new List<CalculateResponse>();
+        await Parallel.ForEachAsync(model.CalculateModels,
+            async (item, cancellationToken) =>
             {
-                constants,
-                moduleGroup = moduleGroup.ObjectToList<Module>(),
-                productGroup = productGroup.ObjectToList<Product>(),
-                ratGroup = ratGroup.ObjectToList<RAT>(),
-                totalCost
-            }, StatusCodes.Status200OK)
+                var totalcosts = await calculateService.CalculateAsync(constantsModel, item, cancellationToken);
+                calculateResponses.Add(new(item,totalcosts));
+            });
+
+        return Response<ICollection<CalculateResponse>>
+            .Success(calculateResponses, StatusCodes.Status200OK)
             .CreateResponseInstance();
     }
 }

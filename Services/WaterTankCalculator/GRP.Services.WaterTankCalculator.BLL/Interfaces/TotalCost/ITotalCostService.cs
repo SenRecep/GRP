@@ -4,5 +4,5 @@ namespace GRP.Services.WaterTankCalculator.BLL.Interfaces;
 
 public interface ITotalCostService
 {
-    TotalCost TotalCostCalculate(TotalCost totalCost, ModuleGroup moduleGroup, ProductGroup productGroup, RATGroup ratGroup, Constants constants);
+    TotalCost TotalCostCalculate(TotalCost totalCost, ModuleGroup moduleGroup, ProductGroup productGroup, RATGroup ratGroup, ConstantsModel constants);
 }

@@ -145,6 +145,7 @@ public class Startup
             config.AddJsonFile("modules.json");
             config.AddJsonFile("products.json");
             config.AddJsonFile("rats.json");
+            config.AddJsonFile("constants.json");
         });
     }
 }

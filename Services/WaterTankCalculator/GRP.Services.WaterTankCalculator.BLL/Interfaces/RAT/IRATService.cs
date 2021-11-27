@@ -4,5 +4,5 @@ namespace GRP.Services.WaterTankCalculator.BLL.Interfaces;
 
 public interface IRATService
 {
-    RATGroup RATSCalculate(RATGroup group,CalculateModel calculateModel, Constants constants);
+    RATGroup RATSCalculate(RATGroup group,CalculateModel calculateModel, ConstantsModel constants);
 }

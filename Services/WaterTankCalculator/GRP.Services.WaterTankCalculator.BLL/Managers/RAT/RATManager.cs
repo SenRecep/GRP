@@ -6,7 +6,7 @@ namespace GRP.Services.WaterTankCalculator.BLL.Managers;
 
 public abstract class RATManager : IRATService
 {
-    public RATGroup RATSCalculate(RATGroup group, CalculateModel calculateModel, Constants constants)
+    public RATGroup RATSCalculate(RATGroup group, CalculateModel calculateModel, ConstantsModel constants)
     {
         TLG(group.TLG, calculateModel, constants);
         DGKG(group.DGKG, calculateModel, constants);
@@ -24,12 +24,12 @@ public abstract class RATManager : IRATService
         });
         return group;
     }
-    protected virtual RAT CostCalculate(RAT rat, Constants constants)
+    protected virtual RAT CostCalculate(RAT rat, ConstantsModel constants)
     {
         rat.Cost = rat.Weight * (rat.DKPS + rat.LC + rat.DIP + rat.RUB) * rat.Quantity / constants.Dollar;
         return rat;
     }
-    protected virtual RAT TLG(RAT rat, CalculateModel calculateModel, Constants constants)
+    protected virtual RAT TLG(RAT rat, CalculateModel calculateModel, ConstantsModel constants)
     {
         var wpl = calculateModel.Width + calculateModel.Length;
         rat.Quantity = calculateModel.Height switch
@@ -40,7 +40,7 @@ public abstract class RATManager : IRATService
         };
         return rat;
     }
-    protected virtual RAT DGKG(RAT rat, CalculateModel calculateModel, Constants constants)
+    protected virtual RAT DGKG(RAT rat, CalculateModel calculateModel, ConstantsModel constants)
     {
         var wpl = calculateModel.Width + calculateModel.Length;
         var ru = MathF.Ceiling(wpl - 2);
@@ -53,18 +53,18 @@ public abstract class RATManager : IRATService
         };
         return rat;
     }
-    protected virtual RAT DGBG(RAT rat, Constants constants)=> rat;
-    protected virtual RAT K1G(RAT rat, CalculateModel calculateModel, Constants constants)
+    protected virtual RAT DGBG(RAT rat, ConstantsModel constants)=> rat;
+    protected virtual RAT K1G(RAT rat, CalculateModel calculateModel, ConstantsModel constants)
     {
         rat.Quantity = calculateModel.Height * 4;
         return rat;
     }
-    protected virtual RAT IGK(RAT rat, RAT DGKG, Constants constants)
+    protected virtual RAT IGK(RAT rat, RAT DGKG, ConstantsModel constants)
     {
         rat.Quantity = DGKG.Quantity;
         return rat;
     }
-    protected virtual RAT M12GT(RAT rat, CalculateModel calculateModel, Constants constants)
+    protected virtual RAT M12GT(RAT rat, CalculateModel calculateModel, ConstantsModel constants)
     {
         rat.Quantity = MathF.Ceiling(calculateModel.Width - 1) * calculateModel.Length + MathF.Ceiling(calculateModel.Length - 1) * calculateModel.Width;
         rat.Quantity *= calculateModel.Height switch

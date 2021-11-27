@@ -11,4 +11,7 @@ public class ProductHistory:EntityBase
 
     public string ProductDefaultKey{ get; set; }
     public ProductDefault ProductDefault{ get; set; }
+
+    public Guid CalculationHistoryId { get; set; }
+    public CalculationHistory CalculationHistory { get; set; }
 }

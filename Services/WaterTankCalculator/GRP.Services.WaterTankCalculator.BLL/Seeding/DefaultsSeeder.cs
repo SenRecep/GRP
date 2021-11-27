@@ -20,22 +20,17 @@ public class DefaultsSeeder
         var defaultModules = defaultRecords.GetModules();
         var defaultRATs = defaultRecords.GetRATs();
         if (!context.ProductDefaults.Any())
-        {
             await context.AddRangeAsync(defaultProducts);
-            await context.SaveChangesAsync();
-        }
 
         if (!context.ModuleDefaults.Any())
-        {
             await context.AddRangeAsync(defaultModules);
-            await context.SaveChangesAsync();
-        }
 
         if (!context.RATDefaults.Any())
-        {
             await context.AddRangeAsync(defaultRATs);
-            await context.SaveChangesAsync();
-        }
 
+        if (!context.Constants.Any())
+            await context.AddRangeAsync(defaultRecords.GetConstants());
+
+        await context.SaveChangesAsync();
     }
 }

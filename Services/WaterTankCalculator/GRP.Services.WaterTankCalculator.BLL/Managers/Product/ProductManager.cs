@@ -11,7 +11,7 @@ public abstract class ProductManager : IProductService
         CalculateModel calculateModel,
         CalculatedEdgeModel calculatedEdgeModel,
         ModuleGroup moduleGroup,
-        Constants constants,
+        ConstantsModel constants,
         RATGroup ratGroup)
     {
         FM(productGroup.FM, moduleGroup, constants);
@@ -50,44 +50,44 @@ public abstract class ProductManager : IProductService
         });
         return productGroup;
     }
-    protected virtual Product CostCalculate(Product product, Constants constants)
+    protected virtual Product CostCalculate(Product product, ConstantsModel constants)
     {
         product.Cost = product.UnitPrice * product.Quantity / constants.Dollar;
         return product;
     }
-    protected virtual Product FM(Product product, ModuleGroup moduleGroup, Constants constants)
+    protected virtual Product FM(Product product, ModuleGroup moduleGroup, ConstantsModel constants)
     {
         var total = moduleGroup.Modules().Sum(x => x.TotalOrders);
         product.Cost = product.UnitPrice * total / constants.Dollar;
         return product;
     }
-    protected virtual Product MM(Product product, ModuleGroup moduleGroup, Constants constants)
+    protected virtual Product MM(Product product, ModuleGroup moduleGroup, ConstantsModel constants)
     {
         var total = moduleGroup.Modules().Sum(x => x.TotalOrders);
         product.Cost = product.UnitPrice * total / constants.Dollar;
         return product;
     }
-    protected abstract Product C360(Product product, CalculateModel calculateModel, ModuleGroup moduleGroup, Constants constants);
-    protected abstract Product M1045GC(Product product, CalculatedEdgeModel calculatedEdgeModel, Constants constants);
-    protected abstract Product M1045GS(Product product, Product M1045GC, Product M1045KC, Constants constants);
-    protected abstract Product M1045GP(Product product, CalculatedEdgeModel calculatedEdgeModel, Product M1045KC, Constants constants);
-    protected abstract Product M1045PC(Product product, CalculatedEdgeModel calculatedEdgeModel, Constants constants);
-    protected abstract Product M10PS(Product product, Product M1045PC, Constants constants);
-    protected abstract Product M10PP(Product product, Product M1045PC, Constants constants);
-    protected abstract Product M1045KC(Product product, CalculatedEdgeModel calculatedEdgeModel, Constants constants);
-    protected abstract Product M12120PGS(Product product, Constants constants, RATGroup ratGroup);
-    protected abstract Product M12GS(Product product, Product M12120PGS, Constants constants);
-    protected abstract Product M12GGP(Product product, Product M12120PGS, Constants constants);
-    protected abstract Product M12US(Product product, CalculateModel calculateModel, Constants constants);
-    protected abstract Product M12PS(Product product, Constants constants, RATGroup ratGroup);
-    protected abstract Product DBS(Product product, Capacity capacity, Constants constants);
-    protected abstract Product G502(Product product, Product DBS, Constants constants);
-    protected abstract Product DBRP(Product product, Constants constants);
-    protected abstract Product DBRPVC(Product product, Constants constants);
-    protected abstract Product SGM(Product product, Constants constants);
-    protected abstract Product DMG(Product product, Constants constants);
-    protected abstract Product DMP(Product product, Constants constants);
-    protected abstract Product IM(Product product, CalculateModel calculateModel, Constants constants);
-    protected abstract Product PPRCD(Product product, CalculatedEdgeModel calculatedEdgeModel, CalculateModel calculateModel, Constants constants);
-    protected abstract Product PK(Product product, CalculateModel calculateModel, Constants constants);
+    protected abstract Product C360(Product product, CalculateModel calculateModel, ModuleGroup moduleGroup, ConstantsModel constants);
+    protected abstract Product M1045GC(Product product, CalculatedEdgeModel calculatedEdgeModel, ConstantsModel constants);
+    protected abstract Product M1045GS(Product product, Product M1045GC, Product M1045KC, ConstantsModel constants);
+    protected abstract Product M1045GP(Product product, CalculatedEdgeModel calculatedEdgeModel, Product M1045KC, ConstantsModel constants);
+    protected abstract Product M1045PC(Product product, CalculatedEdgeModel calculatedEdgeModel, ConstantsModel constants);
+    protected abstract Product M10PS(Product product, Product M1045PC, ConstantsModel constants);
+    protected abstract Product M10PP(Product product, Product M1045PC, ConstantsModel constants);
+    protected abstract Product M1045KC(Product product, CalculatedEdgeModel calculatedEdgeModel, ConstantsModel constants);
+    protected abstract Product M12120PGS(Product product, ConstantsModel constants, RATGroup ratGroup);
+    protected abstract Product M12GS(Product product, Product M12120PGS, ConstantsModel constants);
+    protected abstract Product M12GGP(Product product, Product M12120PGS, ConstantsModel constants);
+    protected abstract Product M12US(Product product, CalculateModel calculateModel, ConstantsModel constants);
+    protected abstract Product M12PS(Product product, ConstantsModel constants, RATGroup ratGroup);
+    protected abstract Product DBS(Product product, Capacity capacity, ConstantsModel constants);
+    protected abstract Product G502(Product product, Product DBS, ConstantsModel constants);
+    protected abstract Product DBRP(Product product, ConstantsModel constants);
+    protected abstract Product DBRPVC(Product product, ConstantsModel constants);
+    protected abstract Product SGM(Product product, ConstantsModel constants);
+    protected abstract Product DMG(Product product, ConstantsModel constants);
+    protected abstract Product DMP(Product product, ConstantsModel constants);
+    protected abstract Product IM(Product product, CalculateModel calculateModel, ConstantsModel constants);
+    protected abstract Product PPRCD(Product product, CalculatedEdgeModel calculatedEdgeModel, CalculateModel calculateModel, ConstantsModel constants);
+    protected abstract Product PK(Product product, CalculateModel calculateModel, ConstantsModel constants);
 }

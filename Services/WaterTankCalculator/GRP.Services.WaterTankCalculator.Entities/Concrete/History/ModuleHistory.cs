@@ -12,4 +12,7 @@ public class ModuleHistory : EntityBase
 
     public string ModuleDefaultKey { get; set; }
     public ModuleDefault ModuleDefault { get; set; }
+
+    public Guid CalculationHistoryId { get; set; }
+    public CalculationHistory CalculationHistory { get; set; }
 }

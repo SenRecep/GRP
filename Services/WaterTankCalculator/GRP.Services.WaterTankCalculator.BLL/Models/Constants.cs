@@ -1,8 +1,8 @@
 ﻿namespace GRP.Services.WaterTankCalculator.BLL.Models;
 
-public record Constants
+public record ConstantsModel
 {
     public float GRPKgPrice { get; set; }
     public float Dollar { get; set; }
-    public float IntercityTransportation { get; set; }
+    public float Transportation { get; set; }
 }

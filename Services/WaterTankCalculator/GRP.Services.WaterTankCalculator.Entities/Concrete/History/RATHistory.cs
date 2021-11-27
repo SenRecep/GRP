@@ -11,4 +11,7 @@ public class RATHistory : EntityBase
 
     public string RATDefaultKey { get; set; }
     public RATDefault RATDefault { get; set; }
+
+    public Guid CalculationHistoryId { get; set; }
+    public CalculationHistory CalculationHistory { get; set; }
 }

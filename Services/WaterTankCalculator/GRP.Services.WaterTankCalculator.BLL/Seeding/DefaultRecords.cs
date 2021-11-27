@@ -1,4 +1,6 @@
 ﻿using GRP.Services.WaterTankCalculator.BLL.Models;
+using GRP.Services.WaterTankCalculator.BLL.Settings;
+using GRP.Services.WaterTankCalculator.Entities.Concrete;
 using GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults;
 using GRP.Shared.Core.ExtensionMethods;
 using GRP.Shared.Core.StringInfo;
@@ -14,6 +16,19 @@ public class DefaultRecords
     public DefaultRecords(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
+    }
+
+    public Constants GetConstants()
+    {
+        var constants = serviceProvider.GetRequiredService<ConstantsSetting>() with { };
+        var userId = Guid.Parse(SystemUserInfo.SystemUserId);
+        return new()
+        {
+            CreatedUserId = userId,
+            CreatedTime = DateTime.Now,
+            GRPKgPrice=constants.GRPKgPrice,
+            Transportation=constants.Transportation,
+        };
     }
 
     public IEnumerable<ProductDefault> GetProducts()
