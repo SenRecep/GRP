@@ -1,4 +1,6 @@
 ﻿
+using Duende.IdentityServer.Services;
+
 using FluentValidation.AspNetCore;
 
 using GRP.IdentityServer.Data;
@@ -15,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace GRP.IdentityServer
 {
@@ -35,6 +38,24 @@ namespace GRP.IdentityServer
         {
             string connectionString = GetConnectionString();
             string migrationName = this.GetType().Namespace;
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+            });
+
+            services.AddSingleton<ICorsPolicyService>((container) => {
+                var logger = container.GetRequiredService<ILogger<DefaultCorsPolicyService>>();
+                return new DefaultCorsPolicyService(logger)
+                {
+                    AllowAll = true
+                };
+            });
 
             services.AddLocalApiAuthentication();
 
@@ -103,7 +124,7 @@ namespace GRP.IdentityServer
             }
             app.UseCustomExceptionHandler();
             app.UseStaticFiles();
-
+            app.UseCors("CorsPolicy");
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthentication();

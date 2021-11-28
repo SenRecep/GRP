@@ -35,19 +35,12 @@ namespace GRP.Shared.Core.ExtensionMethods
         }
 
 
-        public static string GetIdentityServerUrl(this IWebHostEnvironment environment, IConfiguration configuration, bool test = false)
-        {
-            ConnectionType conType = environment.GetConnectionType(test);
-            string connectionTypeName = Enum.GetName(typeof(ConnectionType), conType);
-            string result = configuration.GetSection($"IdentityServer:{connectionTypeName}").Get<string>();
-            return result;
-        }
 
-        public static string GetWebApiUrl(this IWebHostEnvironment environment, IConfiguration configuration, bool test = false)
+        public static string GetApiUrl(this IWebHostEnvironment environment, IConfiguration configuration,string apiName= "IdentityServer", bool test = false)
         {
             ConnectionType conType = environment.GetConnectionType(test);
             string connectionTypeName = Enum.GetName(typeof(ConnectionType), conType);
-            string result = configuration.GetSection($"WaterTankCalculator:{connectionTypeName}").Get<string>();
+            string result = configuration.GetSection($"{apiName}:{connectionTypeName}").Get<string>();
             return result;
         }
     }

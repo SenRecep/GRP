@@ -23,7 +23,7 @@ namespace GRP.Gateway.DelegateHandlers
 
             var disco = await httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest()
             {
-                Address = webHostEnvironment.GetIdentityServerUrl(configuration),
+                Address = webHostEnvironment.GetApiUrl(configuration),
                 Policy = new DiscoveryPolicy() { RequireHttps = true },
             });
             if (disco.IsError) throw disco.Exception;
@@ -38,7 +38,7 @@ namespace GRP.Gateway.DelegateHandlers
                 Scope = "openid watertankcalculator_fullpermission"
             };
             //todo scope kismi diger taraftaki api izinleeri olacak
-            var token_response= await httpClient.RequestTokenExchangeTokenAsync(tokenExchangeTokenRequest);
+            var token_response = await httpClient.RequestTokenExchangeTokenAsync(tokenExchangeTokenRequest);
             if (token_response.IsError) throw token_response.Exception;
             _access_token = token_response.AccessToken;
             return _access_token;

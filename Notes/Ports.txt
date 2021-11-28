@@ -2,3 +2,4 @@ Gateway:5100
 IdentityServer:5101
 Services
 	-WaterTankCalculator :5102
+	-Company: 5103

@@ -14,7 +14,7 @@ builder.Host.ConfigureAppConfiguration((context, config) =>
     .AddEnvironmentVariables();
 });
 
-string identityUrl = builder.Environment.GetIdentityServerUrl(builder.Configuration);
+string identityUrl = builder.Environment.GetApiUrl(builder.Configuration);
 bool isDevelopment = builder.Environment.IsDevelopment();
 builder.Services.AddAuthentication()
            .AddJwtBearer("GatewayAuthanticationScheme", opt =>

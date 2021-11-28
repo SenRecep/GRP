@@ -1,4 +1,6 @@
-﻿using GRP.Shared.Core.ExtensionMethods;
+﻿namespace GRP.Services.Company;
+
+using GRP.Shared.Core.ExtensionMethods;
 using GRP.Shared.Core.Filters;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,9 +10,11 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 
 using Serilog;
-using GRP.Services.WaterTankCalculator.BLL.Containers.MicrosoftIOC;
-
-namespace GRP.Services.WaterTankCalculator;
+using Microsoft.EntityFrameworkCore;
+using GRP.Shared.BLL.Interfaces;
+using GRP.Shared.BLL.Managers;
+using GRP.Shared.DAL.Interfaces;
+using GRP.Shared.DAL.Concrete.EntityFrameworkCore.Repositories;
 
 public class Startup
 {
@@ -27,7 +31,36 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDependencies(Configuration, Environment);
+        //string connectionString = Configuration.GetCustomConnectionString(Environment.GetConnectionType());
+        //string migrationName = "GRP.Services.Company";
+
+        //services.AddTransient<DbContext, WaterTankCalculatorDbContext>();
+
+        //services.AddDbContext<WaterTankCalculatorDbContext>(opt =>
+        //    opt.UseSqlServer(connectionString, sqlOpt =>
+        //        sqlOpt.MigrationsAssembly(migrationName)
+        //        )
+        //);
+
+        services.AddHttpContextAccessor();
+
+
+        #region Services
+        services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
+        services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
+        #endregion
+
+
+        #region Repositoryies
+        services.AddTransient(typeof(IGenericCommandRepository<>), typeof(EfGenericCommandRepository<>));
+        services.AddTransient(typeof(IGenericQueryRepository<>), typeof(EfGenericQueryRepository<>));
+        #endregion
+
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddScoped<ICustomMapper, CustomMapper>();
+
+        //services.AddSetting<ModuleGroup>(Configuration, "Companies");
+       
 
         services.AddCors(options =>
         {
@@ -49,16 +82,12 @@ public class Startup
 
         services.AddHttpClient();
 
-        //services.AddHttpClient<IImageService, ImageService>(opt =>
-        //{
-        //    opt.BaseAddress = new(Environment.GetWebApiUrl(Configuration));
-        //});
 
         services.AddControllers(opt =>
         {
             opt.Filters.Add(new AuthorizeFilter());
             opt.Filters.Add<ValidateModelAttribute>();
-        }).AddValidationDependencies();
+        });
 
         services.AddCustomValidationResponse();
 
@@ -68,7 +97,7 @@ public class Startup
             {
                 Title = $"{this.GetType().Namespace}",
                 Version = "v1",
-                Description = "GRP Water Tank Calculator",
+                Description = "GRP Company",
                 License = new OpenApiLicense
                 {
                     Name = "MIT",
@@ -142,10 +171,7 @@ public class Startup
         }).ConfigureAppConfiguration(config =>
         {
             config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-            config.AddJsonFile("modules.json");
-            config.AddJsonFile("products.json");
-            config.AddJsonFile("rats.json");
-            config.AddJsonFile("constants.json");
+            config.AddJsonFile("companyies.json");
         });
     }
 }
