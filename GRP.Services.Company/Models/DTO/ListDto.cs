@@ -1,9 +1,10 @@
-﻿using GRP.Core.Concrete;
+﻿using GRP.Core.Interfaces;
 
-namespace GRP.Services.Company.Models;
+namespace GRP.Services.Company.Models.DTO;
 
-public class Company : EntityBase,ICompany
+public record ListDto : ICompany,IDTO
 {
+    public Guid Id { get; set; }    
     public string? Title { get; set; }
     public string? CurrentAccountCode { get; set; }
     public string? Phone { get; set; }

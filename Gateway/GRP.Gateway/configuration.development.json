@@ -6,20 +6,38 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5102
+          "Port": 8264
         }
       ],
       "UpstreamPathTemplate": "/services/watertankcalculator/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Patch", "Delete" ],
       "UpstreamSchema": "http",
-      // "DelegatingHandlers": [ "TokenExchangeDelegateHandler" ], api dan api ya istek olurken kullanilacak 
+      "DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthanticationScheme",
         "AllowedScopes": [ "watertankcalculator_fullpermission" ]
       }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 8266
+        }
+      ],
+      "UpstreamPathTemplate": "/services/company/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Patch", "Delete" ],
+      "UpstreamSchema": "http",
+      "DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthanticationScheme",
+        "AllowedScopes": [ "company_fullpermission" ]
+      }
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:5100"
+    "BaseUrl": "http://localhost:8265"
   }
 }

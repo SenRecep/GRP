@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿#nullable disable
+using Microsoft.EntityFrameworkCore;
 
 namespace GRP.Services.Company.Data
 {
@@ -13,6 +14,6 @@ namespace GRP.Services.Company.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CompanyDbContext).Assembly);
         }
 
-        public DbSet<Constants> Constants { get; set; }
+        public DbSet<Models.Company> Companies { get; set; }
     }
 }

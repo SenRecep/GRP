@@ -15,6 +15,9 @@ namespace GRP.IdentityServer
             new ApiResource("resource_watertankcalculator"){
                 Scopes={"watertankcalculator_fullpermission"},
                 ApiSecrets=new []{ new Secret("watertankcalculator_secret".Sha256())}},
+              new ApiResource("resource_company"){
+                Scopes={"company_fullpermission"},
+                ApiSecrets=new []{ new Secret("company_secret".Sha256())}},
             new ApiResource("resource_gateway"){
                 Scopes={"gateway_fullpermission"},
                 ApiSecrets=new []{ new Secret("gateway_secret".Sha256())}},
@@ -24,6 +27,7 @@ namespace GRP.IdentityServer
             new ApiScope[]
             {
                 new ApiScope("watertankcalculator_fullpermission","Water Tank Calculator ICIN TUM IZINLER"),
+                new ApiScope("company_fullpermission","Company API ICIN TUM IZINLER"),
                 new ApiScope("gateway_fullpermission","GATEWAY ICIN TUM IZINLER"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
             };
@@ -69,6 +73,7 @@ namespace GRP.IdentityServer
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         IdentityServerConstants.LocalApi.ScopeName,
                         "watertankcalculator_fullpermission",
+                        "company_fullpermission",
                         "gateway_fullpermission",
                         "roles"
                     },

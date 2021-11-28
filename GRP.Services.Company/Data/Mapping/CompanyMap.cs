@@ -14,7 +14,7 @@ namespace GRP.Services.Company.Data.Mapping
             builder.Property(x=>x.AuthorizedPerson).IsRequired(false);
             builder.Property(x=>x.TaxAdministration).IsRequired(false);
             builder.Property(x=>x.Fax).IsRequired(false);
-            builder.Property(x=>x.GSM).IsRequired(false);
+            builder.Property(x=>x.CurrentAccountCode).IsRequired(false);
             builder.Property(x=>x.Title).IsRequired(false);
             builder.Property(x=>x.Phone).IsRequired(false);
             builder.Property(x=>x.Mail).IsRequired(false);

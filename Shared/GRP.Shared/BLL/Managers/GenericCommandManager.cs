@@ -32,11 +32,12 @@ public class GenericCommandManager<T> : IGenericCommandService<T>
         await genericRepository.AddAsync(entity);
         return entity;
     }
+
     public async Task RemoveAsync<D>(D dto, bool hardDelete = false) where D : IDTO
     {
         T dummyEntity = mapper.Map<T>(dto);
         T? orjinal = await genericQueryRepository.GetByIdAsync(dummyEntity.Id);
-        if(orjinal is null) throw new NullReferenceException(nameof(orjinal));
+        if (orjinal is null) throw new NullReferenceException(nameof(orjinal));
         orjinal = customMapper.Map(dto, orjinal);
         await genericRepository.RemoveAsync(orjinal, hardDelete);
     }

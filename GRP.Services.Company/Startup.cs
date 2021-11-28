@@ -15,6 +15,13 @@ using GRP.Shared.BLL.Interfaces;
 using GRP.Shared.BLL.Managers;
 using GRP.Shared.DAL.Interfaces;
 using GRP.Shared.DAL.Concrete.EntityFrameworkCore.Repositories;
+using GRP.Services.Company.Data;
+using GRP.Services.Company.Models;
+using Microsoft.Extensions.Options;
+using GRP.Services.Company.Seeding;
+using GRP.Services.Company.Settings;
+using GRP.Shared.Core.Services;
+using GRP.Shared.Core.Services.Interfaces;
 
 public class Startup
 {
@@ -31,16 +38,16 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        //string connectionString = Configuration.GetCustomConnectionString(Environment.GetConnectionType());
-        //string migrationName = "GRP.Services.Company";
+        string connectionString = Configuration.GetCustomConnectionString(Environment.GetConnectionType());
+        string migrationName = "GRP.Services.Company";
 
-        //services.AddTransient<DbContext, WaterTankCalculatorDbContext>();
+        services.AddTransient<DbContext, CompanyDbContext>();
 
-        //services.AddDbContext<WaterTankCalculatorDbContext>(opt =>
-        //    opt.UseSqlServer(connectionString, sqlOpt =>
-        //        sqlOpt.MigrationsAssembly(migrationName)
-        //        )
-        //);
+        services.AddDbContext<CompanyDbContext>(opt =>
+            opt.UseSqlServer(connectionString, sqlOpt =>
+                sqlOpt.MigrationsAssembly(migrationName)
+                )
+        );
 
         services.AddHttpContextAccessor();
 
@@ -56,11 +63,15 @@ public class Startup
         services.AddTransient(typeof(IGenericQueryRepository<>), typeof(EfGenericQueryRepository<>));
         #endregion
 
+        services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<ICustomMapper, CustomMapper>();
 
-        //services.AddSetting<ModuleGroup>(Configuration, "Companies");
-       
+        services.AddScoped<Defaults>();
+        services.AddScoped<Seeder>();
+
+        services.AddSetting<CompanySetting>(Configuration,nameof(CompanySetting));
 
         services.AddCors(options =>
         {
@@ -171,7 +182,7 @@ public class Startup
         }).ConfigureAppConfiguration(config =>
         {
             config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-            config.AddJsonFile("companyies.json");
+            config.AddJsonFile("companies.json");
         });
     }
 }

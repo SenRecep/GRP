@@ -1,5 +1,7 @@
 
 using GRP.Services.Company;
+using GRP.Services.Company.Data;
+using GRP.Services.Company.Seeding;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -14,12 +16,12 @@ try
     Log.Information("Starting host...");
     var app = builder.Build();
     startup.Configure(app);
-    //using IServiceScope serviceScope = app.Services.CreateScope();
-    //IServiceProvider services = serviceScope.ServiceProvider;
-    //WaterTankCalculatorDbContext context = services.GetRequiredService<WaterTankCalculatorDbContext>();
-    //DefaultsSeeder seeder = services.GetRequiredService<DefaultsSeeder>();
-    //await context.Database.MigrateAsync();
-    //await seeder.SeedAsync();
+    using IServiceScope serviceScope = app.Services.CreateScope();
+    IServiceProvider services = serviceScope.ServiceProvider;
+    CompanyDbContext context = services.GetRequiredService<CompanyDbContext>();
+    Seeder seeder = services.GetRequiredService<Seeder>();
+    await context.Database.MigrateAsync();
+    await seeder.SeedAsync();
     await app.RunAsync();
     return 0;
 }

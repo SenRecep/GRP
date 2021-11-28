@@ -1,4 +1,6 @@
-﻿namespace GRP.Shared.Core.Response
+﻿using Microsoft.AspNetCore.Http;
+
+namespace GRP.Shared.Core.Response
 {
     public class Response<T>
     {
@@ -7,14 +9,14 @@
         public bool IsSuccessful { get; set; }
         public Error ErrorData { get; set; }
 
-        public static Response<T> Success(T data, int statusCode) => new Response<T>()
+        public static Response<T> Success(T data, int statusCode=StatusCodes.Status200OK) => new Response<T>()
         {
             Data = data,
             StatusCode = statusCode,
             IsSuccessful = true
         };
 
-        public static Response<T> Success(int statusCode) => new Response<T>()
+        public static Response<T> Success(int statusCode = StatusCodes.Status200OK) => new Response<T>()
         {
             Data = default,
             StatusCode = statusCode,

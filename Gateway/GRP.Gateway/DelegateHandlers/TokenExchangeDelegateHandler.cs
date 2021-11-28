@@ -24,7 +24,7 @@ namespace GRP.Gateway.DelegateHandlers
             var disco = await httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest()
             {
                 Address = webHostEnvironment.GetApiUrl(configuration),
-                Policy = new DiscoveryPolicy() { RequireHttps = true },
+                Policy = new DiscoveryPolicy() { RequireHttps = false },
             });
             if (disco.IsError) throw disco.Exception;
             TokenExchangeTokenRequest tokenExchangeTokenRequest = new()

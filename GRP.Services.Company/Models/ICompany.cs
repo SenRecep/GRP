@@ -1,8 +1,6 @@
-﻿using GRP.Core.Concrete;
+﻿namespace GRP.Services.Company.Models;
 
-namespace GRP.Services.Company.Models;
-
-public class Company : EntityBase,ICompany
+public interface ICompany
 {
     public string? Title { get; set; }
     public string? CurrentAccountCode { get; set; }

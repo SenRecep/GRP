@@ -1,5 +1,5 @@
-Gateway:5100
-IdentityServer:5101
+Gateway:8265
+IdentityServer:8263
 Services
-	-WaterTankCalculator :5102
-	-Company: 5103
+	-WaterTankCalculator :8264
+	-Company: 8266

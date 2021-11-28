@@ -1,0 +1,43 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "185.122.202.87",
+          "Port": 8264
+        }
+      ],
+      "UpstreamPathTemplate": "/services/watertankcalculator/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Patch", "Delete" ],
+      "UpstreamSchema": "http",
+      //"DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthanticationScheme",
+        "AllowedScopes": [ "watertankcalculator_fullpermission" ]
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "185.122.202.87",
+          "Port": 8266
+        }
+      ],
+      "UpstreamPathTemplate": "/services/company/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Patch", "Delete" ],
+      "UpstreamSchema": "http",
+      //"DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthanticationScheme",
+        "AllowedScopes": [ "company_fullpermission" ]
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://185.122.202.87:8265"
+  }
+}

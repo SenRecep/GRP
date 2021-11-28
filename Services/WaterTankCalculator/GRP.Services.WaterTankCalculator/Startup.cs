@@ -44,7 +44,8 @@ public class Startup
             {
                 opt.Authority = IdentityServerUrl;
                 opt.Audience = "resource_watertankcalculator";
-                opt.RequireHttpsMetadata = !Environment.IsDevelopment();
+                //opt.RequireHttpsMetadata = !Environment.IsDevelopment();
+                opt.RequireHttpsMetadata = false;
             });
 
         services.AddHttpClient();

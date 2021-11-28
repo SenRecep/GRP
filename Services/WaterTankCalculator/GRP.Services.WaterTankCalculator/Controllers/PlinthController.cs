@@ -6,7 +6,6 @@ using GRP.Shared.DAL.Interfaces;
 
 [Route("api/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class PlinthController : ControllerBase
 {
     private readonly ICalculateService calculateService;

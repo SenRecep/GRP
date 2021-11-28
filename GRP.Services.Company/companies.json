@@ -1,5 +1,294 @@
-{
-  "Companies": [
-
-  ]
+﻿{
+  "CompanySetting": {
+    "Companies": [
+      {
+        "Title": "ANKA MODÜLER SU DEPOLARI SAN.TİC.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.001",
+        "AuthorizedPerson": "Harun Bey",
+        "TaxAdministration": "ULUS",
+        "TaxNumber": "0700593776",
+        "Address": "İVEDİK OSB MAH. 1416.CAD. NO:42 YENİMAHALLE / ANKARA",
+        "Phone": "+90 (546) 432 48 62",
+        "Mail": "anka06.tayfun@gmail.com"
+      },
+      {
+        "Title": "BAYDEMİR MAKİNA İMALAT MÜH.İNŞ.SAN.TİC.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.015",
+        "AuthorizedPerson": "Talip Bey",
+        "TaxAdministration": "BEYDAĞI",
+        "TaxNumber": "1520292007",
+        "Address": "1.OSB 1. CAD.NO:17  Malatya Merkez TÜRKİYE",
+        "Phone": "+90 (422) 238 02 39",
+        "Mail": "info@aquasan.com.tr"
+      },
+      {
+        "Title": "BURÇ SARRAF MÜC.İNŞ.İLT.SAN.VE TİC.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.012",
+        "TaxAdministration": "ERCİYES",
+        "TaxNumber": "1910570884",
+        "Address": "CUMHURİYET MAH.MEVLEVİ CAD.NO:22/C  Kayseri Melikgazi",
+        "Phone": "+90 (352) 231 23 32"
+      },
+      {
+        "Title": "DAYMAK SU DEPOSU İMALAT MAKİNA İNŞAAT.TAAH.TURİZM GIDA VE DIŞ TİC.LTD.ŞTİ",
+        "CurrentAccountCode": "120.06.019",
+        "AuthorizedPerson": "Volkan Bey",
+        "TaxAdministration": "ULUS",
+        "TaxNumber": "2710789221",
+        "Address": "1473.CAD NO:7  Ankara Yenimahalle",
+        "Phone": "+90 (533) 608 01 16",
+        "Mail": "info@daymak.com.tr"
+      },
+      {
+        "Title": "DYR BACA SİSTEMLERİ İNŞ.OTO.TAAH.SAN.TİC.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.014",
+        "AuthorizedPerson": "Ayşegül Hanım",
+        "TaxAdministration": "KARTAL",
+        "TaxNumber": "3231024364",
+        "Address": "ESENTEPE MAH.MİLAGAZ CAD.NO:77 DUMANKAYA VİZYON A2 BLK NO:77/2 D:182  İstanbul Kartal",
+        "Phone": "+90 (538) 361 69 74",
+        "Mail": "info@dyrbaca.com"
+      },
+      {
+        "Title": "EGEMEN İNŞ.VE TİC.A.Ş.MOMENT YAPI SAN.VE TİC.A.Ş.İŞ ORTAKLIĞI",
+        "CurrentAccountCode": "120.06.009",
+        "AuthorizedPerson": "ZEYNEL YAĞIZ",
+        "TaxAdministration": "HİTİT",
+        "TaxNumber": "3251099175",
+        "Address": "ÇANKAYA MAH.GÖREME CAD.NO:8/10  Ankara Çankaya",
+        "Phone": "+90 (312) 468 60 16",
+        "Mail": "momentyapi@gmail.com"
+      },
+      {
+        "Title": "ELİTSER İNŞAAT YAPI MÜH.MA.ELKT.EL.TURZ.İK.TİC.VE LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.006",
+        "AuthorizedPerson": "",
+        "TaxAdministration": "SİNCAN",
+        "TaxNumber": "3320416943",
+        "Address": "SELÇUKLU MAH.KUTAY SOK.NO:20/10   Ankara / Sincan",
+        "Phone": "+90 (312) 483 43 42",
+        "Fax": "0 312 483 43 32",
+        "Mail": "info@elitser.com.tr"
+      },
+      {
+        "Title": "ERDEM CENGİZ-ERC ÇEVRE TEKNOLOJİLERİ ",
+        "CurrentAccountCode": "120.06.004",
+        "AuthorizedPerson": "Erdem Bey",
+        "TaxAdministration": "ELMADAĞ",
+        "Address": "2284.CAD.NO:45 İVEDİK  Ankara / Yenimahalle",
+        "Mail": "info@ostimgrupyapi.com"
+      },
+      {
+        "Title": "ERTES MÜHENDİSLİK",
+        "CurrentAccountCode": "120.06.025",
+        "TaxAdministration": "VAN ",
+        "Address": "Hürriyet bulvarı Merkez mah. No: 230 / 5 Yakuplu, Beylikdüzü / İstanbul",
+        "Phone": "+90 (507) 124 53 11",
+        "Mail": "info@ertesmuhendislik.com"
+      },
+      {
+        "Title": "FEYAT GÜLTEPE",
+        "CurrentAccountCode": "120.06.021",
+        "AuthorizedPerson": "Feyat Bey",
+        "TaxAdministration": "GÖKALP ",
+        "Phone": "665 95 57"
+      },
+      {
+        "Title": "GÜLTEPE ISI TEKNİK MÜHENDİSLİK İNŞ.TAH.VE İML.SAN.TİC.LTD.ŞTİ",
+        "CurrentAccountCode": "120.06.023",
+        "TaxAdministration": "VAN ",
+        "TaxNumber": "3890243958",
+        "Address": "VAN ORGANİZE SAN.BÖLGESİ 3.ETAP 12.SK. NO:1 TUŞBA/VAN",
+      },
+      {
+        "Title": "HEKİMOĞLU İNŞAAT",
+        "CurrentAccountCode": "120.06.026",
+        "AuthorizedPerson": "OĞUZHAN BEY",
+        "TaxAdministration": "VAN ",
+        "Phone": "+90 (551) 270 06 06"
+      },
+      {
+        "Title": "KATRE ISI SANAYİ TİC.A.Ş.",
+        "CurrentAccountCode": "120.06.016",
+        "AuthorizedPerson": "Güner Bey",
+        "TaxAdministration": "DAVUTPAŞA",
+        "TaxNumber": "5281025212",
+        "Address": "SEYİT NİZAM MAH. DEMİRCİLER SİTESİ 1.CAD. NO: 73-75   İstanbul Zeytinburnu",
+        "Phone": "+90 (212) 415 48 15",
+        "Mail": "ankara@katre.com"
+      },
+      {
+        "Title": "KAYASU MEDİKAL ENERJİ SAN.A.Ş.",
+        "CurrentAccountCode": "120.06.005",
+        "AuthorizedPerson": "",
+        "TaxAdministration": "KIZILBEY",
+        "TaxNumber": "5371114454",
+        "Address": "HACI BAYRAM MAH.MEHMET KARAGÖZ CAD.NO:13/15  Ankara Altındağ",
+        "Phone": "+90 (533) 655 87 69",
+        "Mail": "kayasu@kayasu.com"
+      },
+      {
+        "Title": "LEDA YAPI VE PROJE TAAH.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.017",
+        "AuthorizedPerson": "Oğuz Bey",
+        "TaxAdministration": "DOĞANBEY",
+        "TaxNumber": "6080401571",
+        "Address": "AHLATLIBEL MAH.1835 CAD.NO:23  Ankara Çankaya",
+        "Phone": "+90 (312) 473 44 59"
+      },
+      {
+        "Title": "Mca Mühendislik Sanayi ve Dış Ticaret Ltd. Şti.",
+        "CurrentAccountCode": "120.06.024",
+        "AuthorizedPerson": "YILMAZ BEY",
+        "TaxAdministration": "VAN ",
+        "Phone": "+90 (212) 671 72 17",
+        "Mail": "info@mcamuhendislik.com"
+      },
+      {
+        "Title": "MEHMET KAYA MÜHENDİSLİK VE DANIŞMANLIK HİZMETLERİ",
+        "CurrentAccountCode": "120.06.020",
+        "AuthorizedPerson": "Helin Hanım",
+        "TaxAdministration": "GÖKALP ",
+        "Address": "DİCLEKENT MAH. 258.SOK. NO:10  Diyarbakır Kayapınar",
+        "Phone": "+90 (412) 257 33 44"
+      },
+      {
+        "Title": "Nature Enerji Ölçüm Tek. Dan. San. ve Tic. A.Ş.",
+        "CurrentAccountCode": "120.06.028",
+        "Address": "Atatürk Mahallesi Ertuğrul Gazi Sokak Metropol İstanbul Sitesi  A Blok  No:2E Kat:2 Daire:27  İstanbul Ataşehir",
+      },
+      {
+        "Title": "NET İNOVASYON MAK.İNŞ.ELEKTR.KALIP İTH.İHR.SAN.VE TİC.A.Ş.",
+        "CurrentAccountCode": "120.06.003",
+        "TaxAdministration": "KAHRAMANKAZAN",
+        "TaxNumber": "6310702972",
+        "Address": "SARAY MAH.100.YIL BULVARI NO:50 06980 KAHRAMANKAZAN/Ankara",
+        "Phone": "+90 (312) 815 24 77",
+        "Mail": "info@ostimgrupyapi.com"
+      },
+      {
+        "Title": "ÖZKILIÇ YAPI İNŞ.TAAH.VE PET.ÜRN.SAN.TİC.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.010",
+        "AuthorizedPerson": "ERSİN BEY",
+        "TaxAdministration": "GÖKALP",
+        "TaxNumber": "7000276901",
+        "Address": "BAĞCILAR MAH.URFA BULVARI NO:119  Diyarbakır Bağlar",
+        "Phone": "+90 (533) 947 03 05",
+        "Mail": "ali@ozkilicgrup.com"
+      },
+      {
+        "Title": "PRİZMA DEPO TEKOLOJİLERİ İNŞ. MÜH.MAKİNA İMALAT İTH.İHR.SAN VE TİC.A.Ş.",
+        "CurrentAccountCode": "120.06.022",
+        "AuthorizedPerson": "Ömer Bey",
+        "TaxAdministration": "YENİMAHALLE",
+        "TaxNumber": "7330409678",
+        "Address": "İVEDİK ORGANİZE SANAYİ BÖLGESİ 1519 SOK. NO:104  Ankara Yenimahalle",
+        "Phone": "+90 (532) 542 99 85",
+        "Mail": "info@prizmadepo.com"
+      },
+      {
+        "Title": "STRATEJİ MÜH.TAAH.SAN. VE TİC.LTD.ŞTİ",
+        "CurrentAccountCode": "120.06.007",
+        "TaxAdministration": "SİNCAN",
+        "Address": "BÜYÜK ESAT MH. UĞUR MUMCU CD. NO:80/2 ÇANKAYA / ANKARA",
+      },
+      {
+        "Title": "TEKEM İNŞAAT MÜHENDİSLİK SAN. VE TİC.LTD.ŞTİ",
+        "CurrentAccountCode": "120.06.018",
+        "AuthorizedPerson": "Kevser Hanım",
+        "TaxAdministration": "KÜÇÜKÇEKMECE",
+        "TaxNumber": "8341280845",
+        "Address": "İSTASYON MAH. YARIMBURGAZ CAD. NO:31 İÇ KAPI NO:100 İSTASYON 24 REZİDANS  İstanbul Küçükçekmece",
+        "Phone": "+90 (542) 490 34 76"
+      },
+      {
+        "Title": "TEKTAŞ MODÜLER SU DEPOLARI SAN.VE TİC.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.013",
+        "AuthorizedPerson": "Hüseyin Bey",
+        "TaxAdministration": "ESENLER",
+        "TaxNumber": "8360821480",
+        "Address": "ÇİFTE HAVUZLAR MAH.ESEN SOK.NO:6 İÇ KAPI NO:Z/1  İstanbul Esenler",
+        "Phone": "+90 (530) 119 09 80",
+        "Mail": "huseyintektas@outlook.com.tr"
+      },
+      {
+        "Title": "TERMAL MEKANİK MÜHENDİSLİK YAPI MALZ.İNŞ.TAAH.SAN.TİC.LTD.ŞTİ",
+        "CurrentAccountCode": "120.06.027",
+        "AuthorizedPerson": "SEDA NUR ÇİFTÇİ",
+        "TaxAdministration": "VAN ",
+        "Address": "RABİA ANA MAH. YÜZBAŞI SOKAK AK ÖZDEMİR İŞ MRKZ. KAT:4 DAİRE NO:10  Erzurum Yakutiye",
+        "Phone": "+90 (505) 134 82 45"
+      },
+      {
+        "Title": "TUNA MÜHENDİSLİK İNŞAAT",
+        "CurrentAccountCode": "120.06.002",
+        "AuthorizedPerson": "Servet Gündüzalp",
+        "Address": "Kızılırmak Mah. Dumlupınar Bulvarı YDA Center No: 9/A Kat 13 Ofis No: 568 Çankaya/Ankara",
+        "Phone": "+90 (312) 231 80 48"
+      },
+      {
+        "Title": "GÜNDOĞDU MEKANİK",
+        "CurrentAccountCode": "120.06.029",
+        "AuthorizedPerson": "Mehmet Bey",
+        "Address": "Sepetli Pınar mah. Demokratlar cad. no:18 Yeniköy/Başiskele/Kocaeli",
+        "Phone": "+90 (534) 647 54 66"
+      },
+      {
+        "Title": "AKSU MODÜLER SU DEPOLAMA MAKİNA MÜH.İKLİM.İNŞ.VE TİC.LTD.ŞTİ.",
+        "CurrentAccountCode": "120.06.030",
+        "AuthorizedPerson": "Koray Bey",
+        "TaxAdministration": "Ostim",
+        "TaxNumber": "0380758892",
+        "Address": "274 SOK.WİNGS ANKARA NO:1  Ankara Yenimahalle TÜRKİYE",
+        "Phone": "+90 (532) 512 89 15"
+      },
+      {
+        "Title": "GÜRBAĞ İNŞAAT",
+        "CurrentAccountCode": "120.06.031",
+        "AuthorizedPerson": "Kemal Eryaşar",
+        "Address": "Türkocağı Caddesi No:42 06520 Balgat - Ankara",
+        "Mail": "gurbag@gurbag.com"
+      },
+      {
+        "Title": "Alpce Mühendislik",
+        "CurrentAccountCode": "120.06.032",
+        "AuthorizedPerson": "Canan Kuşoğlu",
+        "Address": "Kağızman Cad. Batı İş Merkezi Kat:3 No:56/57 ",
+        "Mail": "info@alpcesistem.com.tr"
+      },
+      {
+        "Title": "Pi Yapı Mühendislik ",
+        "CurrentAccountCode": "120.06.033"
+      },
+      {
+        "Title": "POLYTEC-A MMC",
+        "CurrentAccountCode": "120.06.034",
+        "AuthorizedPerson": "Azer Bey",
+        "TaxNumber": "1504914831",
+        "Address": "ASIQ MOLLA CUMA KUC 26 A MENZİL 7 BAKU-AZERBAYCAN"
+      },
+      {
+        "Title": "Yalçın Bey",
+        "CurrentAccountCode": "120.06.035",
+        "AuthorizedPerson": "Yalçın Bey"
+      },
+      {
+        "Title": "Esta İnşaat",
+        "CurrentAccountCode": "120.06.036",
+        "AuthorizedPerson": "Hasan Boran",
+        "Address": "Koza Plaza B blok Kat:17 No:62 Esenler / İSTANBUL",
+        "Phone": "+90 (212) 438 51 28"  ,
+        "Fax": "2124386145",
+        "Mail": "info@estainsaat.com.tr"
+      },
+      {
+        "Title": "Dağ Mühendislik",
+        "CurrentAccountCode": "120.06.037",
+        "AuthorizedPerson": "Hayati Yetiş",
+        "Address": "Esentepe Mah. Şehit Üsteğmen Mehmet Gönenç Sk. No:42 Şişli / İSTANBUL (AVRUPA)",
+        "Phone": "+90 (535) 108 32 64",
+        "Mail": "hayati.yetis@dagmuhendislik.com.tr"
+      }
+    ]
+  }
 }
