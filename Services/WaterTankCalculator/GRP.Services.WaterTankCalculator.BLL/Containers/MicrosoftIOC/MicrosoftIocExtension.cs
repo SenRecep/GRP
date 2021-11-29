@@ -78,10 +78,12 @@ public static class MicrosoftIocExtension
 
         services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
+        services.AddScoped<IDefaultService, DefaultManager>();
+
         #endregion
 
 
-        
+
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<ICustomMapper, CustomMapper>();
