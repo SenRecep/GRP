@@ -14,6 +14,7 @@ public class MapProfile:Profile
         CreateMap<ModuleDefault,Module>().ReverseMap();
         CreateMap<RATDefault,RAT>().ReverseMap();
 
+        CreateMap<TotalCost, TotalCostHistory>().ReverseMap();
         CreateMap<CalculateModel, CalculateModelHistory>().ReverseMap();
         CreateMap<ConstantsModel, ConstantsHistory>().ReverseMap();
         CreateMap<Product, ProductHistory>().ReverseMap();

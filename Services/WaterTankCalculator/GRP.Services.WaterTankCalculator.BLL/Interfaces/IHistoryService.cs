@@ -4,6 +4,6 @@ namespace GRP.Services.WaterTankCalculator.BLL.Interfaces
 {
     public interface IHistoryService
     {
-        Task SaveAsync(MultipleCalculateModel model, ICollection<CalculateResponse> calculateResponses);
+        Task<Guid> SaveAsync(MultipleCalculateModel model,ConstantsModel constantsModel, ICollection<CalculateResponse> calculateResponses);
     }
 }

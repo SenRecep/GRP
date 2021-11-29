@@ -11,8 +11,8 @@ public class ModuleHistory : EntityBase
     public float Cost { get; set; }
 
     public string ModuleDefaultKey { get; set; }
-    public ModuleDefault ModuleDefault { get; set; }
+    public virtual ModuleDefault ModuleDefault { get; set; }
 
-    public Guid CalculationHistoryId { get; set; }
-    public CalculationHistory CalculationHistory { get; set; }
+    public Guid? CalculateModelHistoryId { get; set; }
+    public virtual CalculateModelHistory CalculateModelHistory { get; set; }
 }

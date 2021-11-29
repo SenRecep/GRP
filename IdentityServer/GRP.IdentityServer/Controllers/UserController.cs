@@ -37,11 +37,7 @@ namespace GRP.IdentityServer.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
         {
-            ApplicationUser user = new ApplicationUser()
-            {
-                UserName = model.UserName,
-                Email = model.Email
-            };
+            ApplicationUser user = mapper.Map<ApplicationUser>(model);
 
             IdentityResult result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)

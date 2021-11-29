@@ -10,6 +10,8 @@ using GRP.Services.WaterTankCalculator.Entities.Concrete;
 using GRP.Shared.BLL.Interfaces;
 using GRP.Shared.BLL.Managers;
 using GRP.Shared.Core.ExtensionMethods;
+using GRP.Shared.Core.Services;
+using GRP.Shared.Core.Services.Interfaces;
 using GRP.Shared.DAL.Concrete.EntityFrameworkCore.Repositories;
 using GRP.Shared.DAL.Interfaces;
 
@@ -44,7 +46,10 @@ public static class MicrosoftIocExtension
 
         services.AddHttpContextAccessor();
 
-
+        #region Repositoryies
+        services.AddTransient(typeof(IGenericCommandRepository<>), typeof(EfGenericCommandRepository<>));
+        services.AddTransient(typeof(IGenericQueryRepository<>), typeof(EfGenericQueryRepository<>));
+        #endregion
         #region Services
         services.AddTransient(typeof(IGenericQueryService<>), typeof(GenericQueryManager<>));
         services.AddTransient(typeof(IGenericCommandService<>), typeof(GenericCommandManager<>));
@@ -71,13 +76,12 @@ public static class MicrosoftIocExtension
         services.AddScoped<ITransportationService, TransportationManager>();
         services.AddScoped<IHistoryService, HistoryManager>();
 
+        services.AddScoped<ISharedIdentityService, SharedIdentityService>();
+
         #endregion
 
 
-        #region Repositoryies
-        services.AddTransient(typeof(IGenericCommandRepository<>), typeof(EfGenericCommandRepository<>));
-        services.AddTransient(typeof(IGenericQueryRepository<>), typeof(EfGenericQueryRepository<>));
-        #endregion
+        
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<ICustomMapper, CustomMapper>();

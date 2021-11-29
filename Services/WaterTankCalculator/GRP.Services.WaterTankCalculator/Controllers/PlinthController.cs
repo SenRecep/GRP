@@ -6,7 +6,6 @@ using GRP.Shared.DAL.Interfaces;
 
 [Route("api/[controller]")]
 [ApiController]
-[AllowAnonymous]
 public class PlinthController : ControllerBase
 {
     private readonly ICalculateService calculateService;
@@ -45,12 +44,12 @@ public class PlinthController : ControllerBase
         ICollection<CalculateResponse> calculateResponses = new List<CalculateResponse>();
         foreach (var item in model.CalculateModels)
         {
-            var response = await calculateService.CalculateAsync(constantsModel, item);
+            var response = await calculateService.CalculateAsync(constantsModel, item,model.PaymentType);
             calculateResponses.Add(response);
         }
-        await historyService.SaveAsync(model, calculateResponses);
-        return Response<ICollection<CalculateResponse>>
-            .Success(calculateResponses, StatusCodes.Status200OK)
+        var history = await historyService.SaveAsync(model, constantsModel, calculateResponses);
+        return Response<Guid>
+            .Success(history, StatusCodes.Status200OK)
             .CreateResponseInstance();
     }
 }

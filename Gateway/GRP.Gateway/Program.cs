@@ -30,9 +30,21 @@ try
                    opt.RequireHttpsMetadata = false;
                });
 
+
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("CorsPolicy", builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+    });
+
     builder.Services.AddHttpClient<TokenExchangeDelegateHandler>();
     builder.Services.AddOcelot().AddDelegatingHandler<TokenExchangeDelegateHandler>();
     var app = builder.Build();
+    app.UseCors("CorsPolicy");
     app.UseCustomExceptionHandler();
     await app.UseOcelot();
     await app.RunAsync();

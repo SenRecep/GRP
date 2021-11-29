@@ -23,9 +23,15 @@ public class WaterTankCalculatorDbContext:DbContext
     public DbSet<ProductDefault> ProductDefaults { get; set; }
     public DbSet<ModuleDefault> ModuleDefaults { get; set; }
     public DbSet<RATDefault> RATDefaults { get; set; }
+
     public DbSet<ModuleHistory> ModuleHistories { get; set; }
-    public DbSet<ProductHistory> ProductHistories { get; set; }
     public DbSet<RATHistory> RATHistories { get; set; }
+    public DbSet<ProductHistory> ProductHistories { get; set; }
+
     public DbSet<CalculationHistory> CalculationHistories { get; set; }
+    public DbSet<CalculateModelHistory> CalculateModelHistories { get; set; }
+
     public DbSet<TotalCostHistory> TotalCostHistories { get; set; }
+    public DbSet<EdgeModelHistory> EdgeModelHistories { get; set; }
+    public DbSet<ConstantsHistory> ConstantsHistories { get; set; }
 }

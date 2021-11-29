@@ -39,10 +39,10 @@ public class CalculateManager : ICalculateService
             ratService = serviceProvider.GetRequiredService<IBeamRATService>();
         }
     }
-    public async Task<CalculateResponse> CalculateAsync(ConstantsModel constants, CalculateModel model)
+    public async Task<CalculateResponse> CalculateAsync(ConstantsModel constants, CalculateModel model, PaymentType paymentType)
     {
         LoadServices(model.PlinthType);
-        TotalCost totalCost=new();
+        TotalCost totalCost = new();
         var moduleGroup = await genericDefaultService.GetGroupAsync<ModuleGroup, ModuleDefault, Module>();
         var productGroup = await genericDefaultService.GetGroupAsync<ProductGroup, ProductDefault, Product>();
         var ratGroup = await genericDefaultService.GetGroupAsync<RATGroup, RATDefault, RAT>();
@@ -51,6 +51,14 @@ public class CalculateManager : ICalculateService
         ratService?.RATSCalculate(ratGroup, model, constants);
         productService?.ProductsCalculate(productGroup, model, calculatedEdge, moduleGroup, constants, ratGroup);
         totalCostService.TotalCostCalculate(totalCost, moduleGroup, productGroup, ratGroup, constants);
-        return new(model,totalCost,moduleGroup,productGroup,ratGroup,calculatedEdge,constants);
+        totalCost.Total *= (model.Height == 3 ? 2 : paymentType switch
+        {
+            PaymentType.Advance => 1.2f,
+            PaymentType.D30 => 1.25f,
+            PaymentType.D3060 => 1.3f,
+            PaymentType.D90120 => 1.35f,
+            _ => throw new NotImplementedException()
+        });
+        return new(model, totalCost, moduleGroup, productGroup, ratGroup, calculatedEdge);
     }
 }

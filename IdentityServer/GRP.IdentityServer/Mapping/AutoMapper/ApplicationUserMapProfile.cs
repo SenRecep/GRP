@@ -10,7 +10,8 @@ namespace GRP.IdentityServer.Mapping.AutoMapper
     {
         public ApplicationUserMapProfile()
         {
-            CreateMap<ApplicationUser, ApplicationUserDto>();
+            CreateMap<ApplicationUser, ApplicationUserDto>().ReverseMap();
+            CreateMap<ApplicationUser, SignUpViewModel>().ReverseMap();
         }
     }
 }

@@ -1,23 +1,21 @@
-﻿using GRP.Core.Concrete;
+﻿#nullable disable
+using GRP.Core.Concrete;
+using GRP.Services.WaterTankCalculator.Entities.Enums;
 
 namespace GRP.Services.WaterTankCalculator.Entities.Concrete.History;
 
 public class CalculationHistory : EntityBase
 {
-    public IEnumerable<CalculateModelHistory>? CalculateModelHistories { get; set; }
+    public virtual IEnumerable<CalculateModelHistory> CalculateModelHistories { get; set; }
+
+    public Guid? CompnyId { get; set; }
+    public PaymentType PaymentType { get; set; }
+
+    public float Total { get; set; }
+    public float KDV { get; set; }
+    public float FullTotal { get; set; }
+
 
     public Guid? ConstantsHistoryId { get; set; }
-    public ConstantsHistory? ConstantsHistory { get; set; }
-
-    public Guid? ModuleHistoryId { get; set; }
-    public ModuleHistory? ModuleHistory { get; set; }
-
-    public Guid? ProductHistoryId { get; set; }
-    public ProductHistory? ProductHistory { get; set; }
-
-    public Guid? RATHistoryId { get; set; }
-    public RATHistory? RATHistory { get; set; }
-
-    public Guid? TotalCostHistoryId { get; set; }
-    public TotalCostHistory? TotalCostHistory { get; set; }
+    public virtual ConstantsHistory ConstantsHistory { get; set; }
 }

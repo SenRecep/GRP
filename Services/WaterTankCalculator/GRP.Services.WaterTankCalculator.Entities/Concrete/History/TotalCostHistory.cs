@@ -9,10 +9,11 @@ public class TotalCostHistory:EntityBase
     public float Financing { get; set; }
     public float GoesInvisible { get; set; }
     public float GrandTotal { get; set; }
-    public float IntercityTransportation { get; set; }
     public float Total { get; set; }
+    public float FullTotal { get; set; }
 
-    public Guid CalculationHistoryId { get; set; }
-    public CalculationHistory CalculationHistory { get; set; }
+
+    public Guid? CalculateModelHistoryId { get; set; }
+    public virtual CalculateModelHistory CalculateModelHistory { get; set; }
 
 }

@@ -83,6 +83,7 @@ public class Startup
             });
         });
 
+
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
             {

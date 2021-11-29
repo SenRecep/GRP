@@ -6,5 +6,4 @@ public record CalculateResponse(
     ModuleGroup ModuleGroup,
     ProductGroup ProductGroup,
     RATGroup RATGroup,
-    CalculatedEdgeModel CalculatedEdgeModel,
-    ConstantsModel ConstantsModel);
+    CalculatedEdgeModel CalculatedEdgeModel);

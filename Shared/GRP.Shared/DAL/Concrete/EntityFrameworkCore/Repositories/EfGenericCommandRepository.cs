@@ -1,8 +1,10 @@
-﻿using GRP.Shared.DAL.Interfaces;
+﻿#nullable disable
+using GRP.Shared.DAL.Interfaces;
 using GRP.Core.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using GRP.Shared.Core.ExtensionMethods;
 
 namespace GRP.Shared.DAL.Concrete.EntityFrameworkCore.Repositories;
 
@@ -12,14 +14,19 @@ public class EfGenericCommandRepository<T> : IGenericCommandRepository<T>
     private DbContext dbContext { get; init; }
     private DbSet<T> table { get; init; }
 
-    private readonly IDbContextTransaction dbContextTransaction;
+    private IDbContextTransaction dbContextTransaction;
 
     public EfGenericCommandRepository(DbContext dbContext)
     {
         this.dbContext = dbContext;
         table = dbContext.Set<T>();
+    }
+
+    public void BeginTransaction()
+    {
         dbContextTransaction = dbContext.Database.BeginTransaction();
     }
+
 
     #region CRUD
 
@@ -63,8 +70,12 @@ public class EfGenericCommandRepository<T> : IGenericCommandRepository<T>
     {
         if (!state)
         {
-            await dbContextTransaction.RollbackAsync();
-            await DisposeAsync();
+            if (dbContextTransaction.IsNotNull())
+            {
+                await dbContextTransaction.RollbackAsync();
+                await DisposeAsync();
+            }
+
             return state;
         }
 
@@ -79,10 +90,13 @@ public class EfGenericCommandRepository<T> : IGenericCommandRepository<T>
             commitState = false;
         }
 
-        if (commitState)
-            await dbContextTransaction.CommitAsync();
-        else
-            await dbContextTransaction.RollbackAsync();
+        if (dbContextTransaction.IsNotNull())
+        {
+            if (commitState)
+                await dbContextTransaction.CommitAsync();
+            else
+                await dbContextTransaction.RollbackAsync();
+        }
 
         return commitState;
     }
@@ -96,6 +110,7 @@ public class EfGenericCommandRepository<T> : IGenericCommandRepository<T>
     #region Save
 
     public async Task<int> SaveChangesAsync() => await dbContext.SaveChangesAsync();
+
 
 
 

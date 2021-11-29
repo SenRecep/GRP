@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GRP.Services.WaterTankCalculator.Migrations
 {
     [DbContext(typeof(WaterTankCalculatorDbContext))]
-    [Migration("20211127103336_CalculationHistory")]
-    partial class CalculationHistory
+    [Migration("20211129204311_history_add_companyid_total")]
+    partial class history_add_companyid_total
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,43 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.Constants", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("GRPKgPrice")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<float>("Transportation")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Constants");
+                });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults.ModuleDefault", b =>
                 {
@@ -183,28 +220,39 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("CalculationHistoryId")
+                    b.Property<Guid?>("CalculationHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EdgeModelHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Height")
                         .HasColumnType("real");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<float>("Length")
                         .HasColumnType("real");
 
                     b.Property<int>("PlinthType")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("TotalCostHistoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -219,7 +267,7 @@ namespace GRP.Services.WaterTankCalculator.Migrations
 
                     b.HasIndex("CalculationHistoryId");
 
-                    b.ToTable("CalculateModelHistory");
+                    b.ToTable("CalculateModelHistories");
                 });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", b =>
@@ -229,7 +277,11 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("ConstantsHistoryId")
+                    b.Property<Guid?>("CompnyId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ConstantsHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
@@ -245,17 +297,8 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<Guid>("ModuleHistoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductHistoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RATHistoryId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TotalCostHistoryId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<float>("Total")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -266,7 +309,8 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ConstantsHistoryId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ConstantsHistoryId] IS NOT NULL");
 
                     b.ToTable("CalculationHistories");
                 });
@@ -278,7 +322,7 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("CalculationHistoryId")
+                    b.Property<Guid?>("CalculationHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
@@ -295,13 +339,13 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                     b.Property<float>("GRPKgPrice")
                         .HasColumnType("real");
 
-                    b.Property<float>("IntercityTransportation")
-                        .HasColumnType("real");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<float>("Transportation")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("UpdatedTime")
                         .HasColumnType("datetime2");
@@ -311,7 +355,75 @@ namespace GRP.Services.WaterTankCalculator.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ConstantsHistory");
+                    b.ToTable("ConstantsHistories");
+                });
+
+            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.EdgeModelHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<Guid?>("CalculateModelHistoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Capacity")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Edge_Bottom")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Edge_Side")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Edge_Top")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Interior_Bottom")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Interior_Side")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Interior_Top")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<float>("Outside_Bottom")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Outside_Side")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Outside_Top")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime?>("UpdatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CalculateModelHistoryId")
+                        .IsUnique()
+                        .HasFilter("[CalculateModelHistoryId] IS NOT NULL");
+
+                    b.ToTable("EdgeModelHistories");
                 });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ModuleHistory", b =>
@@ -321,7 +433,7 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("CalculationHistoryId")
+                    b.Property<Guid?>("CalculateModelHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Cost")
@@ -357,6 +469,8 @@ namespace GRP.Services.WaterTankCalculator.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CalculateModelHistoryId");
+
                     b.HasIndex("ModuleDefaultKey");
 
                     b.ToTable("ModuleHistories");
@@ -369,7 +483,7 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("CalculationHistoryId")
+                    b.Property<Guid?>("CalculateModelHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Cost")
@@ -402,6 +516,8 @@ namespace GRP.Services.WaterTankCalculator.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CalculateModelHistoryId");
+
                     b.HasIndex("ProductDefaultKey");
 
                     b.ToTable("ProductHistories");
@@ -414,7 +530,7 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("CalculationHistoryId")
+                    b.Property<Guid?>("CalculateModelHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Cost")
@@ -447,6 +563,8 @@ namespace GRP.Services.WaterTankCalculator.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CalculateModelHistoryId");
+
                     b.HasIndex("RATDefaultKey");
 
                     b.ToTable("RATHistories");
@@ -456,13 +574,16 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
 
-                    b.Property<Guid>("CalculationHistoryId")
+                    b.Property<Guid?>("CalculateModelHistoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
@@ -476,11 +597,10 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                     b.Property<float>("GrandTotal")
                         .HasColumnType("real");
 
-                    b.Property<float>("IntercityTransportation")
-                        .HasColumnType("real");
-
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<float>("Subtotal")
                         .HasColumnType("real");
@@ -496,6 +616,10 @@ namespace GRP.Services.WaterTankCalculator.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CalculateModelHistoryId")
+                        .IsUnique()
+                        .HasFilter("[CalculateModelHistoryId] IS NOT NULL");
+
                     b.ToTable("TotalCostHistories");
                 });
 
@@ -504,8 +628,7 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                     b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", "CalculationHistory")
                         .WithMany("CalculateModelHistories")
                         .HasForeignKey("CalculationHistoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CalculationHistory");
                 });
@@ -515,75 +638,83 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                     b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ConstantsHistory", "ConstantsHistory")
                         .WithOne("CalculationHistory")
                         .HasForeignKey("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", "ConstantsHistoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ModuleHistory", "ModuleHistory")
-                        .WithOne("CalculationHistory")
-                        .HasForeignKey("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", "ConstantsHistoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ProductHistory", "ProductHistory")
-                        .WithOne("CalculationHistory")
-                        .HasForeignKey("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", "ConstantsHistoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.RATHistory", "RATHistory")
-                        .WithOne("CalculationHistory")
-                        .HasForeignKey("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", "ConstantsHistoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.TotalCostHistory", "TotalCostHistory")
-                        .WithOne("CalculationHistory")
-                        .HasForeignKey("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", "ConstantsHistoryId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("ConstantsHistory");
+                });
 
-                    b.Navigation("ModuleHistory");
+            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.EdgeModelHistory", b =>
+                {
+                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculateModelHistory", "CalculateModelHistory")
+                        .WithOne("EdgeModelHistory")
+                        .HasForeignKey("GRP.Services.WaterTankCalculator.Entities.Concrete.History.EdgeModelHistory", "CalculateModelHistoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.Navigation("ProductHistory");
-
-                    b.Navigation("RATHistory");
-
-                    b.Navigation("TotalCostHistory");
+                    b.Navigation("CalculateModelHistory");
                 });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ModuleHistory", b =>
                 {
+                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculateModelHistory", "CalculateModelHistory")
+                        .WithMany("ModuleHistories")
+                        .HasForeignKey("CalculateModelHistoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults.ModuleDefault", "ModuleDefault")
                         .WithMany("ModuleHistories")
                         .HasForeignKey("ModuleDefaultKey")
                         .HasPrincipalKey("Key")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.Navigation("CalculateModelHistory");
+
                     b.Navigation("ModuleDefault");
                 });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ProductHistory", b =>
                 {
+                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculateModelHistory", "CalculateModelHistory")
+                        .WithMany("ProductHistories")
+                        .HasForeignKey("CalculateModelHistoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults.ProductDefault", "ProductDefault")
                         .WithMany("ProductHistories")
                         .HasForeignKey("ProductDefaultKey")
                         .HasPrincipalKey("Key")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.Navigation("CalculateModelHistory");
+
                     b.Navigation("ProductDefault");
                 });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.RATHistory", b =>
                 {
+                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculateModelHistory", "CalculateModelHistory")
+                        .WithMany("RATHistories")
+                        .HasForeignKey("CalculateModelHistoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults.RATDefault", "RATDefault")
                         .WithMany("RATHistories")
                         .HasForeignKey("RATDefaultKey")
                         .HasPrincipalKey("Key")
                         .OnDelete(DeleteBehavior.NoAction);
 
+                    b.Navigation("CalculateModelHistory");
+
                     b.Navigation("RATDefault");
+                });
+
+            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.TotalCostHistory", b =>
+                {
+                    b.HasOne("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculateModelHistory", "CalculateModelHistory")
+                        .WithOne("TotalCostHistory")
+                        .HasForeignKey("GRP.Services.WaterTankCalculator.Entities.Concrete.History.TotalCostHistory", "CalculateModelHistoryId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("CalculateModelHistory");
                 });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.Defaults.ModuleDefault", b =>
@@ -601,32 +732,25 @@ namespace GRP.Services.WaterTankCalculator.Migrations
                     b.Navigation("RATHistories");
                 });
 
+            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculateModelHistory", b =>
+                {
+                    b.Navigation("EdgeModelHistory");
+
+                    b.Navigation("ModuleHistories");
+
+                    b.Navigation("ProductHistories");
+
+                    b.Navigation("RATHistories");
+
+                    b.Navigation("TotalCostHistory");
+                });
+
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.CalculationHistory", b =>
                 {
                     b.Navigation("CalculateModelHistories");
                 });
 
             modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ConstantsHistory", b =>
-                {
-                    b.Navigation("CalculationHistory");
-                });
-
-            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ModuleHistory", b =>
-                {
-                    b.Navigation("CalculationHistory");
-                });
-
-            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.ProductHistory", b =>
-                {
-                    b.Navigation("CalculationHistory");
-                });
-
-            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.RATHistory", b =>
-                {
-                    b.Navigation("CalculationHistory");
-                });
-
-            modelBuilder.Entity("GRP.Services.WaterTankCalculator.Entities.Concrete.History.TotalCostHistory", b =>
                 {
                     b.Navigation("CalculationHistory");
                 });

@@ -11,8 +11,7 @@ public class TotalCostManager : ITotalCostService
         totalCost.Financing = totalCost.Subtotal * 0.03f;
         totalCost.GoesInvisible = totalCost.Subtotal * 0.02f;
         totalCost.GrandTotal = totalCost.Subtotal + totalCost.Financing + totalCost.GoesInvisible;
-        totalCost.IntercityTransportation = constants.Transportation;
-        totalCost.Total = totalCost.IntercityTransportation + totalCost.GrandTotal;
+        totalCost.Total = constants.Transportation + totalCost.GrandTotal;
         return totalCost;
     }
 }

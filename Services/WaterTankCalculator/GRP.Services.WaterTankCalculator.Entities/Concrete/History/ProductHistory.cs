@@ -10,8 +10,8 @@ public class ProductHistory:EntityBase
     public float Cost { get; set; }
 
     public string ProductDefaultKey{ get; set; }
-    public ProductDefault ProductDefault{ get; set; }
+    public virtual ProductDefault ProductDefault{ get; set; }
 
-    public Guid CalculationHistoryId { get; set; }
-    public CalculationHistory CalculationHistory { get; set; }
+    public Guid? CalculateModelHistoryId { get; set; }
+    public virtual CalculateModelHistory CalculateModelHistory { get; set; }
 }

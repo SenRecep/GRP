@@ -10,6 +10,6 @@ public class ConstantsHistory : EntityBase
     public float Transportation { get; set; }
 
 
-    public Guid CalculationHistoryId { get; set; }
+    public Guid? CalculationHistoryId { get; set; }
     public CalculationHistory CalculationHistory { get; set; }
 }

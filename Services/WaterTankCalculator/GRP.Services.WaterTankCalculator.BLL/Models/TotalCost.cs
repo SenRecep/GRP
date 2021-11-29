@@ -5,6 +5,5 @@ public record TotalCost
     public float Financing { get; set; }
     public float GoesInvisible { get; set; }
     public float GrandTotal { get; set; }
-    public float IntercityTransportation { get; set; }
     public float Total { get; set; }
 }
