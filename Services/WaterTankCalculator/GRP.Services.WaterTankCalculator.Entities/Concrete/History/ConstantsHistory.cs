@@ -7,7 +7,8 @@ public class ConstantsHistory : EntityBase
 {
     public float GRPKgPrice { get; set; }
     public float Dollar { get; set; }
-    public float IntercityTransportation { get; set; }
+    public float Transportation { get; set; }
+
 
     public Guid CalculationHistoryId { get; set; }
     public CalculationHistory CalculationHistory { get; set; }

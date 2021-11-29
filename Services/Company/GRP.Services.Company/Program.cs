@@ -15,6 +15,7 @@ try
     startup.ConfigureHost(builder.Host);
     Log.Information("Starting host...");
     var app = builder.Build();
+    app.UseStaticFiles();
     startup.Configure(app);
     using IServiceScope serviceScope = app.Services.CreateScope();
     IServiceProvider services = serviceScope.ServiceProvider;

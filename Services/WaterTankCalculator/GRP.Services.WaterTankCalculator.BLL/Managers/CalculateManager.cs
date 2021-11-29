@@ -39,7 +39,7 @@ public class CalculateManager : ICalculateService
             ratService = serviceProvider.GetRequiredService<IBeamRATService>();
         }
     }
-    public async Task<TotalCost> CalculateAsync(ConstantsModel constants, CalculateModel model)
+    public async Task<CalculateResponse> CalculateAsync(ConstantsModel constants, CalculateModel model)
     {
         LoadServices(model.PlinthType);
         TotalCost totalCost=new();
@@ -51,6 +51,6 @@ public class CalculateManager : ICalculateService
         ratService?.RATSCalculate(ratGroup, model, constants);
         productService?.ProductsCalculate(productGroup, model, calculatedEdge, moduleGroup, constants, ratGroup);
         totalCostService.TotalCostCalculate(totalCost, moduleGroup, productGroup, ratGroup, constants);
-        return totalCost;
+        return new(model,totalCost,moduleGroup,productGroup,ratGroup,calculatedEdge,constants);
     }
 }

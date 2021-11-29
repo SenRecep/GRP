@@ -41,8 +41,8 @@ public class PlinthController : ControllerBase
         ICollection<CalculateResponse> calculateResponses = new List<CalculateResponse>();
         foreach (var item in model.CalculateModels)
         {
-            var totalcosts = await calculateService.CalculateAsync(constantsModel, item);
-            calculateResponses.Add(new(item, totalcosts));
+            var response = await calculateService.CalculateAsync(constantsModel, item);
+            calculateResponses.Add(response);
         }
 
         return Response<ICollection<CalculateResponse>>

@@ -4,5 +4,5 @@ namespace GRP.Services.WaterTankCalculator.BLL.Interfaces;
 
 public interface ICalculateService
 {
-    Task<TotalCost> CalculateAsync(ConstantsModel constantsModel, CalculateModel model);
+    Task<CalculateResponse> CalculateAsync(ConstantsModel constantsModel, CalculateModel model);
 }

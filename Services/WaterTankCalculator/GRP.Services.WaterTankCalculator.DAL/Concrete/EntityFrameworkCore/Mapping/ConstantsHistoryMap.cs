@@ -12,7 +12,7 @@ public class ConstantsHistoryMap : IEntityTypeConfiguration<ConstantsHistory>
     {
         builder.EntityBaseMap();
         builder.Property(x=>x.GRPKgPrice).IsRequired();
-        builder.Property(x=>x.IntercityTransportation).IsRequired();
+        builder.Property(x=>x.Transportation).IsRequired();
         builder.Property(x=>x.Dollar).IsRequired();
     }
 }

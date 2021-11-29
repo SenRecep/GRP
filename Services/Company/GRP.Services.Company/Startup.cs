@@ -87,8 +87,8 @@ public class Startup
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
             {
                 opt.Authority = IdentityServerUrl;
-                opt.Audience = "resource_watertankcalculator";
-                opt.RequireHttpsMetadata = !Environment.IsDevelopment();
+                opt.Audience = "resource_company";
+                opt.RequireHttpsMetadata = false;
             });
 
         services.AddHttpClient();

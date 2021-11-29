@@ -12,7 +12,7 @@
       "UpstreamPathTemplate": "/services/watertankcalculator/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Patch", "Delete" ],
       "UpstreamSchema": "http",
-      "DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
+      //"DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthanticationScheme",
         "AllowedScopes": [ "watertankcalculator_fullpermission" ]
@@ -30,7 +30,7 @@
       "UpstreamPathTemplate": "/services/company/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Patch", "Delete" ],
       "UpstreamSchema": "http",
-      "DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
+      //"DelegatingHandlers": [ "TokenExchangeDelegateHandler" ],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "GatewayAuthanticationScheme",
         "AllowedScopes": [ "company_fullpermission" ]
