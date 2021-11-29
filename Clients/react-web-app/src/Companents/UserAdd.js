@@ -4,19 +4,11 @@ import axios from 'axios';
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { Link } from "react-router-dom";
 
-const UserEdit = (props) => {
-    const [userData, setUserData] = useState([]);
+const UserAdd = (props) => {
     const [inputValidate, setinputValidate] = useState({type: null, visible: false, validateMessage: null, header: null});
     const [selectRole, setSelectRole] = useState(null);
     
-    useEffect(() => {
-      const getUserData = async () => {
-        let id=props.match.params.id
-        let res= await rop_axios.get(`/user/users/getUser/${id}`); 
-        setUserData(res.data); 
-      }; 
-      getUserData();
-  }, []);
+    
   const onSelectChange = (evt, data) => { 
     setSelectRole({selectRole:data.value}); 
    }
@@ -33,34 +25,34 @@ const UserEdit = (props) => {
   const valideteForm=async (targets)=>{
         
     if(targets.firstName.value!==''&& targets.lastName.value!==''&& targets.userName.value!==''&& targets.userMail.value!==''&& targets.userPhone.value!==''&& targets.role.value!=='')
-    {    
-
-      var userResponse = await rop_axios.put("/company/companies", {
-        id: props.match.params.id ,
-        firstName:targets.firstName.value,
-        lastName:targets.lastName.value,
-        userName:targets.userName.value,
-        userMail:targets.userMail.value,
-        userPhone:targets.userPhone.value,
-        role:selectRole,
-        password:targets.password.value
-      });
-      if(userResponse.error!==null){
-        setinputValidate({
-          type:'error',
-          visible:true,
-          validateMessage:'Üzgünüz Ufak Bir Hata İle Karşılaşıldı.',
-          header:'Hata'
-      })
-      }
-      else {
-        setinputValidate({
-          type:'success',
-          visible:true, 
-          validateMessage:'Başarılı bir şekilde firma cari düzenlendi yönlendiriliyorsunuz..',
-          header:'Başarılı'
-      }) 
-      }
+    {   
+         
+         var userResponse=await rop_axios.post(`/user/users`, {
+          firstName:targets.firstName.value,
+          lastName:targets.lastName.value,
+          userName:targets.userName.value,
+          userMail:targets.userMail.value,
+          userPhone:targets.userPhone.value,
+          role:selectRole,
+          password:targets.password.value
+        });
+        if(userResponse.error!==null){
+          setinputValidate({
+            type:'error',
+            visible:true,
+            validateMessage:'Üzgünüz Ufak Bir Hata İle Karşılaşıldı.',
+            header:'Hata'
+        })
+        }
+        else {
+          setinputValidate({
+            type:'success',
+            visible:true, 
+            validateMessage:'Başarılı bir şekilde firma cari düzenlendi yönlendiriliyorsunuz..',
+            header:'Başarılı'
+        }) 
+        }
+       
     } 
     else {
         setinputValidate({
@@ -107,16 +99,14 @@ const UserEdit = (props) => {
                   control={Input}
                   label='Adı'
                   name='firstName'
-                  placeholder='Adı'
-                  defaultValue={userData.firstName}
+                  placeholder='Adı' 
                   type='text'/>
               </Form.Group>
               <Form.Group width={12}>
                 <Form.Field
                   control={Input}
                   label='Soy Adı'
-                  name='lastName'
-                  defaultValue={userData.lastName}
+                  name='lastName' 
                   placeholder='Soy Adı'
                   type='text'/>
               </Form.Group>
@@ -125,7 +115,7 @@ const UserEdit = (props) => {
                   control={Input}
                   label='Kullanıcı Adı'
                   name='userName'
-                  defaultValue={userData.userName}
+                  
                   placeholder='Kullanıcı Adı'
                   type='text'/>
               </Form.Group>
@@ -142,7 +132,7 @@ const UserEdit = (props) => {
                   control={Input}
                   label='E-mail'
                   name='userMail'
-                  defaultValue={userData.userMail}
+                  
                   placeholder='E-mail'
                   type='email'/>
               </Form.Group>
@@ -151,7 +141,7 @@ const UserEdit = (props) => {
                   control={Input}
                   label='Tel'
                   name='userPhone'
-                  defaultValue={userData.userPhone}
+                   
                   placeholder='Tel'
                   type='tel'/>
               </Form.Group>
@@ -159,7 +149,7 @@ const UserEdit = (props) => {
                                          <Form.Select fluid options={roleOptions}  label='Rol' placeholder='Rol' name='role' onChange={onSelectChange}/>
               </Form.Group> 
               
-              <Button positive type='submit'>Düzenle</Button> 
+              <Button positive type='submit'>Ekle</Button> 
               <Link className='ui button' to="/Users">
                 <i
                   className="fa fa-backward"
@@ -181,4 +171,4 @@ const UserEdit = (props) => {
 
  
 
-export default UserEdit;
+export default UserAdd;

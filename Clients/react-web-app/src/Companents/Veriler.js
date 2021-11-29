@@ -1,10 +1,31 @@
 import React from "react"; 
 import InputCompanent from '../Companents/InputCompanent';
-
+import rop_axios from '../js/identityServerClient/rop_axios.js';
 class Veriler extends React.Component {
-     
+    constructor(props){
+        super(props);
+        this.state = {
+          data: []
+        }
+      }
+    getData(){
+        setTimeout(async () => { 
+          var inputresponse = await rop_axios.get("/staticdata"); 
+          this.setState({
+            data: inputresponse.data
+          })
+        }, 1000)
+      }
+    
+      componentDidMount(){
+        this.getData();
+      }
       handleOnBlurInput = (value, key ) => { 
           console.log("Değer:  "+ value +" Id:    "+ key) 
+          rop_axios.post(`/staticdata/staticdatas`, {
+           key:key,
+           value:value
+          });
       }
     render() {
         return (

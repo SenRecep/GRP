@@ -1,16 +1,24 @@
-import React from 'react';
+import React,{}from 'react';
 import 'semantic-ui-css/semantic.min.css'
 import {BrowserRouter,Switch, Route} from 'react-router-dom'; 
 import SideBar from './Companents/SideBar'; 
 import Footer from './Companents/Footer'; 
 import Veriler from './Companents/Veriler';
 import Users from './Companents/Users';  
-import GrpHesapla from './Companents/GrpHesapla';
+import GrpHesapla from './Companents/GrpHesapla'; 
 import GrpSonuc from './Companents/GrpSonuc';
-import UserEdit from './Companents/UserEdit';
+import UserEdit from './Companents/UserEdit'; 
+import CalculateContextProvider from './contexts/CalculateContext';
+import Topbar from './Companents/Topbar';
+import GrpListe from './Companents/GrpListe';
+import FirmList from './Companents/FirmList';
+import FirmAdd from './Companents/FirmAdd';
+import FirmEdit from './Companents/FirmEdit';
+import UserAdd from './Companents/UserAdd';
+import Login from './Companents/Login';
 
-
-function App() {  
+const App =()=> {  
+    
     let inputs = [
       {
           "inputId": 1,
@@ -88,41 +96,43 @@ function App() {
     ];
   return (
     <div id="wrapper">
-  <BrowserRouter> 
-  <SideBar/>
-     <div id="content-wrapper" className="d-flex flex-column">
-         <div id="content">
+       { localStorage.getItem('userInfo')=== null ? <Login /> :<BrowserRouter> 
 
-               
-                <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+  
+<CalculateContextProvider>
+<SideBar/>
+   <div id="content-wrapper" className="d-flex flex-column">
+       <div id="content"> 
+    <Topbar/>   
 
-                   
-                    <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
-                        <i className="fa fa-bars"></i>
-                    </button>
-
-                  
-                 
-
-                </nav>
-      <Switch>     
-      <Route exact path="/" component = {GrpHesapla}/>  
-      <Route path="/Veriler"> <Veriler datas={inputs}/> </Route>
-      <Route path="/Users"  component = {Users}/>   
-      <Route path="/UserEdit/:user"  component = {UserEdit}/>    
-      <Route path="/GrpSonuc"  component = {GrpSonuc}/>  
-    </Switch>
-    </div>
-      <Footer></Footer> 
+    <Switch>      
+    <Route exact path="/" component = {GrpListe}/>   
+    <Route path="/GrpHesapla" component = {GrpHesapla}/>   
+    <Route path="/GrpSonuc"  component = {GrpSonuc}/> 
+    <Route path="/FirmList" component = {FirmList}/>  
+    <Route path="/FirmAdd" component = {FirmAdd}/>   
+    <Route path="/FirmEdit/:id"  component = {FirmEdit}/>    
+    <Route path="/Users"  component = {Users}/>   
+    <Route path="/UserAdd"  component = {UserAdd}/>    
+    <Route path="/UserEdit/:user"  component = {UserEdit}/>    
+    <Route path="/Veriler"> <Veriler datas={inputs}/> </Route>
    
-   </div>   
+  </Switch>
+  </div>
+    <Footer></Footer>  
+ </div>   
+ </CalculateContextProvider>
  
-   </BrowserRouter>
+ </BrowserRouter>}
+  
    </div>
   
    
   );
 }
+
+
+
 
 
 export default App;
