@@ -12,6 +12,13 @@ public class CalculationHistoryMap : IEntityTypeConfiguration<CalculationHistory
     {
         builder.EntityBaseMap();
 
+        builder.Property(x=>x.ConstantsHistoryId).IsRequired(false);
+        builder.Property(x=>x.ModuleHistoryId).IsRequired(false);
+        builder.Property(x=>x.ProductHistoryId).IsRequired(false);
+        builder.Property(x=>x.RATHistoryId).IsRequired(false);
+        builder.Property(x=>x.TotalCostHistoryId).IsRequired(false);
+        builder.Property(x=>x.CalculateModelHistories).IsRequired(false);
+
         builder.HasOne(x=>x.ConstantsHistory)
             .WithOne(x=>x.CalculationHistory)
             .HasForeignKey<CalculationHistory>(x=>x.ConstantsHistoryId)

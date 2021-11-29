@@ -6,23 +6,27 @@ using GRP.Shared.DAL.Interfaces;
 
 [Route("api/[controller]")]
 [ApiController]
+[AllowAnonymous]
 public class PlinthController : ControllerBase
 {
     private readonly ICalculateService calculateService;
     private readonly ITransportationService transportationService;
     private readonly IGenericQueryRepository<Constants> genericQueryRepository;
     private readonly IExchangeService exchangeService;
+    private readonly IHistoryService historyService;
 
     public PlinthController(
         ICalculateService calculateService,
         ITransportationService transportationService,
         IGenericQueryRepository<Constants> genericQueryRepository,
-        IExchangeService exchangeService)
+        IExchangeService exchangeService,
+        IHistoryService historyService)
     {
         this.calculateService = calculateService;
         this.transportationService = transportationService;
         this.genericQueryRepository = genericQueryRepository;
         this.exchangeService = exchangeService;
+        this.historyService = historyService;
     }
 
 
@@ -44,7 +48,7 @@ public class PlinthController : ControllerBase
             var response = await calculateService.CalculateAsync(constantsModel, item);
             calculateResponses.Add(response);
         }
-
+        await historyService.SaveAsync(model, calculateResponses);
         return Response<ICollection<CalculateResponse>>
             .Success(calculateResponses, StatusCodes.Status200OK)
             .CreateResponseInstance();

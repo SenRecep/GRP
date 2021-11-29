@@ -84,7 +84,6 @@ public class EfGenericCommandRepository<T> : IGenericCommandRepository<T>
         else
             await dbContextTransaction.RollbackAsync();
 
-        await DisposeAsync();
         return commitState;
     }
     #endregion

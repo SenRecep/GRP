@@ -69,6 +69,7 @@ public static class MicrosoftIocExtension
 
         services.AddScoped<ICalculateService, CalculateManager>();
         services.AddScoped<ITransportationService, TransportationManager>();
+        services.AddScoped<IHistoryService, HistoryManager>();
 
         #endregion
 

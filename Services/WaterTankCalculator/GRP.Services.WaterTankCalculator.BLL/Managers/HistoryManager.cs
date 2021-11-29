@@ -28,18 +28,20 @@ public class HistoryManager : IHistoryService
     {
         var history = new CalculationHistory();
         await calculationHistoryRepository.AddAsync(history);
-        var productDefaults = await productDefaultGenericRepository.GetAllAsync();
-        foreach (var calculate in calculateResponses)
-        {
-            var calculateModelHistory = mapper.Map<CalculateModelHistory>(calculate.CalculateModel);
-            var constantsHistory = mapper.Map<ConstantsHistory>(calculate.ConstantsModel);
-            var products = calculate.ProductGroup.ObjectToTList<Product>();
-            foreach (var product in products)
-            {
-                var defaultRecord = productDefaults.Where(x => x.Key == product.Key).FirstOrDefault();
-                var productHistory = mapper.Map<ProductHistory>(product.Value);
-                productHistory.ProductDefault = defaultRecord;
-            }
-        }
+        await calculationHistoryRepository.Commit();
+        await calculationHistoryRepository.DisposeAsync();
+        //var productDefaults = await productDefaultGenericRepository.GetAllAsync();
+        //foreach (var calculate in calculateResponses)
+        //{
+        //    var calculateModelHistory = mapper.Map<CalculateModelHistory>(calculate.CalculateModel);
+        //    var constantsHistory = mapper.Map<ConstantsHistory>(calculate.ConstantsModel);
+        //    var products = calculate.ProductGroup.ObjectToTList<Product>();
+        //    foreach (var product in products)
+        //    {
+        //        var defaultRecord = productDefaults.Where(x => x.Key == product.Key).FirstOrDefault();
+        //        var productHistory = mapper.Map<ProductHistory>(product.Value);
+        //        productHistory.ProductDefault = defaultRecord;
+        //    }
+        //}
     }
 }
