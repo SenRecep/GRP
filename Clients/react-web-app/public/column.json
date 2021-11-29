@@ -1,0 +1,137 @@
+{
+    "UserColumn": [
+      {
+        "name": "id",
+        "options": {
+        "display": false
+        }
+      },
+       {
+        "name": "role",
+        "options": {
+         "filter": true,
+        "sort": true
+        }
+      },
+       {
+        "name": "username",
+        "options": {
+        "filter": true,
+        "sort": true
+        }
+      },
+        {
+        "name": "email",
+        "options": {
+        "filter": true,
+        "sort": true
+        }
+      }
+    ],
+    "FirmColumn": [
+       {
+        "name": "id",
+        "options": {
+        "display": false
+        }
+      },
+      {
+      "name": "firmName",
+      "label": "Firma Ünvanı",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+      {
+      "name": "firmGsm",
+      "label": "Firma GSM",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+      {
+      "name": "firmPerson",
+      "label": "Yetkili Kişi",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     }
+      
+    ],
+    "CalculatedColumn": [
+     {
+        "name": "id",
+        "options": {
+        "display": false
+        }
+      },
+      {
+      "name": "preparedDate",
+      "label": "Hazırlanma Tarihi",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+     {
+      "name": "preparedBy",
+      "label": "Hazırlayan Kullanıcı",
+      "options": {
+        "filter": true,
+        "sort": true
+      }
+     },
+     {
+      "name": "baseType",
+      "label": "Kaide Türü",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+     {
+      "name": "x",
+      "label": "En",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+     {
+      "name": "y",
+      "label": "Boy",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+     {
+      "name": "z",
+      "label": "Yükseklik",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+     
+     {
+      "name": "paymentType",
+      "label": "Ödeme Türü",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+     {
+      "name": "firm",
+      "label": "Teklif Yapılan Firma",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     }
+    ]
+  }
