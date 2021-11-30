@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -33,6 +35,16 @@ namespace GRP.IdentityServer.Controllers
             this.userManager = userManager;
             this.mapper = mapper;
         }
+
+
+        [HttpGet]
+        public IActionResult GetUsers()
+        {
+            var users = userManager.Users.ToList();
+            var mapping = mapper.Map<IEnumerable<ApplicationUserDto>>(users);
+            return Response<IEnumerable<ApplicationUserDto>>.Success(mapping).CreateResponseInstance();
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)

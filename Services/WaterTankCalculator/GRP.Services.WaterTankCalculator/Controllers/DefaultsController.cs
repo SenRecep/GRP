@@ -8,7 +8,6 @@ namespace GRP.Services.WaterTankCalculator.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[AllowAnonymous]
 public class DefaultsController : ControllerBase
 {
     private readonly IDefaultService defaultService;

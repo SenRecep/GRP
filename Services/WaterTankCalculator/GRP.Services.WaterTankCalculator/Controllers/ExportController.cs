@@ -1,5 +1,4 @@
-﻿using IronPdf;
-
+﻿
 using System.Drawing;
 
 namespace GRP.Services.WaterTankCalculator.Controllers;
@@ -15,31 +14,12 @@ public class ExportController : ControllerBase
     {
         this.webHostEnvironment = webHostEnvironment;
     }
-    static void LoadImage(string root, string name, ref string htmlcontent)
-    {
-        var image = Path.Combine(root, "Template", name);
-        string uri = IronPdf.Imaging.ImageUtilities.ImageToDataUri(Image.FromFile(image));
-        htmlcontent.Replace(name, uri);
-    }
-    [HttpGet]
-    public IActionResult Get()
-    {
-        var templatePath = Path.Combine(webHostEnvironment.WebRootPath, "Template", "withbootstrap.html");
-        var htmlContent = System.IO.File.ReadAllText(templatePath);
-        //LoadImage(webHostEnvironment.WebRootPath, "ce.png", ref htmlContent);
-        //LoadImage(webHostEnvironment.WebRootPath, "Iso.png", ref htmlContent);
-        //LoadImage(webHostEnvironment.WebRootPath, "logo.png", ref htmlContent);
-        //LoadImage(webHostEnvironment.WebRootPath, "tse.png", ref htmlContent);
-        //LoadImage(webHostEnvironment.WebRootPath, "wras.png", ref htmlContent);
 
-        var Renderer = new IronPdf.ChromePdfRenderer();
-        Renderer.RenderingOptions.CssMediaType = PdfPrintOptions.PdfCssMediaType.Print;
-        var PDF = Renderer.RenderHtmlAsPdf(htmlContent);
-        var path = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{Guid.NewGuid()}.pdf");
-        PDF.SaveAs(path);
-
+    [HttpGet("{id:guid}")]
+    public IActionResult Get(Guid id)
+    { 
+        var path = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{id}.html");
         var stream = System.IO.File.OpenRead(path);
-        var contentType = "application/pdf";
-        return File(stream, contentType, "Exports.pdf");
+        return File(stream, "text/html", "Exports.html");
     }
 }
