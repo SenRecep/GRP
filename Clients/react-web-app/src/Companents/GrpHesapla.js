@@ -11,19 +11,32 @@ import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import MUIDataTable from "mui-datatables";
 import axios from 'axios';
+import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { Link } from "react-router-dom";
 const GrpHesapla=(props)=> { 
-  
- 
+  const [firmData, setFirmData] = useState([]);
+  useEffect(() => {
+    const getFirmData = async () => {
+        var companyResponse = await rop_axios.get("/company/companies");
+        console.log(companyResponse);
+        setFirmData(companyResponse.data);
+        
+    };
+
+    getFirmData();
+}, []);
+    let firmOptions=firmData.map(item=>({
+      key:Math.random(), text: item.title, value:item.id
+    }))
     const { calculateData, addData, deleteData, postData } = useContext(CalculateContext); 
   
       const onDeleteData=(id) => {  
         deleteData(id);
       }
       const triggerPostData=()=>{
-        postData();
+        postData(firrmSelectInput.companyId,paymentSelectInput.paymentSelectValue);
       }
-      const theme = createTheme();
+      let theme = createTheme();
       theme = responsiveFontSizes(theme);
       const options = {  
         download: false,
@@ -37,7 +50,7 @@ const GrpHesapla=(props)=> {
           }
         },
         {
-          name: "unit",
+          name: "quantity",
           label: "Adet",
           options: {
             filter: true,
@@ -45,7 +58,7 @@ const GrpHesapla=(props)=> {
            }
          },
          {
-          name: "basetype",
+          name: "plinthType",
           label: "Kaide Tipi",
           options: {
             customBodyRender: (value, tableMeta, updateValue) => { 
@@ -61,7 +74,7 @@ const GrpHesapla=(props)=> {
         }
          },
          {
-          name: "x",
+          name: "width",
           label: "En",
           options: {
             filter: true,
@@ -69,7 +82,7 @@ const GrpHesapla=(props)=> {
            }
          },
          {
-          name: "y",
+          name: "length",
           label: "Boy",
           options: {
             filter: true,
@@ -77,7 +90,7 @@ const GrpHesapla=(props)=> {
            }
          },
          {
-            name: "z",
+            name: "height",
             label: "Yükseklik",
             options: {
               filter: true,
@@ -85,16 +98,22 @@ const GrpHesapla=(props)=> {
              }
            },
            {
-            name: "paymenttype",
+            name: "paymentType",
             label: "Ödeme Şekli",
             options: {
               customBodyRender: (value, tableMeta, updateValue) => { 
                  
+                console.log("payment type", tableMeta.rowData);
                 
                   return (
                    
                     <>
-                    {tableMeta.rowData[6]==='0'?'30/60 Gün Vadeli':'90/120 Gün Vadeli'}
+                    {
+                     tableMeta.rowData[6]==='0'?"Peşin": 
+                     tableMeta.rowData[6]==='1'?"30 gün":
+                     tableMeta.rowData[6]==='2'?"30/60 gün":
+                     tableMeta.rowData[6]==='3'?"90/120 gün":""
+                    }
                     </>
                   )
               }
@@ -122,8 +141,10 @@ const GrpHesapla=(props)=> {
         { key: 'd', text: 'Düz Kaide', value: '1' }, 
       ]
       const paymentoptions = [
-        { key: '3060', text: '30/60 Gün Vadeli', value: '0' },
-        { key: '90120', text: '90/120 Gün Vadeli', value: '1' }, 
+        { key: '3060', text: 'Peşin', value: '0' },
+        { key: '90120', text: '30 Gün', value: '1' },
+        { key: '30601', text: '30/60 Gün Vadeli', value: '2' },
+        { key: '901201', text: '90/120 Gün Vadeli', value: '3' }, 
       ]
     const [inputValidate, setinputValidate] = useState({ 
         type:null,
@@ -134,10 +155,15 @@ const GrpHesapla=(props)=> {
       const [selectInput, setSelectInput] = useState({ 
         selectValue:''
       });
+      const [firrmSelectInput, setfirrmSelectInput] = useState({ 
+        companyId:''
+      });
       const [paymentSelectInput, setPaymentSelectInput] = useState({  
         paymentSelectValue:''
       });
-
+      const onFirmSelectChange = (evt, data) => { 
+        setfirrmSelectInput({companyId:data.value}); 
+     }
 
 
       const onSelectChange = (evt, data) => { 
@@ -165,7 +191,7 @@ const GrpHesapla=(props)=> {
                 x:x,
                 y:y,
                 z:z,
-                paymenttype:paymentSelectInput.paymentSelectValue
+                paymentType:paymentSelectInput.paymentSelectValue
              }
             addData(data)
             // axios.post(`https://localhost:5102/api/plinth`, {
@@ -278,6 +304,9 @@ const GrpHesapla=(props)=> {
                                     </Form.Group>
                                     <Form.Group width={8}>
                                         <Form.Select fluid options={paymentoptions}  label='Ödeme Şekli' placeholder='Ödeme Şekli' name='paymenttype' onChange={onPaymentSelectChange}/>
+                                    </Form.Group>
+                                    <Form.Group width={8}>
+                                        <Form.Select fluid options={firmOptions}  label='Firma Seç' placeholder='Firma Seç' name='compnyId' onChange={onFirmSelectChange}/>
                                     </Form.Group>
                                     <Button positive type='submit'>Ekle</Button> 
                                     <a onClick={triggerPostData} className="ui violet button">Hesapla</a>

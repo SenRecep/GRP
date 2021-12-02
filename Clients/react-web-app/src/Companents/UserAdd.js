@@ -3,40 +3,47 @@ import {Button, Form, Input, Message} from 'semantic-ui-react';
 import axios from 'axios';
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { Link } from "react-router-dom";
-
+import identityServerRequest from '../js/identityServerClient/identityServerRequest.js';
+const requester = new identityServerRequest(); 
 const UserAdd = (props) => {
     const [inputValidate, setinputValidate] = useState({type: null, visible: false, validateMessage: null, header: null});
-    const [selectRole, setSelectRole] = useState(null);
+    // const [selectRole, setSelectRole] = useState(null);
     
     
-  const onSelectChange = (evt, data) => { 
-    setSelectRole({selectRole:data.value}); 
-   }
-  const roleOptions = [
-    { key: 'a', text: 'Yönetici', value: '0' },
-    { key: 'f', text: 'Muhasebe', value: '1' }, 
-    { key: 'm', text: 'Mühendis', value: '2' }, 
-  ]
+  // const onSelectChange = (evt, data) => { 
+  //   setSelectRole({selectRole:data.value}); 
+  //  }
+  // const roleOptions = [
+  //   { key: 'a', text: 'Yönetici', value: '0' },
+  //   { key: 'f', text: 'Muhasebe', value: '1' }, 
+  //   { key: 'm', text: 'Mühendis', value: '2' }, 
+  // ]
   const handleSubmit = (event) => {
     event.preventDefault();
     const {target} = event;
     valideteForm(target)
   };
-  const valideteForm=async (targets)=>{
-        
-    if(targets.firstName.value!==''&& targets.lastName.value!==''&& targets.userName.value!==''&& targets.userMail.value!==''&& targets.userPhone.value!==''&& targets.role.value!=='')
+  const valideteForm=async (targets)=>{ 
+    await requester.connectTokenAsync();
+    if(targets.firstName.value!==''&& targets.lastName.value!==''&& targets.userName.value!==''&& targets.mail.value!==''&& targets.userPhone.value!=='' && targets.identityNumber.value!=='' && targets.address.value!=='')
     {   
          
-         var userResponse=await rop_axios.post(`/user/users`, {
+      var model={
           firstName:targets.firstName.value,
           lastName:targets.lastName.value,
           userName:targets.userName.value,
-          userMail:targets.userMail.value,
-          userPhone:targets.userPhone.value,
-          role:selectRole,
+          email:targets.mail.value,
+          phoneNumber:targets.userPhone.value,
+          identityNumber:targets.identityNumber.value,
+          address:targets.address.value,
+          // role:selectRole,
           password:targets.password.value
-        });
+      }
+    
+      var userResponse = await requester.signUpAsync(model);
+ 
         if(userResponse.error!==null){
+          console.log(userResponse)
           setinputValidate({
             type:'error',
             visible:true,
@@ -45,6 +52,7 @@ const UserAdd = (props) => {
         })
         }
         else {
+          console.log(userResponse)
           setinputValidate({
             type:'success',
             visible:true, 
@@ -113,6 +121,22 @@ const UserAdd = (props) => {
               <Form.Group width={12}>
                 <Form.Field
                   control={Input}
+                  label='Tc Kimlik'
+                  name='identityNumber'
+                  placeholder='Tc Kimlik'
+                  type='text'/>
+              </Form.Group>
+              <Form.Group width={12}>
+                <Form.Field
+                  control={Input}
+                  label='Adres'
+                  name='address'
+                  placeholder='Adres'
+                  type='text'/>
+              </Form.Group>
+              <Form.Group width={12}>
+                <Form.Field
+                  control={Input}
                   label='Kullanıcı Adı'
                   name='userName'
                   
@@ -131,7 +155,7 @@ const UserAdd = (props) => {
                 <Form.Field
                   control={Input}
                   label='E-mail'
-                  name='userMail'
+                  name='mail'
                   
                   placeholder='E-mail'
                   type='email'/>
@@ -145,10 +169,10 @@ const UserAdd = (props) => {
                   placeholder='Tel'
                   type='tel'/>
               </Form.Group>
-              <Form.Group width={8}>   
+              {/* <Form.Group width={8}>   
                                          <Form.Select fluid options={roleOptions}  label='Rol' placeholder='Rol' name='role' onChange={onSelectChange}/>
               </Form.Group> 
-              
+               */}
               <Button positive type='submit'>Ekle</Button> 
               <Link className='ui button' to="/Users">
                 <i

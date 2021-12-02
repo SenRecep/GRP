@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {Link} from 'react-router-dom';   
-import logo from '../logo.svg';
+import logo from '../logo.png';
 const SideBar=()=>{ 
         return (
             <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">

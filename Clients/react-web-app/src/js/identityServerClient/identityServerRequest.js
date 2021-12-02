@@ -100,7 +100,15 @@ class identityServerRequest {
             return result;
         });
     }
-
+    async getUsers() {
+        const currentToken = store.get("webClientToken").access_token;
+        const config = this.setBearerToken(currentToken);
+        config.headers["Content-Type"] = "application/json";
+        return CenteralRequest.request(async () => {
+            var result = await axios.get('/api/user/getusers', config);
+            return result;
+        });
+    }
     async signOutAsync() {
        // await this.revokeRefreshTokenAsync();
         store.remove('token');

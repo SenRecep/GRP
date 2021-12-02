@@ -9,7 +9,7 @@ const FirmEdit = (props) => {
     useEffect(() => {
       const getFirmData = async () => {
         let id=props.match.params.id 
-        let res= await rop_axios.get(`/company/companies/getFirm/${id}`); 
+        let res= await rop_axios.get(`/company/companies/${id}`); 
           setFirmData(res.data);
       };
   
@@ -22,7 +22,7 @@ const FirmEdit = (props) => {
   };
   const valideteForm=async (targets)=>{
         
-    if(targets.firmGsm.value!==''&& targets.title.value!==''&& targets.phone.value!==''&& targets.fax.value!==''&& targets.mail.value!==''&& targets.address.value!==''&& targets.taxAdministration.value!==''&& targets.taxNumber.value!==''&& targets.authorizedPerson.value!=='' && targets.currentAccountCode.value!==''  )
+    if(targets.title.value!==''&& targets.phone.value!==''&& targets.fax.value!==''&& targets.mail.value!==''&& targets.address.value!==''&& targets.taxAdministration.value!==''&& targets.taxNumber.value!==''&& targets.authorizedPerson.value!=='' && targets.currentAccountCode.value!==''  )
     {   
        
     
@@ -137,17 +137,18 @@ const FirmEdit = (props) => {
               <Form.Group width={12}>
                 <Form.Field
                   control={Input}
-                  label='Firma Adres'
+                  label='Cari Kodu'
                   name='currentAccountCode'
                   defaultValue={firmData.currentAccountCode}
-                  placeholder='Firma Adres'
+                  placeholder='Cari Kodu'
                   type='text'/>
               </Form.Group>
+              
               <Form.Group width={12}>
                 <Form.Field
                   control={Input}
                   label='Firma Adres'
-                  name='firmAdress'
+                  name='address'
                   defaultValue={firmData.address}
                   placeholder='Firma Adres'
                   type='text'/>
@@ -179,7 +180,7 @@ const FirmEdit = (props) => {
                   placeholder='Firma Yetkili Kişi'
                   type='text'/>
               </Form.Group>
-              <Button positive type='submit'>Ekle</Button> 
+              <Button positive type='submit'>Kaydet</Button> 
               <Link className='ui button' to="/FirmList">
                 <i
                   className="fa fa-backward"
