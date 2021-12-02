@@ -1,4 +1,7 @@
-﻿using GRP.Services.WaterTankCalculator.BLL.Models;
+﻿#nullable disable
+using AutoMapper;
+
+using GRP.Services.WaterTankCalculator.BLL.Models;
 using GRP.Services.WaterTankCalculator.DAL.Concrete.EntityFrameworkCore.Contexts;
 using GRP.Services.WaterTankCalculator.Entities.Enums;
 
@@ -13,31 +16,36 @@ namespace GRP.Services.WaterTankCalculator.Controllers
     public class HistoryController : ControllerBase
     {
         private readonly WaterTankCalculatorDbContext context;
+        private readonly IMapper mapper;
         private readonly ICompanyService companyService;
 
         public HistoryController(
             WaterTankCalculatorDbContext context,
+            IMapper mapper,
                 ICompanyService companyService)
         {
             this.context = context;
+            this.mapper = mapper;
             this.companyService = companyService;
         }
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var histories = await context.CalculationHistories.ToListAsync();
+            var histories = await context.CalculationHistories.Include(x=>x.ConstantsHistory).ToListAsync();
             var companies = await companyService.GetCompanies();
             var response = histories.Select(history =>
             {
                 var company = companies.FirstOrDefault(x => x.Id == history.CompnyId);
                 return new CalculateHistoryWithDateResponse()
                 {
+                    Id=history.Id,
                     Time=history.CreatedTime,
                     Company = company?.Title,
                     PaymentType = history.PaymentType,
                     FullTotal = history.FullTotal,
                     KDV = history.KDV,
-                    Total = history.Total
+                    Total = history.Total,
+                    Constants= mapper.Map<ConstantsModel>(history.ConstantsHistory)
                 };
             });
             return Response<IEnumerable<CalculateHistoryWithDateResponse>>.Success(response).CreateResponseInstance();
@@ -47,6 +55,7 @@ namespace GRP.Services.WaterTankCalculator.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var history = await context.CalculationHistories
+                .Include(x => x.ConstantsHistory)
                .Include(x => x.CalculateModelHistories)
                .ThenInclude(x => x.TotalCostHistory)
                .Include(x => x.CalculateModelHistories)
@@ -70,12 +79,14 @@ namespace GRP.Services.WaterTankCalculator.Controllers
             });
             return Response<CalculateHistoryResponse>.Success(new CalculateHistoryResponse()
             {
+                Id=id,
                 Company = company.Title,
                 Tanks = tanks,
                 PaymentType = history.PaymentType,
                 FullTotal = history.FullTotal,
                 KDV = history.KDV,
-                Total = history.Total
+                Total = history.Total,
+                Constants = mapper.Map<ConstantsModel>(history.ConstantsHistory)
             }).CreateResponseInstance();
         }
 

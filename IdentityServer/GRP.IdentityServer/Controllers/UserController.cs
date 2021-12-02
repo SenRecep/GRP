@@ -36,7 +36,6 @@ namespace GRP.IdentityServer.Controllers
             this.mapper = mapper;
         }
 
-
         [HttpGet]
         public IActionResult GetUsers()
         {
@@ -44,7 +43,6 @@ namespace GRP.IdentityServer.Controllers
             var mapping = mapper.Map<IEnumerable<ApplicationUserDto>>(users);
             return Response<IEnumerable<ApplicationUserDto>>.Success(mapping).CreateResponseInstance();
         }
-
 
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)

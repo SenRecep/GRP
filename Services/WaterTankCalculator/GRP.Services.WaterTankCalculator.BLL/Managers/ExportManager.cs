@@ -1,4 +1,5 @@
-﻿using GRP.Services.WaterTankCalculator.BLL.Interfaces;
+﻿#nullable disable
+using GRP.Services.WaterTankCalculator.BLL.Interfaces;
 using GRP.Services.WaterTankCalculator.DAL.Concrete.EntityFrameworkCore.Contexts;
 using GRP.Services.WaterTankCalculator.Entities.Enums;
 
@@ -21,7 +22,7 @@ public class ExportManager : IExportService
     }
     public async Task CreateAsync(Guid id)
     {
-        var templatePath = Path.Combine(webHostEnvironment.WebRootPath, "Template", "withbootstrap.html");
+        var templatePath = Path.Combine(webHostEnvironment.WebRootPath, "Templates", "withbootstrap.html");
         var htmlContent = File.ReadAllText(templatePath);
         var path = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{id}.html");
         var history = await context.CalculationHistories

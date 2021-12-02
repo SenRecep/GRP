@@ -1,5 +1,6 @@
 ﻿
-using System.Drawing;
+
+using SelectPdf;
 
 namespace GRP.Services.WaterTankCalculator.Controllers;
 
@@ -19,7 +20,15 @@ public class ExportController : ControllerBase
     public IActionResult Get(Guid id)
     { 
         var path = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{id}.html");
-        var stream = System.IO.File.OpenRead(path);
-        return File(stream, "text/html", "Exports.html");
+        var content = System.IO.File.ReadAllText(path);
+        HtmlToPdf converter = new();
+        converter.Options.PdfPageSize = PdfPageSize.A4;
+        converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+        PdfDocument doc = converter.ConvertHtmlString(content);
+        var ms= new MemoryStream();
+        doc.Save(ms);
+        doc.Close();
+        ms.Position = 0;
+        return File(ms, "application/pdf", "Exports.pdf");
     }
 }
