@@ -8,23 +8,23 @@ import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import MUIDataTable from "mui-datatables";   
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { Link } from "react-router-dom";
+import identityServerRequest from '../js/identityServerClient/identityServerRequest.js';
+import "../../src/App.css";
+const requester = new identityServerRequest(); 
 const Users=(props)=> {
   const [usersData, setusersData] = useState([]);
-  useEffect(() => {
+  useEffect(async () => {
     const getUsersData = async () => {
-      var userResponse = await rop_axios.get("/company/companies");
-      console.log(userResponse); 
-        if(userResponse.error!==null)
-        {
-            setusersData(userResponse.data);
-        }
+      await requester.connectTokenAsync();
+      var userResponse = await requester.getUsers(); 
+      setusersData(userResponse.data); 
     };
 
-    getUsersData();
+    await getUsersData();
 }, []);
 
 const refreshUsersData= async ()  => { 
-  var userResponse = await rop_axios.get("/company/companies");
+  var userResponse = await requester.getUsers();
   console.log(userResponse); 
     if(userResponse.error!==null)
     {
@@ -32,13 +32,13 @@ const refreshUsersData= async ()  => {
     }
   }
   const redirectEditUser= (id)  => { 
-    props.history.push(`/UserEdit/${id}`)
+    //props.history.push(`/UserEdit/${id}`)
   }
  
  const deleteUser=async (id) => { 
-  var userDeleteResponse = await rop_axios.delete(`/company/companies/${id}`);
-  console.log(userDeleteResponse)
-    refreshUsersData(); 
+  //var userDeleteResponse = await rop_axios.delete(`/company/companies/${id}`);
+  console.log(id)
+  refreshUsersData(); 
   }
 
    
@@ -56,6 +56,14 @@ const refreshUsersData= async ()  => {
      }
    },
    {
+    "name": "userName",
+    "label": "K.Adı",
+    "options": {
+      "filter": true,
+      "sort": true
+      }
+   },
+   {
     "name": "firstName",
     "label": "Ad",
     "options": {
@@ -63,38 +71,47 @@ const refreshUsersData= async ()  => {
       "sort": true
       }
    },
+   
    {
-    "name": "lastName",
-    "label": "Soyad",
+   "name": "lastName",
+   "label": "Soyad",
+   "options": {
+     "filter": true,
+     "sort": true
+     }
+  },
+  {
+    "name": "identityNumber",
+    "label": "TC",
     "options": {
       "filter": true,
       "sort": true
       }
    },
    {
-   "name": "userName",
-   "label": "Kullanıcı Adı",
+   "name": "address",
+   "label": "Adres",
    "options": {
      "filter": true,
      "sort": true
      }
   },
    {
-   "name": "userMail",
-   "label": "E-Mail",
+   "name": "phoneNumber",
+   "label": "Tel",
    "options": {
      "filter": true,
      "sort": true
      }
   },
-   {
-   "name": "userPhone",
-   "label": "Yetkili Kişi",
-   "options": {
-     "filter": true,
-     "sort": true
-     }
-  },
+  {
+    "name": "email",
+    "label": "Email",
+    "options": {
+      "filter": true,
+      "sort": true
+      }
+   },
   {
     name: "Actions",
     label: "Durum",
@@ -103,7 +120,7 @@ const refreshUsersData= async ()  => {
             return (
              
               <>
-              <Button className="action-btn" onClick={() => redirectEditUser(tableMeta.rowData[0])} circular primary icon='edit' />
+              {/* <Button className="action-btn disable" disable onClick={() => redirectEditUser(tableMeta.rowData[0])} circular primary icon='edit' /> */}
               <Modal trigger={ <Button className="action-btn" circular negative icon='trash' />} header='Dikkat!' content={`${tableMeta.rowData[1]} silmek istediğinizden emin misiniz?`} actions={['İptal', { key: 'done', content: 'Sil', negative: true, onClick:() => deleteUser(tableMeta.rowData[0])}]} /> 
               </>
             )
@@ -113,7 +130,7 @@ const refreshUsersData= async ()  => {
    
  ];
  return(
-  
+
 
 <div className="container-fluid">
 
@@ -127,15 +144,17 @@ const refreshUsersData= async ()  => {
                     <div className="card shadow mb-4"> 
                       
                         <div className="card-body">
-                          
-                            <div className="row">
-
-                             <Link className="ui positive button"  to="/UserAdd" style={{marginLeft:'.6em',marginBottom:'.6em'}}>
+                          <div className="row">
+                            
+                          <Link className="ui positive button"  to="/UserAdd" style={{marginLeft:'.6em',marginBottom:'.6em'}}>
   <i className="fa fa-plus"></i> Kullanıcı Ekle
  </Link>
+                          </div>
+                            <div className="row">
+
  <ThemeProvider theme={theme} >
 
-   <MUIDataTable title={"Kullanıcı Listesi"} data={usersData} columns={columns} options={options} />
+   <MUIDataTable title={"Kullanıcı Listesi"} data={usersData} columns={columns} options={options} style={{width:'100%'}}/>
 </ThemeProvider>
                             </div>
                             

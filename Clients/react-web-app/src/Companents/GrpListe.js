@@ -8,12 +8,13 @@ import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import MUIDataTable from "mui-datatables";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import "../../src/App.css";
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 const GrpListe=(props)=> {
   const [calculatedData, setCalculatedData] = useState([]);
    useEffect(() => {
     const getCalculatedData = async () => {
-      var res = await rop_axios.get("/watertankcalculator/");  
+      var res = await rop_axios.get("watertankcalculator/history");  
       console.log(res);
       setCalculatedData(res.data);
     }; 
@@ -24,7 +25,7 @@ const GrpListe=(props)=> {
     //props.history.push(`/GrpHesaplaEdit/${id}`)
   }
   const refreshData= async (id)  => { 
-    var res = await rop_axios.get("/watertankcalculator/");  
+    var res = await rop_axios.get("/History");  
     console.log(res);
     setCalculatedData(res.data);
   }
@@ -44,54 +45,38 @@ const GrpListe=(props)=> {
        }
      },
      {
-     "name": "preparedDate",
+     "name": "time",
      "label": "Hazırlanma Tarihi",
      "options": {
        "filter": true,
        "sort": true
        }
-    },
+    }, 
     {
-     "name": "preparedBy",
-     "label": "Hazırlayan Kullanıcı",
-     "options": {
-       "filter": true,
-       "sort": true
-     }
-    },
-    {
-     "name": "baseType",
-     "label": "Kaide Türü",
-     "options": {
-       "filter": true,
-       "sort": true
-       }
-    },
-    {
-     "name": "x",
-     "label": "En",
-     "options": {
-       "filter": true,
-       "sort": true
-       }
-    },
-    {
-     "name": "y",
-     "label": "Boy",
-     "options": {
-       "filter": true,
-       "sort": true
-       }
-    },
-    {
-     "name": "z",
-     "label": "Yükseklik",
-     "options": {
-       "filter": true,
-       "sort": true
-       }
-    },
-    
+      "name": "total",
+      "label": "Ara Toplam",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+     {
+      "name": "fullTotal",
+      "label": "Ara Toplam",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
+      
+     {
+      "name": "kdv",
+      "label": "KDV",
+      "options": {
+        "filter": true,
+        "sort": true
+        }
+     },
     {
      "name": "paymentType",
      "label": "Ödeme Türü",
@@ -101,28 +86,28 @@ const GrpListe=(props)=> {
        }
     },
     {
-     "name": "firm",
+     "name": "company",
      "label": "Teklif Yapılan Firma",
      "options": {
        "filter": true,
        "sort": true
        }
     },
-    {
-      name: "Actions",
-      label: "Durum",
-      options: {
-          customBodyRender: (value, tableMeta, updateValue) => { 
-            console.log(tableMeta.rowData[0])
-              return (
+    // {
+    //   name: "Actions",
+    //   label: "Durum",
+    //   options: {
+    //       customBodyRender: (value, tableMeta, updateValue) => { 
+    //         console.log(tableMeta.rowData[0])
+    //           return (
                
-                <> 
-                 <Button className="action-btn disable" onClick={() =>redirectEditCalculate(tableMeta.rowData[0])} circular primary icon='edit' />
-                </>
-              )
-          }
-      }
-    }
+    //             // <> 
+    //             //  <Button className="action-btn disable" onClick={() =>redirectEditCalculate(tableMeta.rowData[0])} circular primary icon='edit' />
+    //             // </>
+    //           )
+    //       }
+    //   }
+    // }
    ]
  return(
   
@@ -139,12 +124,14 @@ const GrpListe=(props)=> {
                     <div className="card shadow mb-4"> 
                       
                         <div className="card-body">
-                          
-                            <div className="row">
-
-                             <Link className="ui positive button"  to="/GrpHesapla" style={{marginLeft:'.6em',marginBottom:'.6em'}}>
+                          <div className="row">
+                            
+                          <Link className="ui positive button"  to="/GrpHesapla" style={{marginLeft:'.6em',marginBottom:'.6em'}}>
   <i className="fa fa-plus"></i> GRP Depo Hesapla
  </Link>
+                          </div>
+                            <div className="row">
+
  <ThemeProvider theme={theme} >
 
    <MUIDataTable title={"Teklif Gönderilmiş Depolar"} data={calculatedData} columns={columns} options={options} />

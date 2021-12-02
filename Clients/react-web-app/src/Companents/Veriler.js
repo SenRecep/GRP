@@ -10,9 +10,9 @@ class Veriler extends React.Component {
       }
     getData(){
         setTimeout(async () => { 
-          var inputresponse = await rop_axios.get("/staticdata"); 
+          var inputresponse = await rop_axios.get("/watertankcalculator/Defaults"); 
           this.setState({
-            data: inputresponse.data
+            data: inputresponse.data.products
           })
         }, 1000)
       }
@@ -22,10 +22,10 @@ class Veriler extends React.Component {
       }
       handleOnBlurInput = (value, key ) => { 
           console.log("Değer:  "+ value +" Id:    "+ key) 
-          rop_axios.post(`/staticdata/staticdatas`, {
-           key:key,
-           value:value
-          });
+          // rop_axios.post(`/staticdata/staticdatas`, {
+          //  key:key,
+          //  value:value
+          // });
       }
     render() {
         return (
@@ -46,9 +46,9 @@ class Veriler extends React.Component {
                                       
                                         <div className="card-body">
                                         {
-            this.props.datas.map(el=>{
+            this.state.data.map(el=>{
                
-              return <InputCompanent  key={el.inputId} inputId ={el.inputId} inputUUID={el.inputUUID}  options={el.options}    defaultValue={el.defaultValue} inputName={el.inputName} type={el.inputType} label={el.label} value={el.value} parentHandler={this.handleOnBlurInput} radios={el.radios} question={el.question}/>
+              return <InputCompanent  key={el.key} inputId ={el.id} inputUUID={el.id}     defaultValue={el.unitPrice} inputName={el.inputName} type={'number'} label={el.name} value={el.unitPrice} parentHandler={this.handleOnBlurInput} />
             })
 
           }

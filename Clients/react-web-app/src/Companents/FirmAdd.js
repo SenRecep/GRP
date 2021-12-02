@@ -14,7 +14,7 @@ const FirmAdd = (props) => {
   };
   const valideteForm=async (targets)=>{
         
-    if(targets.firmGsm.value!==''&& targets.title.value!==''&& targets.phone.value!==''&& targets.fax.value!==''&& targets.mail.value!==''&& targets.address.value!==''&& targets.taxAdministration.value!==''&& targets.taxNumber.value!==''&& targets.authorizedPerson.value!=='' && targets.currentAccountCode.value!==''  )
+    if(targets.title.value!==''&& targets.phone.value!==''&& targets.fax.value!==''&& targets.mail.value!==''&& targets.address.value!==''&& targets.taxAdministration.value!==''&& targets.taxNumber.value!==''&& targets.authorizedPerson.value!=='' && targets.currentAccountCode.value!==''  )
     {   
 
       
@@ -45,6 +45,7 @@ const FirmAdd = (props) => {
           validateMessage:'Üzgünüz Ufak Bir Hata İle Karşılaşıldı.',
           header:'Hata'
       })
+      console.log(companyResponse.error)
       }
       else {
         setinputValidate({
@@ -52,7 +53,12 @@ const FirmAdd = (props) => {
           visible:true, 
           validateMessage:'Başarılı bir şekilde firma cari düzenlendi yönlendiriliyorsunuz..',
           header:'Başarılı'
-      }) 
+          
+      })
+      props.history.push(`/FirmEdit/${companyResponse.data.id}`) 
+
+     
+ 
       }
     } 
     else {
@@ -127,18 +133,11 @@ const FirmAdd = (props) => {
                      placeholder='Firma E-mail'
                      type='email'/>
                 </Form.Group>
-                <Form.Group width={12}>
-                  <Form.Field
-                    control={Input}
-                    label='Firma E-mail'
-                    name='firmMail'
-                    placeholder='Firma E-mail'
-                    type='email'/>
-                </Form.Group>
+                 
                 <Form.Group width={12}>
                   <Form.Field
                      control={Input}
-                     label='Firma Adres'
+                     label='Cari Kodu'
                      name='currentAccountCode' 
                      placeholder='Firma Adres'
                      type='text'/>
@@ -147,7 +146,7 @@ const FirmAdd = (props) => {
                   <Form.Field
                    control={Input}
                    label='Firma Adres'
-                   name='firmAdress' 
+                   name='address' 
                    placeholder='Firma Adres'
                    type='text'/>
                 </Form.Group>
@@ -161,12 +160,13 @@ const FirmAdd = (props) => {
                 </Form.Group>
                 <Form.Group width={12}>
                   <Form.Field
-                    control={Input}
-                    label='Firma Vergi Dairesi'
-                    name='taxAdministration' 
-                    placeholder='Firma Vergi Dairesi'
-                    type='text'/>
+                     control={Input}
+                     label='Firma Vergi NO'
+                     name='taxNumber' 
+                     placeholder='Firma Vergi NO'
+                     type='text'/>
                 </Form.Group>
+               
                 <Form.Group width={12}>
                 <Form.Field
                   control={Input}

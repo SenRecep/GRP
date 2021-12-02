@@ -21,7 +21,7 @@ axiosApiInstance.interceptors.request.use(
         return config;
     },
     error => {
-        Promise.reject(error)
+        return CenteralRequest.errorResponse(error);
     });
 
 axiosApiInstance.interceptors.response.use((response) => {
@@ -34,7 +34,7 @@ axiosApiInstance.interceptors.response.use((response) => {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token.access_token;
         return axiosApiInstance(originalRequest);
     }
-    return CenteralRequest.successResponse(error);
+    return CenteralRequest.errorResponse(error);
 });
 
 // module.exports = axiosApiInstance;
