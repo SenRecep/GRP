@@ -42,7 +42,8 @@ try
     });
 
     builder.Services.AddHttpClient<TokenExchangeDelegateHandler>();
-    builder.Services.AddOcelot().AddDelegatingHandler<TokenExchangeDelegateHandler>();
+    //builder.Services.AddOcelot().AddDelegatingHandler<TokenExchangeDelegateHandler>();
+    builder.Services.AddOcelot();
     var app = builder.Build();
     app.UseCors("CorsPolicy");
     app.UseCustomExceptionHandler();

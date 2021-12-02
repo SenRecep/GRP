@@ -37,6 +37,7 @@ namespace GRP.Gateway.DelegateHandlers
                 SubjectTokenType = "urn:ietf:params:oauth:token-type:access_token",
                 Scope = "openid watertankcalculator_fullpermission"
             };
+
             //todo scope kismi diger taraftaki api izinleeri olacak
             var token_response = await httpClient.RequestTokenExchangeTokenAsync(tokenExchangeTokenRequest);
             if (token_response.IsError) throw token_response.Exception;

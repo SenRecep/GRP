@@ -78,10 +78,14 @@ public static class MicrosoftIocExtension
 
         services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
+        services.AddScoped<IDefaultService, DefaultManager>();
+        services.AddScoped<IExportService, ExportManager>();
+
+
         #endregion
 
 
-        
+
 
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<ICustomMapper, CustomMapper>();
@@ -92,6 +96,8 @@ public static class MicrosoftIocExtension
         services.AddSetting<ConstantsSetting>(configuration, "constants");
 
         services.AddHttpClient<IExchangeService, ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.genelpara.com/embed/doviz.json"));
+        var companyUrl= environment.GetApiUrl(configuration,"Company");
+        services.AddHttpClient<ICompanyService, CompanyManager>(conf => conf.BaseAddress = new Uri(companyUrl));
     }
 
     public static void AddValidationDependencies(this IMvcBuilder mvcBuilder)
