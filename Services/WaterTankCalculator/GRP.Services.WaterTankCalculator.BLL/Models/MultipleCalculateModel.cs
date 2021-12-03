@@ -6,6 +6,7 @@ namespace GRP.Services.WaterTankCalculator.BLL.Models;
 public record MultipleCalculateModel
 {
     public IEnumerable<CalculateModel> CalculateModels { get; set; }
+
+    public CurrencyType CurrencyType { get; set; }
     public Guid? CompnyId { get; set; }
-    public PaymentType PaymentType { get; set; }
 }

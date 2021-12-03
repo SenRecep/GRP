@@ -2,6 +2,7 @@
 using FluentValidation;
 
 using GRP.IdentityServer.Dtos;
+using GRP.Shared.Core.ExtensionMethods;
 
 namespace GRP.IdentityServer.Validations.FluentValidation
 {
@@ -32,6 +33,10 @@ namespace GRP.IdentityServer.Validations.FluentValidation
             RuleFor(x => x.Email)
                .NotEmpty().WithMessage("Email boş geçilemez")
                .EmailAddress().WithMessage("Email formatı hatalı");
+
+            RuleForEach(x => x.Roles)
+              .NotNull().WithMessage("Roller boş geçilemez")
+              .NotEmpty().WithMessage("Roller boş geçilemez");
         }
     }
 }

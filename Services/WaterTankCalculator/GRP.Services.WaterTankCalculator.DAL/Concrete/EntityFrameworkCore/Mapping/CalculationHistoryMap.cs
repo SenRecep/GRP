@@ -13,8 +13,8 @@ public class CalculationHistoryMap : IEntityTypeConfiguration<CalculationHistory
         builder.EntityBaseMap();
 
         builder.Property(x=>x.CompnyId).IsRequired();
+        builder.Property(x=>x.No).IsRequired().ValueGeneratedOnAdd().UseIdentityColumn();
         builder.Property(x=>x.Total).IsRequired();
-        builder.Property(x=>x.PaymentType).IsRequired();
         builder.Property(x=>x.KDV).IsRequired();
         builder.Property(x=>x.FullTotal).IsRequired();
 

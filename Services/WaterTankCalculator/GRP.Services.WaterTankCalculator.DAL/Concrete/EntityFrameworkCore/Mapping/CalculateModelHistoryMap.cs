@@ -16,6 +16,8 @@ public class CalculateModelHistoryMap : IEntityTypeConfiguration<CalculateModelH
         builder.Property(x => x.Height).IsRequired();
         builder.Property(x => x.Quantity).IsRequired();
         builder.Property(x => x.PlinthType).IsRequired();
+        builder.Property(x => x.PaymentType).IsRequired();
+
 
         builder.HasMany(x => x.ProductHistories)
             .WithOne(x => x.CalculateModelHistory)

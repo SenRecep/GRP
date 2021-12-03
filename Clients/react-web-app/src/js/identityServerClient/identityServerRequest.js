@@ -46,9 +46,7 @@ class identityServerRequest {
         });
     }
     async connectTokenAsync() {
-        const currentToken = store.get("webClientToken");
-        if (currentToken)
-            return ApiResponse.success(currentToken);
+       
 
         const requestData = {
             client_id: clientInfo.WebClient.ClientId,

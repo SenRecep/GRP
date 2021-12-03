@@ -31,7 +31,7 @@ public class HistoryManager : IHistoryService
     public async Task<Guid> SaveAsync(MultipleCalculateModel model, ConstantsModel constantsModel, ICollection<CalculateResponse> calculateResponses)
     {
         var userId = Guid.Parse(sharedIdentityService.GetUserId);
-        var history = new CalculationHistory() { CreatedUserId = userId, CompnyId = model.CompnyId, PaymentType = model.PaymentType };
+        var history = new CalculationHistory() { CreatedUserId = userId, CompnyId = model.CompnyId, CurrencyType = model.CurrencyType };
         await context.AddAsync(history);
         await context.SaveChangesAsync();
 

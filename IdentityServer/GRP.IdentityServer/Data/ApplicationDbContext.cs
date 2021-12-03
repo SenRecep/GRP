@@ -1,9 +1,11 @@
 ﻿using GRP.IdentityServer.Mapping;
 using GRP.IdentityServer.Models;
 
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
+using System;
 
 namespace GRP.IdentityServer.Data
 {

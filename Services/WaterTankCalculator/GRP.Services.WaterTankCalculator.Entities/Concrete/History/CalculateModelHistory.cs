@@ -11,6 +11,8 @@ public class CalculateModelHistory : EntityBase
     public float Height { get; set; }
     public int Quantity { get; set; }
     public PlinthType PlinthType { get; set; }
+    public PaymentType PaymentType { get; set; }
+
 
     public virtual IEnumerable<ProductHistory> ProductHistories { get; set; }
     public virtual IEnumerable<ModuleHistory> ModuleHistories { get; set; }

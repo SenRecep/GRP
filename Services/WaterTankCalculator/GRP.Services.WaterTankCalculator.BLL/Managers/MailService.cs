@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 
 using MimeKit;
 
+
 namespace GRP.Services.WaterTankCalculator.BLL.Managers;
 
 public class MailService : IMailService
@@ -40,9 +41,9 @@ public class MailService : IMailService
         if (company.Mail.IsEmpty())
             return Response<string>.Fail(400, true, "/mailservice", "İlgili firmanın mail bilgileri eksik veya hatalı");
         string filePath = Path.Combine(webHostEnvironment.WebRootPath, "Templates", "MailTemplate.html");
-        string attachmentPath = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{id}.html");
+        var path = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{id}.pdf");
+        var content = File.OpenRead(path);
         string MailText = await File.ReadAllTextAsync(filePath);
-        var attachment = File.OpenRead(attachmentPath);
         MimeMessage email = new()
         {
             Sender = MailboxAddress.Parse(mailSettings.Mail)
@@ -54,7 +55,7 @@ public class MailService : IMailService
             HtmlBody = MailText
         };
 
-        builder.Attachments.Add("Fiyat Teklifi.html", attachment, ContentType.Parse("text/html"));
+        builder.Attachments.Add("Fiyat Teklifi.pdf", content, ContentType.Parse("application/pdf"));
         email.Body = builder.ToMessageBody();
         using SmtpClient smtp = new();
         smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);

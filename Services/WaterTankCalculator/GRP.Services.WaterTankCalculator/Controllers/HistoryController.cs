@@ -36,12 +36,17 @@ namespace GRP.Services.WaterTankCalculator.Controllers
             var response = histories.Select(history =>
             {
                 var company = companies.FirstOrDefault(x => x.Id == history.CompnyId);
+                if (history.CurrencyType == CurrencyType.TL)
+                {
+                    history.Total *= history.ConstantsHistory.Dollar;
+                    history.FullTotal *= history.ConstantsHistory.Dollar;
+                    history.KDV *= history.ConstantsHistory.Dollar;
+                }
                 return new CalculateHistoryWithDateResponse()
                 {
                     Id=history.Id,
                     Time=history.CreatedTime,
                     Company = company?.Title,
-                    PaymentType = history.PaymentType,
                     FullTotal = history.FullTotal,
                     KDV = history.KDV,
                     Total = history.Total,
@@ -61,9 +66,20 @@ namespace GRP.Services.WaterTankCalculator.Controllers
                .Include(x => x.CalculateModelHistories)
                .ThenInclude(x => x.EdgeModelHistory)
                .FirstOrDefaultAsync(x => x.Id == id);
+            if (history.CurrencyType == CurrencyType.TL)
+            {
+                history.Total *= history.ConstantsHistory.Dollar;
+                history.FullTotal *= history.ConstantsHistory.Dollar;
+                history.KDV *= history.ConstantsHistory.Dollar;
+            }
             var company = await companyService.GetByIdAsync(history.CompnyId.Value);
             var tanks = history.CalculateModelHistories.Select(x =>
             {
+                if (history.CurrencyType == CurrencyType.TL)
+                {
+                    x.TotalCostHistory.Total *= history.ConstantsHistory.Dollar;
+                    x.TotalCostHistory.FullTotal *= history.ConstantsHistory.Dollar;
+                }
                 var type = x.PlinthType == PlinthType.Flat ? "Düz Kaide" : "Kriş Kaide";
                 return new Tank()
                 {
@@ -74,7 +90,8 @@ namespace GRP.Services.WaterTankCalculator.Controllers
                     Height = x.Height,
                     Quantity = x.Quantity,
                     Total = x.TotalCostHistory.Total,
-                    FullTotal = x.TotalCostHistory.FullTotal
+                    FullTotal = x.TotalCostHistory.FullTotal,
+                    PaymentType = x.PaymentType,
                 };
             });
             return Response<CalculateHistoryResponse>.Success(new CalculateHistoryResponse()
@@ -82,7 +99,6 @@ namespace GRP.Services.WaterTankCalculator.Controllers
                 Id=id,
                 Company = company.Title,
                 Tanks = tanks,
-                PaymentType = history.PaymentType,
                 FullTotal = history.FullTotal,
                 KDV = history.KDV,
                 Total = history.Total,
