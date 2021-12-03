@@ -46,10 +46,14 @@ class identityServerRequest {
         });
     }
     async connectTokenAsync() {
-        const currentToken = store.get("webClientToken");
-        if (currentToken)
-            return ApiResponse.success(currentToken);
-
+        const token = store.get("webClientToken");
+        if (token) {
+            var now = new Date();
+            var exp = new Date(token.expires_date);
+            if (exp.getTime() > now.getTime()) {
+                return ApiResponse.success(token);
+            }
+        }
         const requestData = {
             client_id: clientInfo.WebClient.ClientId,
             client_secret: clientInfo.WebClient.ClientSecret,
@@ -57,6 +61,9 @@ class identityServerRequest {
         };
         return CenteralRequest.request(async () => {
             const result = await axios.post('/connect/token', querystring.stringify(requestData), axiosConfig);
+            var d = new Date();
+            d = new Date(d.getTime() + result.data.expires_in);
+            result.data.expires_date = d;
             store.set("webClientToken", result.data);
             return result;
         });

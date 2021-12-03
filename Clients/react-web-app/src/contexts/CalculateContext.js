@@ -9,12 +9,14 @@ const CalculateContextProvider =({children})=> {
   let history=useHistory();
     const initialData=[  ]
    const [calculateData, setCalculateData]=useState(initialData)
-
+   const [ct, setct]=useState()
    const addData=(calcData)=>{
-     console.log("calcData.paymentType",calcData.paymentType);
+     var vol=calcData.x*calcData.y*calcData.z; 
+      setct(!calcData.currencyType)
+      console.log(ct)
        setCalculateData([
            ...calculateData,
-           {id:uuidv4(),quantity:+calcData.unit,plinthType:+calcData.basetype,width:+calcData.x,length:+calcData.y,height:+calcData.z,paymentType:calcData.paymentType}
+           {id:uuidv4(),quantity:+calcData.unit,plinthType:+calcData.basetype,width:+calcData.x,length:+calcData.y,height:+calcData.z,paymentType:+calcData.paymentType,vol:vol}
        ])
    }
    const deleteData=(id)=>{
@@ -26,20 +28,23 @@ const CalculateContextProvider =({children})=> {
         let postDatas=[];
         postDatas=calculateData.map(item=>{
            var dummy={...item};
-           delete dummy.id 
-           delete dummy.paymentType
+           delete dummy.id  
             return dummy
         })
-       
-        
-        var calculatorResponse = await rop_axios.post('/watertankcalculator/Plinth', {
+       console.log({
           
-            calculateModels:postDatas,
-            compnyId:compId,
-            paymentType:+payType, 
-          });
+        calculateModels:postDatas,
+        compnyId:compId,
+        currencyType:+ct
+      });
+         
+        var calculatorResponse = await rop_axios.post('/watertankcalculator/Plinth',{
+          
+          calculateModels:postDatas,
+          compnyId:compId,
+          currencyType:+ct
+        } );
           if (calculatorResponse.isSuccessful) {
-            console.log('yeey'); 
             history.push({
               pathname: '/GrpSonuc', 
               state: { data:  calculatorResponse.data }

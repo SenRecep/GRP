@@ -5,7 +5,8 @@ import {
     Form,
     Input,
     Message ,
-    Modal
+    Modal,
+    Checkbox
   } from 'semantic-ui-react'; 
 import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
@@ -15,6 +16,8 @@ import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { Link } from "react-router-dom";
 const GrpHesapla=(props)=> { 
   const [firmData, setFirmData] = useState([]);
+  const [currencyType, setCurrencyType] = useState(true);
+
   useEffect(() => {
     const getFirmData = async () => {
         var companyResponse = await rop_axios.get("/company/companies");
@@ -97,6 +100,7 @@ const GrpHesapla=(props)=> {
               sort: true,
              }
            },
+       
            {
             name: "paymentType",
             label: "Ödeme Şekli",
@@ -104,20 +108,30 @@ const GrpHesapla=(props)=> {
               customBodyRender: (value, tableMeta, updateValue) => { 
                  
                 console.log("payment type", tableMeta.rowData);
-                
                   return (
                    
                     <>
                     {
-                     tableMeta.rowData[6]==='0'?"Peşin": 
-                     tableMeta.rowData[6]==='1'?"30 gün":
-                     tableMeta.rowData[6]==='2'?"30/60 gün":
-                     tableMeta.rowData[6]==='3'?"90/120 gün":""
+                      
+                     tableMeta.rowData[6]=='0'?"Peşin": 
+                     tableMeta.rowData[6]=='1'?"30 gün":
+                     tableMeta.rowData[6]=='2'?"30/60 gün":
+                     tableMeta.rowData[6]=='3'?"90/120 gün":
+                     tableMeta.rowData[6]=='4'?"120/150 gün":
+                     tableMeta.rowData[6]=='5'?"150/180 gün":"BILINMIYOR"
                     }
                     </>
                   )
               }
             }
+           },
+           {
+            name: "vol",
+            label: "Tonaj",
+            options: {
+              filter: true,
+              sort: true,
+             }
            },
          {
           name: "Actions",
@@ -145,6 +159,8 @@ const GrpHesapla=(props)=> {
         { key: '90120', text: '30 Gün', value: '1' },
         { key: '30601', text: '30/60 Gün Vadeli', value: '2' },
         { key: '901201', text: '90/120 Gün Vadeli', value: '3' }, 
+        { key: '901202', text: '120/150 Gün Vadeli', value: '4' }, 
+        { key: '901203', text: '150/180 Gün Vadeli', value: '5' }, 
       ]
     const [inputValidate, setinputValidate] = useState({ 
         type:null,
@@ -176,6 +192,7 @@ const GrpHesapla=(props)=> {
         
         if(unit!=='' && x !=='' &&  y !=='' &&  z !==''  &&  unit !==''  && selectInput.selectValue !=='' && paymentSelectInput.paymentSelectValue !==''  )
         {  
+     
 
           console.log(SelectInput.selectValue) 
             setinputValidate({
@@ -191,23 +208,11 @@ const GrpHesapla=(props)=> {
                 x:x,
                 y:y,
                 z:z,
-                paymentType:paymentSelectInput.paymentSelectValue
+                paymentType:paymentSelectInput.paymentSelectValue,
+                currencyType:currencyType
              }
             addData(data)
-            // axios.post(`https://localhost:5102/api/plinth`, {
-            //     "width":2,
-            //     "length":5,
-            //     "height":2,
-            //     "plinthType":0
-            // }).then(response => { 
-            //     console.log(response);
-            // }).catch(err => {
-            //     console.log('error');
-            //     console.log(err.status);
-            //     console.log(err.response.status)
-            // });
             
-                 
         } 
         else {
             setinputValidate({
@@ -282,7 +287,7 @@ const GrpHesapla=(props)=> {
                                         control={Input}
                                         label='En'
                                         name='x'
-                                        placeholder='m'
+                                        placeholder='m' 
                                     /> 
                                     </Form.Group>
                                     
@@ -293,6 +298,7 @@ const GrpHesapla=(props)=> {
                                         name='y'
                                         placeholder='m'
                                     />
+                                   
                                     </Form.Group>
                                     <Form.Group  width={8}>
                                     <Form.Field
@@ -301,12 +307,21 @@ const GrpHesapla=(props)=> {
                                         name='z'
                                         placeholder='m'
                                     />
+
                                     </Form.Group>
+                                    
+
+
                                     <Form.Group width={8}>
                                         <Form.Select fluid options={paymentoptions}  label='Ödeme Şekli' placeholder='Ödeme Şekli' name='paymenttype' onChange={onPaymentSelectChange}/>
                                     </Form.Group>
                                     <Form.Group width={8}>
                                         <Form.Select fluid options={firmOptions}  label='Firma Seç' placeholder='Firma Seç' name='compnyId' onChange={onFirmSelectChange}/>
+                                    </Form.Group>
+                                    <Form.Group  width={8}>
+                                      <label htmlFor="currencyType">Tl ile hesapla
+                                    <input type="checkbox" id="currencyType" name="currencyType" /> </label>
+
                                     </Form.Group>
                                     <Button positive type='submit'>Ekle</Button> 
                                     <a onClick={triggerPostData} className="ui violet button">Hesapla</a>
