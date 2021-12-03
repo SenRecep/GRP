@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
+using System;
+
 namespace GRP.IdentityServer.Models
 {
     public class ApplicationUser:IdentityUser

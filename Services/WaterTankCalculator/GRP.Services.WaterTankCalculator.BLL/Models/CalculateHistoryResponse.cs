@@ -12,18 +12,23 @@ public record Tank()
     public int Quantity { get; set; }
     public float Total { get; set; }
     public float FullTotal { get; set; }
+    public PaymentType PaymentType { get; set; }
+
 }
 
 public class CalculateHistoryResponse
 {
+    public Guid Id { get; set; }
     public IEnumerable<Tank>? Tanks { get; set; }
     public string? Company { get; set; }
-    public PaymentType PaymentType { get; set; }
 
     public float Total { get; set; }
     public float KDV { get; set; }
     public float FullTotal { get; set; }
+    public ConstantsModel? Constants { get; set; }
 }
+
+
 
 public class CalculateHistoryWithDateResponse: CalculateHistoryResponse
 {

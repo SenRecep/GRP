@@ -4,6 +4,7 @@ using GRP.Services.WaterTankCalculator.DAL.Concrete.EntityFrameworkCore.Contexts
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GRP.Services.WaterTankCalculator.Migrations
 {
     [DbContext(typeof(WaterTankCalculatorDbContext))]
-    partial class WaterTankCalculatorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211203192027_PaymentType")]
+    partial class PaymentType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -295,9 +297,6 @@ namespace GRP.Services.WaterTankCalculator.Migrations
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("CurrencyType")
-                        .HasColumnType("int");
 
                     b.Property<float>("FullTotal")
                         .HasColumnType("real");

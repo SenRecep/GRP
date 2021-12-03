@@ -53,7 +53,8 @@ namespace GRP.IdentityServer
                     {
                         IdentityServerConstants.LocalApi.ScopeName,
                         "gateway_fullpermission"
-                    }
+                    },
+                     AccessTokenLifetime =(int)TimeSpan.FromDays(20).TotalSeconds
                 },
 
                 new Client

@@ -1,5 +1,5 @@
 ﻿
-using System.Drawing;
+
 
 namespace GRP.Services.WaterTankCalculator.Controllers;
 
@@ -18,8 +18,8 @@ public class ExportController : ControllerBase
     [HttpGet("{id:guid}")]
     public IActionResult Get(Guid id)
     { 
-        var path = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{id}.html");
-        var stream = System.IO.File.OpenRead(path);
-        return File(stream, "text/html", "Exports.html");
+        var path = Path.Combine(webHostEnvironment.WebRootPath, "exports", $"{id}.pdf");
+        var content = System.IO.File.OpenRead(path);
+        return File(content, "application/pdf", "Exports.pdf");
     }
 }

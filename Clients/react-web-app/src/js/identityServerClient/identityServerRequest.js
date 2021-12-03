@@ -46,6 +46,7 @@ class identityServerRequest {
         });
     }
     async connectTokenAsync() {
+<<<<<<< HEAD
         const token = store.get("webClientToken");
         if (token) {
             var now = new Date();
@@ -54,6 +55,10 @@ class identityServerRequest {
                 return ApiResponse.success(token);
             }
         }
+=======
+       
+
+>>>>>>> 67d42fedf9e55cc165153ea51d5f06aa29d76c57
         const requestData = {
             client_id: clientInfo.WebClient.ClientId,
             client_secret: clientInfo.WebClient.ClientSecret,

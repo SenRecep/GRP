@@ -1,4 +1,6 @@
-﻿using Duende.IdentityServer.EntityFramework.DbContexts;
+﻿using AutoMapper;
+
+using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
 
 using GRP.IdentityServer.ExtensionMethods;
@@ -42,6 +44,7 @@ namespace GRP.IdentityServer.Seeding
 
         public static async Task SeedUsers(IServiceProvider serviceProvider)
         {
+            IMapper mapper = serviceProvider.GetRequiredService<IMapper>();
             UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
             foreach (SignUpViewModel model in DefaultUsersAndRoles.GetDevelopers())
@@ -49,11 +52,7 @@ namespace GRP.IdentityServer.Seeding
                 ApplicationUser found = await userManager.FindByNameAsync(model.UserName);
                 if (found != null) continue;
 
-                ApplicationUser user = new ApplicationUser()
-                {
-                    UserName = model.UserName,
-                    Email = model.Email,
-                };
+                ApplicationUser user = mapper.Map<ApplicationUser>(model);
                 IdentityResult result = await userManager.CreateAsync(user, model.Password);
 
                 if (!result.Succeeded) throw new Exception(result.Errors.First()?.Description);

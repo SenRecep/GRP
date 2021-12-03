@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\recep\.nuget\packages\select.htmltopdf.netcore\21.2.0\contentFiles\any\any\Select.Html.dep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Managers\CalculateManager.cs~RF1691652f.TMP" />
     <None Remove="Managers\ExcahangeManager.cs~RF966a2b1.TMP" />
   </ItemGroup>
 
@@ -17,6 +22,10 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.4" />
     <PackageReference Include="IdentityModel" Version="5.2.0" />
+    <PackageReference Include="MailKit" Version="2.15.0" />
+    <PackageReference Include="MimeKit" Version="2.15.1" />
+    <PackageReference Include="Select.HtmlToPdf" Version="21.2.0" />
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="21.2.0" />
   </ItemGroup>
 
   <ItemGroup>

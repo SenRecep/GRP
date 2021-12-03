@@ -36,15 +36,19 @@ namespace GRP.IdentityServer.Controllers
             this.mapper = mapper;
         }
 
-
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
             var users = userManager.Users.ToList();
-            var mapping = mapper.Map<IEnumerable<ApplicationUserDto>>(users);
-            return Response<IEnumerable<ApplicationUserDto>>.Success(mapping).CreateResponseInstance();
-        }
+            var data = await Task.WhenAll(users.Select(async user =>
+            {
+                var map = mapper.Map<ApplicationUserDto>(user);
+                map.Roles = await userManager.GetRolesAsync(user);
+                return map;
+            }));
 
+            return Response<IEnumerable<ApplicationUserDto>>.Success(data).CreateResponseInstance();
+        }
 
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel model)
@@ -56,12 +60,58 @@ namespace GRP.IdentityServer.Controllers
                 return GetResult(result, "SignUp");
 
 
-            IdentityResult roleResult = await userManager.AddToRoleAsync(user, RoleInfo.User);
+            IdentityResult roleResult = await userManager.AddToRoleAsync(user, RoleInfo.Engineer);
 
             if (!roleResult.Succeeded)
                 return GetResult(roleResult, "SignUp_AddRole");
 
             return Response<NoContent>.Success(statusCode: StatusCodes.Status201Created).CreateResponseInstance();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(ApplicationUserDto dto)
+        {
+            var updateModel = mapper.Map<ApplicationUser>(dto);
+            var user = await userManager.FindByIdAsync(updateModel.Id);
+            if (user.IsNull()) return Response<NoContent>.Fail(
+              statusCode: StatusCodes.Status400BadRequest,
+              isShow: true,
+              path: "api/role/put",
+              errors: "Gecerli bir kullanici bulunamadi"
+              ).CreateResponseInstance();
+
+            if (!user.Email.Equals(updateModel.Email))
+            {
+                var emailResponse = await userManager.SetEmailAsync(user, updateModel.Email);
+                if (!emailResponse.Succeeded) return GetResult(emailResponse, "UpdateEmail");
+            }
+
+            if (!user.PhoneNumber.Equals(updateModel.PhoneNumber))
+            {
+                var res = await userManager.SetPhoneNumberAsync(user, updateModel.PhoneNumber);
+                if (!res.Succeeded) return GetResult(res, "UpdatePhoneNumber");
+            }
+
+            if (!user.UserName.Equals(updateModel.UserName))
+            {
+                var res = await userManager.SetUserNameAsync(user, updateModel.UserName);
+                if (!res.Succeeded) return GetResult(res, "UpdateUserName");
+            }
+
+            user.FirstName = updateModel.FirstName;
+            user.LastName = updateModel.LastName;
+            user.IdentityNumber = updateModel.IdentityNumber;
+            user.Address = updateModel.Address;
+            var updateResult = await userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+                return GetResult(updateResult, "UpdateUser");
+
+            var userRoles = await userManager.GetRolesAsync(user);
+            var deleteRoles = userRoles.Where(x => !dto.Roles.Contains(x));
+            var addRoles = dto.Roles.Where(x => !userRoles.Contains(x));
+            await userManager.RemoveFromRolesAsync(user, deleteRoles);
+            await userManager.AddToRolesAsync(user, addRoles);
+            return Response<NoContent>.Success().CreateResponseInstance();
         }
         [HttpGet]
         public async Task<IActionResult> GetUser()
@@ -85,6 +135,28 @@ namespace GRP.IdentityServer.Controllers
                  ).CreateResponseInstance();
 
             var dto = mapper.Map<ApplicationUserDto>(user);
+            dto.Roles = await userManager.GetRolesAsync(user);
+
+            return Response<ApplicationUserDto>.Success(
+                 data: dto,
+                 statusCode: StatusCodes.Status200OK
+                  ).CreateResponseInstance();
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetUser(Guid id)
+        {
+            ApplicationUser user = await userManager.FindByIdAsync(id.ToString());
+
+            if (user.IsNull()) return Response<NoContent>.Fail(
+                 statusCode: StatusCodes.Status400BadRequest,
+                 isShow: true,
+                 path: "api/User/GetUser",
+                 errors: "Gecerli bir kullanici bulunamadi"
+                 ).CreateResponseInstance();
+
+            var dto = mapper.Map<ApplicationUserDto>(user);
+            dto.Roles = await userManager.GetRolesAsync(user);
 
             return Response<ApplicationUserDto>.Success(
                  data: dto,

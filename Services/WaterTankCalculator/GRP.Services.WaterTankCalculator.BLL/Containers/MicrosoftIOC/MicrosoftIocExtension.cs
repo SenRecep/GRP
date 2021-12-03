@@ -80,6 +80,7 @@ public static class MicrosoftIocExtension
 
         services.AddScoped<IDefaultService, DefaultManager>();
         services.AddScoped<IExportService, ExportManager>();
+        services.AddScoped<IMailService, MailService>();
 
 
         #endregion
@@ -94,6 +95,9 @@ public static class MicrosoftIocExtension
         services.AddSetting<ProductGroup>(configuration, "Products");
         services.AddSetting<RATGroup>(configuration, "rats");
         services.AddSetting<ConstantsSetting>(configuration, "constants");
+
+        services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
+        services.AddSingleton<IMailSettings>(sp => sp.GetRequiredService<IOptions<MailSettings>>().Value);
 
         services.AddHttpClient<IExchangeService, ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.genelpara.com/embed/doviz.json"));
         var companyUrl= environment.GetApiUrl(configuration,"Company");

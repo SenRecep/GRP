@@ -26,7 +26,8 @@ namespace GRP.IdentityServer.Seeding
         public static IEnumerable<IdentityRole> GetRoles()
         {
             yield return new IdentityRole(RoleInfo.Admin);
-            yield return new IdentityRole(RoleInfo.User);
+            yield return new IdentityRole(RoleInfo.Executive);
+            yield return new IdentityRole(RoleInfo.Engineer);
         }
     }
 
