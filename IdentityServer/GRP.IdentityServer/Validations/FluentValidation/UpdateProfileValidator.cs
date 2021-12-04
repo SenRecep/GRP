@@ -10,6 +10,15 @@ namespace GRP.IdentityServer.Validations.FluentValidation
     {
         public UpdateProfileValidator()
         {
+            RuleFor(x => x.Id)
+                .NotEmpty().WithMessage("Kullanıcı birincil anahtar değeri boş geçilemez.");
+
+            RuleFor(x => x.UserName)
+                .NotEmpty().WithMessage("Kullanıcı adı boş geçilemez");
+
+            RuleFor(x => x.Password)
+               .NotEmpty().WithMessage("Parola boş geçilemez");
+
             RuleFor(x => x.FirstName)
                 .NotEmpty().WithMessage("Ad boş geçilemez")
                 .MaximumLength(40).WithMessage("Ad 40 karakterden uzun olamaz");
@@ -33,6 +42,8 @@ namespace GRP.IdentityServer.Validations.FluentValidation
             RuleFor(x => x.Email)
                .NotEmpty().WithMessage("Email boş geçilemez")
                .EmailAddress().WithMessage("Email formatı hatalı");
+           
+            RuleFor(x=>x.Roles).NotNull().WithMessage("Roller boş geçilemez");
 
             RuleForEach(x => x.Roles)
               .NotNull().WithMessage("Roller boş geçilemez")

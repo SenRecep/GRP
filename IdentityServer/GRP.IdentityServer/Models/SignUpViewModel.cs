@@ -1,4 +1,7 @@
-﻿namespace GRP.IdentityServer.Models
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace GRP.IdentityServer.Models
 {
     public class SignUpViewModel
     {
@@ -10,5 +13,6 @@
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public IEnumerable<string> Roles { get; set; }
     }
 }

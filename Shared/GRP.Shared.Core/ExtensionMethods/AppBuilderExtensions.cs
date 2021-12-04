@@ -7,8 +7,12 @@ using GRP.Shared.Core.Response;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using Newtonsoft.Json;
+
+using Serilog;
 
 namespace GRP.Shared.Core.ExtensionMethods
 {
@@ -23,6 +27,7 @@ namespace GRP.Shared.Core.ExtensionMethods
                     context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                     context.Response.ContentType = "application/json";
                     IExceptionHandlerPathFeature error = context.Features.Get<IExceptionHandlerPathFeature>();
+
                     if (error != null)
                     {
                         System.Exception ex = error.Error;
@@ -32,7 +37,7 @@ namespace GRP.Shared.Core.ExtensionMethods
                             path: error.Path,
                             ex.Message
                             );
-
+                        Log.Error(ex.Message);
                         await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
                     }
 

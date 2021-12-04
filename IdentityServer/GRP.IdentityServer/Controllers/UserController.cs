@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 using System;
 using System.Collections.Generic;
@@ -29,24 +30,26 @@ namespace GRP.IdentityServer.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
+        private readonly ILogger<UserController> logger;
 
-        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper)
+        public UserController(UserManager<ApplicationUser> userManager, IMapper mapper,ILogger<UserController> logger )
         {
             this.userManager = userManager;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
             var users = userManager.Users.ToList();
-            var data = await Task.WhenAll(users.Select(async user =>
+            ICollection<ApplicationUserDto> data=new List<ApplicationUserDto>();
+            foreach (var user in users)
             {
                 var map = mapper.Map<ApplicationUserDto>(user);
                 map.Roles = await userManager.GetRolesAsync(user);
-                return map;
-            }));
-
+                data.Add(map);
+            }
             return Response<IEnumerable<ApplicationUserDto>>.Success(data).CreateResponseInstance();
         }
 
@@ -60,7 +63,7 @@ namespace GRP.IdentityServer.Controllers
                 return GetResult(result, "SignUp");
 
 
-            IdentityResult roleResult = await userManager.AddToRoleAsync(user, RoleInfo.Engineer);
+            IdentityResult roleResult = await userManager.AddToRolesAsync(user, model.Roles);
 
             if (!roleResult.Succeeded)
                 return GetResult(roleResult, "SignUp_AddRole");
@@ -69,7 +72,7 @@ namespace GRP.IdentityServer.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(ApplicationUserDto dto)
+        public async Task<IActionResult> Update(ApplicationUserDto dto)
         {
             var updateModel = mapper.Map<ApplicationUser>(dto);
             var user = await userManager.FindByIdAsync(updateModel.Id);
@@ -98,6 +101,13 @@ namespace GRP.IdentityServer.Controllers
                 if (!res.Succeeded) return GetResult(res, "UpdateUserName");
             }
 
+
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+            var passwordRes = await userManager.ResetPasswordAsync(user, token, dto.Password);
+
+            if (!passwordRes.Succeeded) return GetResult(passwordRes, "UpdatePassword");
+
             user.FirstName = updateModel.FirstName;
             user.LastName = updateModel.LastName;
             user.IdentityNumber = updateModel.IdentityNumber;
@@ -107,8 +117,10 @@ namespace GRP.IdentityServer.Controllers
                 return GetResult(updateResult, "UpdateUser");
 
             var userRoles = await userManager.GetRolesAsync(user);
-            var deleteRoles = userRoles.Where(x => !dto.Roles.Contains(x));
-            var addRoles = dto.Roles.Where(x => !userRoles.Contains(x));
+            logger.LogInformation($"Update Dto Roles: ${dto.Roles.IsNotNull()} {dto.Roles?.Count()}");
+            logger.LogInformation($"User Roles: ${userRoles.IsNotNull()} {userRoles?.Count()}");
+            var deleteRoles = userRoles?.Where(x => !dto.Roles.Contains(x));
+            var addRoles = dto.Roles?.Where(x => !userRoles.Contains(x));
             await userManager.RemoveFromRolesAsync(user, deleteRoles);
             await userManager.AddToRolesAsync(user, addRoles);
             return Response<NoContent>.Success().CreateResponseInstance();
@@ -166,12 +178,15 @@ namespace GRP.IdentityServer.Controllers
 
         private IActionResult GetResult(IdentityResult result, string action = "UpdateProfile")
         {
-            return Response<NoContent>.Fail(
+
+            var response= Response<NoContent>.Fail(
                       statusCode: StatusCodes.Status400BadRequest,
                       isShow: true,
                       path: $"api/User/{action}",
                       errors: result.Errors.Select(x => x.Description).ToArray()
-                      ).CreateResponseInstance();
+                      );
+            logger.LogResponse(response);
+            return response.CreateResponseInstance();
         }
     }
 }
