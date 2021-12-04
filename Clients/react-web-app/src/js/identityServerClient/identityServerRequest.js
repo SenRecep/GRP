@@ -2,7 +2,7 @@ import axios from 'axios';
 import querystring from 'querystring'
 import clientInfo from './clientInfo.js';
 import store from './store.js';
-import CenteralRequest,{ApiResponse} from './centeralRequest.js';
+import CenteralRequest, { ApiResponse } from './centeralRequest.js';
 const axiosConfig = {
     baseURL: clientInfo.BaseUrl,
     timeout: 30000,
@@ -46,7 +46,6 @@ class identityServerRequest {
         });
     }
     async connectTokenAsync() {
-<<<<<<< HEAD
         const token = store.get("webClientToken");
         if (token) {
             var now = new Date();
@@ -55,10 +54,6 @@ class identityServerRequest {
                 return ApiResponse.success(token);
             }
         }
-=======
-       
-
->>>>>>> 67d42fedf9e55cc165153ea51d5f06aa29d76c57
         const requestData = {
             client_id: clientInfo.WebClient.ClientId,
             client_secret: clientInfo.WebClient.ClientSecret,
@@ -89,7 +84,7 @@ class identityServerRequest {
     }
 
     async revokeRefreshTokenAsync() {
-        console.log( store.get("token"));
+        console.log(store.get("token"));
         const currentToken = store.get("token").refresh_token;
         const requestData = {
             client_id: clientInfo.WebClientForUser.ClientId,
@@ -122,7 +117,7 @@ class identityServerRequest {
         });
     }
     async signOutAsync() {
-       // await this.revokeRefreshTokenAsync();
+        // await this.revokeRefreshTokenAsync();
         store.remove('token');
         store.remove('userInfo');
     }
