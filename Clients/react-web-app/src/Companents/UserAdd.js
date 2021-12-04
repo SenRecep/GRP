@@ -7,17 +7,21 @@ import identityServerRequest from '../js/identityServerClient/identityServerRequ
 const requester = new identityServerRequest(); 
 const UserAdd = (props) => {
     const [inputValidate, setinputValidate] = useState({type: null, visible: false, validateMessage: null, header: null});
-    // const [selectRole, setSelectRole] = useState(null);
-    
-    
-  // const onSelectChange = (evt, data) => { 
-  //   setSelectRole({selectRole:data.value}); 
-  //  }
-  // const roleOptions = [
-  //   { key: 'a', text: 'Yönetici', value: '0' },
-  //   { key: 'f', text: 'Muhasebe', value: '1' }, 
-  //   { key: 'm', text: 'Mühendis', value: '2' }, 
-  // ]
+    const [selectRole, setSelectRole] = useState();
+    const [roleOptions, setRoleOptions] = useState([]);
+    useEffect(() => {
+       
+      const getData = async () => {
+          var rolesResponse = await requester.getRoles();
+          setRoleOptions(rolesResponse.data.map(x=>( { key: Math.random(), text: x, value: x })));
+      };
+  
+      getData();
+  }, []);
+  const onSelectChange = (evt, data) => { 
+    setSelectRole(data.value); 
+   }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const {target} = event;
@@ -36,7 +40,7 @@ const UserAdd = (props) => {
           phoneNumber:targets.userPhone.value,
           identityNumber:targets.identityNumber.value,
           address:targets.address.value,
-          // role:selectRole,
+          role:[selectRole],
           password:targets.password.value
       }
     
@@ -155,8 +159,7 @@ const UserAdd = (props) => {
                 <Form.Field
                   control={Input}
                   label='E-mail'
-                  name='mail'
-                  
+                  name='mail' 
                   placeholder='E-mail'
                   type='email'/>
               </Form.Group>
@@ -169,10 +172,10 @@ const UserAdd = (props) => {
                   placeholder='Tel'
                   type='tel'/>
               </Form.Group>
-              {/* <Form.Group width={8}>   
+              <Form.Group width={8}>   
                                          <Form.Select fluid options={roleOptions}  label='Rol' placeholder='Rol' name='role' onChange={onSelectChange}/>
               </Form.Group> 
-               */}
+              
               <Button positive type='submit'>Ekle</Button> 
               <Link className='ui button' to="/Users">
                 <i

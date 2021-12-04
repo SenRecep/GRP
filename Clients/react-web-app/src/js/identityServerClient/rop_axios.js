@@ -10,9 +10,9 @@ axiosApiInstance.interceptors.request.use(
         const token = store.get('token');
         config.baseURL="http://185.122.202.87:8265/services"
         config.headers = {
-            "withCredentials": true,
             'Authorization': `Bearer ${token.access_token}`,
             'Accept': 'application/json',
+            "withCredentials": true,
             "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
             'Access-Control-Allow-Origin': '*',

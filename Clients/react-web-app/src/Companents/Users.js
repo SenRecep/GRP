@@ -24,15 +24,14 @@ const Users=(props)=> {
 }, []);
 
 const refreshUsersData= async ()  => { 
-  var userResponse = await requester.getUsers();
-  console.log(userResponse); 
+  var userResponse = await requester.getUsers(); 
     if(userResponse.error!==null)
     {
         setusersData(userResponse.data);
     }
   }
   const redirectEditUser= (id)  => { 
-    //props.history.push(`/UserEdit/${id}`)
+    props.history.push(`/UserEdit/${id}`)
   }
  
  const deleteUser=async (id) => { 
@@ -120,7 +119,7 @@ const refreshUsersData= async ()  => {
             return (
              
               <>
-              {/* <Button className="action-btn disable" disable onClick={() => redirectEditUser(tableMeta.rowData[0])} circular primary icon='edit' /> */}
+              <Button className="action-btn"  onClick={() => redirectEditUser(tableMeta.rowData[0])} circular primary icon='edit' />
               <Modal trigger={ <Button className="action-btn" circular negative icon='trash' />} header='Dikkat!' content={`${tableMeta.rowData[1]} silmek istediğinizden emin misiniz?`} actions={['İptal', { key: 'done', content: 'Sil', negative: true, onClick:() => deleteUser(tableMeta.rowData[0])}]} /> 
               </>
             )

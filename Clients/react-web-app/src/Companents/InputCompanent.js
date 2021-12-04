@@ -59,7 +59,7 @@ class InputCompanent extends React.Component{
     render(){  
         return(
 
-            <div key={this.props.inputId}>
+            <div >
                 {
                     this.props.type==='checkbox' ? 
                     <Checkbox label={this.props.label} data-key={this.props.inputName} defaultChecked = {this.state.checkValue}  id={this.props.inputUUID} onChange = {e => this.checkValueChange(e,this.props.inputUUID)} /> // kontrollü elemente nasıl çevrilir araştırılcak
@@ -67,7 +67,7 @@ class InputCompanent extends React.Component{
                     <Input placeholder='Search...'   type="text" data-key={this.props.inputName}  defaultValue={this.state.textValue}   onBlur={e => this.textValueChange(e)} id={this.props.inputUUID} />
                    
                      : this.props.type==='number' ? 
-                     <Input placeholder='Search...' type="number" label={this.props.label} placeholder={this.props.label} data-key={this.props.inputName}  defaultValue={this.state.numberValue}  onBlur={e => this.numberValueChange(e)}   id={this.props.inputUUID}  />
+                     <Input placeholder='Search...' key={Math.random()} type="number" label={this.props.label} placeholder={this.props.label} data-key={this.props.inputName}  defaultValue={this.state.numberValue}  onBlur={e => this.numberValueChange(e)}   id={this.props.inputUUID}  />
                       
                     : this.props.type==='radiogroup' ? 
                    
