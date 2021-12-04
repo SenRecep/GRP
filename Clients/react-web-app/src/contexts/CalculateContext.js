@@ -9,11 +9,11 @@ const CalculateContextProvider =({children})=> {
   let history=useHistory();
     const initialData=[  ]
    const [calculateData, setCalculateData]=useState(initialData)
-   const [ct, setct]=useState()
+   const [ct, setct]=useState(null)
    const addData=(calcData)=>{
      var vol=calcData.x*calcData.y*calcData.z; 
-      setct(!calcData.currencyType)
-      console.log(ct)
+      setct(calcData.currencyType)
+     
        setCalculateData([
            ...calculateData,
            {id:uuidv4(),quantity:+calcData.unit,plinthType:+calcData.basetype,width:+calcData.x,length:+calcData.y,height:+calcData.z,paymentType:+calcData.paymentType,vol:vol}
@@ -35,14 +35,14 @@ const CalculateContextProvider =({children})=> {
           
         calculateModels:postDatas,
         compnyId:compId,
-        currencyType:+ct
+        currencyType:ct
       });
          
         var calculatorResponse = await rop_axios.post('/watertankcalculator/Plinth',{
           
           calculateModels:postDatas,
           compnyId:compId,
-          currencyType:+ct
+          currencyType:ct
         } );
           if (calculatorResponse.isSuccessful) {
             history.push({

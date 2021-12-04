@@ -10,7 +10,7 @@ function Topbar() {
          <ul className="navbar-nav ml-auto">
             {localStorage.getItem('userInfo')  && (
             <li>
-               {store.get('userInfo').name}
+               {store.get('userInfo').userName}
                 <a className="mr-2 d-none d-lg-inline text-gray-600" onClick={ async () =>{
                      await requester.signOutAsync();
                      // history.push({

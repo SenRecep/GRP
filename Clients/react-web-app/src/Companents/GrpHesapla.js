@@ -21,7 +21,6 @@ const GrpHesapla=(props)=> {
   useEffect(() => {
     const getFirmData = async () => {
         var companyResponse = await rop_axios.get("/company/companies");
-        console.log(companyResponse);
         setFirmData(companyResponse.data);
         
     };
@@ -106,8 +105,7 @@ const GrpHesapla=(props)=> {
             label: "Ödeme Şekli",
             options: {
               customBodyRender: (value, tableMeta, updateValue) => { 
-                 
-                console.log("payment type", tableMeta.rowData);
+               
                   return (
                    
                     <>
@@ -137,8 +135,7 @@ const GrpHesapla=(props)=> {
           name: "Actions",
           label: "Durum",
           options: {
-              customBodyRender: (value, tableMeta, updateValue) => { 
-                console.log(tableMeta.rowData[0])
+              customBodyRender: (value, tableMeta, updateValue) => {  
                   return (
                    
                     <>
@@ -153,6 +150,10 @@ const GrpHesapla=(props)=> {
     const basetypeoptions = [
         { key: 'k', text: 'Kiriş Kaide', value: '0' },
         { key: 'd', text: 'Düz Kaide', value: '1' }, 
+      ]
+      const currencyOptions = [
+        { key: 'd', text: 'Dolar', value: '0' },
+        { key: 't', text: 'TL', value: '1' }, 
       ]
       const paymentoptions = [
         { key: '3060', text: 'Peşin', value: '0' },
@@ -177,6 +178,9 @@ const GrpHesapla=(props)=> {
       const [paymentSelectInput, setPaymentSelectInput] = useState({  
         paymentSelectValue:''
       });
+      const [currencySelectInput, setCurrencySelectInput] = useState({  
+        currencySelectvalue:''
+      });
       const onFirmSelectChange = (evt, data) => { 
         setfirrmSelectInput({companyId:data.value}); 
      }
@@ -188,13 +192,15 @@ const GrpHesapla=(props)=> {
       const onPaymentSelectChange = (evt, data) => { 
         setPaymentSelectInput({paymentSelectValue:data.value});
       }
+      const onCurrencySelectChange = (evt, data) => { 
+        setCurrencySelectInput({currencySelectvalue:data.value});
+      }
     const valideteForm=(unit, x, y, z, SelectInput)=>{
         
         if(unit!=='' && x !=='' &&  y !=='' &&  z !==''  &&  unit !==''  && selectInput.selectValue !=='' && paymentSelectInput.paymentSelectValue !==''  )
         {  
      
-
-          console.log(SelectInput.selectValue) 
+  
             setinputValidate({
                 type:'success',
                 visible:true, 
@@ -209,7 +215,7 @@ const GrpHesapla=(props)=> {
                 y:y,
                 z:z,
                 paymentType:paymentSelectInput.paymentSelectValue,
-                currencyType:currencyType
+                currencyType:+currencySelectInput.currencySelectvalue
              }
             addData(data)
             
@@ -282,6 +288,7 @@ const GrpHesapla=(props)=> {
                                     <Form.Group width={8}>   
                                          <Form.Select fluid options={basetypeoptions}  label='Kaide Türü' placeholder='Kaide Türü' name='basetype' onChange={onSelectChange}/>
                                     </Form.Group> 
+                                   
                                     <Form.Group width={8}>  
                                     <Form.Field
                                         control={Input}
@@ -318,11 +325,9 @@ const GrpHesapla=(props)=> {
                                     <Form.Group width={8}>
                                         <Form.Select fluid options={firmOptions}  label='Firma Seç' placeholder='Firma Seç' name='compnyId' onChange={onFirmSelectChange}/>
                                     </Form.Group>
-                                    <Form.Group  width={8}>
-                                      <label htmlFor="currencyType">Tl ile hesapla
-                                    <input type="checkbox" id="currencyType" name="currencyType" /> </label>
-
-                                    </Form.Group>
+                                    <Form.Group width={8}>   
+                                         <Form.Select fluid options={currencyOptions}  label='Döciz Türü' placeholder='Döviz Türü' name='currencyType' onChange={onCurrencySelectChange}/>
+                                    </Form.Group> 
                                     <Button positive type='submit'>Ekle</Button> 
                                     <a onClick={triggerPostData} className="ui violet button">Hesapla</a>
                                     <Link className='ui button' to="/">

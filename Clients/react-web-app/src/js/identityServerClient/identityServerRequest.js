@@ -7,7 +7,11 @@ const axiosConfig = {
     baseURL: clientInfo.BaseUrl,
     timeout: 30000,
     headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "withCredentials": true,
+        "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
+        'Access-Control-Allow-Origin': '*'
     }
 };
 
@@ -40,13 +44,23 @@ class identityServerRequest {
         const currentToken = store.get("token").access_token;
         const config = this.setBearerToken(currentToken);
         return CenteralRequest.request(async () => {
-            var result = await axios.get('/connect/userinfo', config);
-            store.set("userInfo", result.data);
+            var result = await axios.get('/api/user/getuser', config);
+            store.set("userInfo", result.data.data);
+            return result;
+        });
+    }
+    async getUserAsync(id) {
+        const currentToken = store.get("token").access_token;
+        const config = this.setBearerToken(currentToken);
+        return CenteralRequest.request(async () => {
+            var result = await axios.get(`/api/user/getuser/${id}`, config);
+            store.set("userInfo", result.data.data); 
             return result;
         });
     }
     async connectTokenAsync() {
         const token = store.get("webClientToken");
+
         if (token) {
             var now = new Date();
             var exp = new Date(token.expires_date);
@@ -82,7 +96,15 @@ class identityServerRequest {
             return result;
         });
     }
-
+    async getRoles(){
+        const currentToken = store.get("webClientToken").access_token;
+        const config = this.setBearerToken(currentToken);
+        config.headers["Content-Type"] = "application/json";
+        return CenteralRequest.request(async () => {
+            var result = await axios.get('/api/role', config);
+            return result;
+        });
+    }
     async revokeRefreshTokenAsync() {
         console.log(store.get("token"));
         const currentToken = store.get("token").refresh_token;
@@ -104,6 +126,15 @@ class identityServerRequest {
         config.headers["Content-Type"] = "application/json";
         return CenteralRequest.request(async () => {
             var result = await axios.post('/api/user/signup', model, config);
+            return result;
+        });
+    }
+    async updateUserAsync(model) {
+        const currentToken = store.get("webClientToken").access_token;
+        const config = this.setBearerToken(currentToken);
+        config.headers["Content-Type"] = "application/json";
+        return CenteralRequest.request(async () => {
+            var result = await axios.put('/api/user/update', model, config);
             return result;
         });
     }

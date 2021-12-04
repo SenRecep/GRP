@@ -1,12 +1,11 @@
 import React, {useContext, useEffect, useState} from "react"; 
 import identityServerRequest from '../js/identityServerClient/identityServerRequest';
-import   {ApiError, separators}  from '../js/identityServerClient/centeralRequest';
+import   {ApiError, separators}  from '../js/identityServerClient/centeralRequest'; 
 var requester= new identityServerRequest();
-const Login=  (props) => { 
+const Login=  (props) => {  
     useEffect(() => {
-        document.body.classList.add('bg-gradient-primary');
-      },[])
-   
+        document.body.classList.add('bg-gradient-primary'); 
+      },[]) 
   const initialState = {
     userName: "",
     password: "",
@@ -30,10 +29,12 @@ const Login=  (props) => {
         username:data.userName,
         password:data.password
     });
+    console.log(signInResponse);
     if (signInResponse.isSuccessful) {
        const userInfoResponse= await requester.getUserInfoAsync();
       if (userInfoResponse.isSuccessful) {
-      
+    console.log(userInfoResponse);
+
         // setData({
         //   ...data,
         //   isSubmitting: true,
@@ -53,7 +54,7 @@ const Login=  (props) => {
       }
     }
     else
-       errors= ApiError.getErrors(signInResponse.error,separators.HTML);
+       errors="KULLANICI ADI VE PAROLA HATALI!!";
     
 
     if (errors) {

@@ -4,6 +4,7 @@ import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import MUIDataTable from "mui-datatables";
 import rop_axios from '../js/identityServerClient/rop_axios.js';
+import { ApiError } from "../js/identityServerClient/centeralRequest.js";
 function GrpSonuc(props) {   
     const [responseData, setresponseData] = useState([]);
     useEffect(() => {
@@ -22,6 +23,12 @@ function GrpSonuc(props) {
         var url=`http://185.122.202.87:8264/api/export/${props.location.state.data}`
         window.open(url)
       };
+      const mailSendOnclick = async (e)=>{
+        var mailResponse = await rop_axios.post(`watertankcalculator/Mail/${props.location.state.data}`);
+        if(!mailResponse.isSuccessful){
+          alert(ApiError.getErrors(mailResponse.error));
+        }
+      }
     let data=responseData.tanks;
     console.log(responseData)
     let columns = [
@@ -143,7 +150,7 @@ function GrpSonuc(props) {
 <button class="ui button primary" onClick={newOnclick}>
   Teklif indir
 </button>
-<button class="ui button positive" >
+<button class="ui button positive"  onClick={mailSendOnclick}>
   Teklif Gönder
 </button>
       </div>

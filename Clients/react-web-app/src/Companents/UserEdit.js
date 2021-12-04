@@ -3,28 +3,37 @@ import {Button, Form, Input, Message} from 'semantic-ui-react';
 import axios from 'axios';
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { Link } from "react-router-dom";
-
+import identityServerRequest from '../js/identityServerClient/identityServerRequest.js';
+const requester = new identityServerRequest(); 
 const UserEdit = (props) => {
     const [userData, setUserData] = useState([]);
     const [inputValidate, setinputValidate] = useState({type: null, visible: false, validateMessage: null, header: null});
-    const [selectRole, setSelectRole] = useState(null);
-    
-    useEffect(() => {
-      const getUserData = async () => {
-        let id=props.match.params.id
-        let res= await rop_axios.get(`/user/users/getUser/${id}`); 
-        setUserData(res.data); 
-      }; 
-      getUserData();
+    const [selectRole, setSelectRole] = useState();
+    const [roleOptions, setRoleOptions] = useState([]);
+    useEffect(async() => {
+      await requester.connectTokenAsync();
+      const getData = async () => {
+          var rolesResponse = await requester.getRoles();
+          setRoleOptions(rolesResponse.data.map(x=>( { key: Math.random(), text: x, value: x })));
+      };
+      const getUserDatas = async () => {
+        var user = await requester.getUserAsync(props.match.params.user);
+
+        console.log(user)
+        var selected=user.data.roles[0];
+        setSelectRole(selected); 
+        setUserData(user.data);
+      };
+
+    getUserDatas();
+      getData();
+      console.log(userData)
+
   }, []);
-  const onSelectChange = (evt, data) => { 
-    setSelectRole({selectRole:data.value}); 
+  const onSelectChange = (evt, data) => {  
+    setSelectRole(data.value); 
    }
-  const roleOptions = [
-    { key: 'a', text: 'Yönetici', value: '0' },
-    { key: 'f', text: 'Muhasebe', value: '1' }, 
-    { key: 'm', text: 'Mühendis', value: '2' }, 
-  ]
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const {target} = event;
@@ -32,17 +41,31 @@ const UserEdit = (props) => {
   };
   const valideteForm=async (targets)=>{
         
-    if(targets.firstName.value!==''&& targets.lastName.value!==''&& targets.userName.value!==''&& targets.userMail.value!==''&& targets.userPhone.value!==''&& targets.role.value!=='')
-    {    
-
-      var userResponse = await rop_axios.put("/company/companies", {
-        id: props.match.params.id ,
+    if(targets.firstName.value!==''&& targets.lastName.value!==''&& targets.userName.value!==''&& targets.userMail.value!==''&& targets.userPhone.value!=='' && targets.identityNumber.value!=='' && targets.address.value!=='')
+    {  
+      console.log({
+        id: props.match.params.user ,
         firstName:targets.firstName.value,
         lastName:targets.lastName.value,
         userName:targets.userName.value,
-        userMail:targets.userMail.value,
-        userPhone:targets.userPhone.value,
-        role:selectRole,
+        email:targets.userMail.value,
+        phoneNumber:targets.userPhone.value,
+        identityNumber:targets.identityNumber.value,
+        address:targets.address.value,
+        roles:[selectRole],
+        password:targets.password.value
+      });
+
+      var userResponse = await requester.updateUserAsync({
+        id: props.match.params.user ,
+        firstName:targets.firstName.value,
+        lastName:targets.lastName.value,
+        userName:targets.userName.value,
+        email:targets.userMail.value,
+        phoneNumber:targets.userPhone.value,
+        identityNumber:targets.identityNumber.value,
+        address:targets.address.value,
+        roles:[selectRole],
         password:targets.password.value
       });
       if(userResponse.error!==null){
@@ -123,6 +146,24 @@ const UserEdit = (props) => {
               <Form.Group width={12}>
                 <Form.Field
                   control={Input}
+                  label='Tc Kimlik'
+                  name='identityNumber'
+                  defaultValue={userData.identityNumber}
+                  placeholder='Tc Kimlik'
+                  type='text'/>
+              </Form.Group>
+              <Form.Group width={12}>
+                <Form.Field
+                  control={Input}
+                  label='Adres'
+                  name='address'
+                  placeholder='Adres'
+                  defaultValue={userData.address}
+                  type='text'/>
+              </Form.Group>
+              <Form.Group width={12}>
+                <Form.Field
+                  control={Input}
                   label='Kullanıcı Adı'
                   name='userName'
                   defaultValue={userData.userName}
@@ -142,7 +183,7 @@ const UserEdit = (props) => {
                   control={Input}
                   label='E-mail'
                   name='userMail'
-                  defaultValue={userData.userMail}
+                  defaultValue={userData.email}
                   placeholder='E-mail'
                   type='email'/>
               </Form.Group>
@@ -151,12 +192,12 @@ const UserEdit = (props) => {
                   control={Input}
                   label='Tel'
                   name='userPhone'
-                  defaultValue={userData.userPhone}
+                  defaultValue={userData.phoneNumber}
                   placeholder='Tel'
                   type='tel'/>
               </Form.Group>
               <Form.Group width={8}>   
-                                         <Form.Select fluid options={roleOptions}  label='Rol' placeholder='Rol' name='role' onChange={onSelectChange}/>
+                                         <Form.Select fluid value={selectRole} options={roleOptions}  label='Rol' placeholder='Rol' name='role' onChange={onSelectChange}/>
               </Form.Group> 
               
               <Button positive type='submit'>Düzenle</Button> 
