@@ -55,6 +55,8 @@ public class Startup
         //    opt.BaseAddress = new(Environment.GetWebApiUrl(Configuration));
         //});
 
+        services.AddMemoryCache();
+
         services.AddControllers(opt =>
         {
             opt.Filters.Add(new AuthorizeFilter());
@@ -105,6 +107,7 @@ public class Startup
                     { jwtSecurityScheme, Array.Empty<string>() }
                 });
         });
+
     }
 
     public void Configure(IApplicationBuilder app)

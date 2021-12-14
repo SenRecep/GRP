@@ -1,15 +1,17 @@
 ﻿#nullable disable
+using System.Text.Json.Serialization;
+
 namespace GRP.Services.WaterTankCalculator.BLL.Models;
 
-public record Exchange
+public class Exchange
 {
-    public ForeignCurrency USD { get; set; }
-    public ForeignCurrency EUR { get; set; }
-    public ForeignCurrency GBP { get; set; }
+    [JsonPropertyName("timestamp")]
+    public int Timestamp { get; set; }
+    [JsonPropertyName("rates")]
+    public Rates Rates { get; set; }
 }
-public class ForeignCurrency
+
+public class Rates
 {
-    public string Satis { get; set; }
-    public string Alis { get; set; }
-    public string Degisim { get; set; }
+    public float TRY { get; set; }
 }
