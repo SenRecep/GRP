@@ -2,7 +2,7 @@
 
 namespace GRP.Services.WaterTankCalculator.BLL.Models.DTO;
 
-public class ConstantsDto:IDTO
+public record ConstantsDto :IDTO
 {
     public Guid Id { get; set; }
     public float GRPKgPrice { get; set; }
