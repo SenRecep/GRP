@@ -2,7 +2,7 @@
 
 namespace GRP.Services.WaterTankCalculator.BLL.Models.DTO;
 
-public class ProductDto:IDTO
+public record ProductDto:IDTO
 {
     public Guid Id { get; set; }
     public string? Key { get; set; }

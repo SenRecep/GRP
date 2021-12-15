@@ -96,6 +96,7 @@ public class EfGenericCommandRepository<T> : IGenericCommandRepository<T>
                 await dbContextTransaction.CommitAsync();
             else
                 await dbContextTransaction.RollbackAsync();
+            await DisposeAsync();
         }
 
         return commitState;

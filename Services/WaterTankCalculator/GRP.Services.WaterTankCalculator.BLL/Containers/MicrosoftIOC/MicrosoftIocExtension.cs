@@ -17,6 +17,7 @@ using GRP.Shared.DAL.Interfaces;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -33,7 +34,7 @@ public static class MicrosoftIocExtension
         IConfiguration configuration,
         IWebHostEnvironment environment)
     {
-        string connectionString = configuration.GetCustomConnectionString(environment.GetConnectionType());
+        string connectionString = configuration.GetCustomConnectionString(environment.GetConnectionType(true));
         string migrationName = "GRP.Services.WaterTankCalculator";
 
         services.AddTransient<DbContext, WaterTankCalculatorDbContext>();
@@ -86,8 +87,6 @@ public static class MicrosoftIocExtension
         #endregion
 
 
-
-
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddScoped<ICustomMapper, CustomMapper>();
 
@@ -99,9 +98,19 @@ public static class MicrosoftIocExtension
         services.Configure<MailSettings>(configuration.GetSection("MailSettings"));
         services.AddSingleton<IMailSettings>(sp => sp.GetRequiredService<IOptions<MailSettings>>().Value);
 
-        services.AddHttpClient<IExchangeService, ExcahangeManager>(conf => conf.BaseAddress = new Uri("https://api.genelpara.com/embed/doviz.json"));
-        var companyUrl= environment.GetApiUrl(configuration,"Company");
+        services.AddHttpClient<IExchangeService, ExcahangeManager>(conf =>
+        {
+            conf.BaseAddress = new Uri("https://api.xchangeapi.com/latest?base=USD");
+            conf.DefaultRequestHeaders.Add("api-key", "T3uxkrbBDNXrubWNfx02lNsYtLPbnG5j");
+        });
+        var companyUrl = environment.GetApiUrl(configuration, "Company");
         services.AddHttpClient<ICompanyService, CompanyManager>(conf => conf.BaseAddress = new Uri(companyUrl));
+
+        services.AddSingleton<ICacheStore>(x =>
+        new MemoryCacheStore(x.GetService<IMemoryCache>(),
+        configuration.GetSection("Caching")
+        .GetChildren()
+        .ToDictionary(child => child.Key, child => TimeSpan.Parse(child.Value))));
     }
 
     public static void AddValidationDependencies(this IMvcBuilder mvcBuilder)

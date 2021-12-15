@@ -42,23 +42,4 @@ public class DefaultManager : IDefaultService
         var defaults = await context.ModuleDefaults.ToListAsync();
         return defaults.Select(x => mapper.Map<ModuleDto>(x));
     }
-
-    //public async Task<IEnumerable<RatKV>> GetDefaultsRAT()
-    //{
-    //    var defaults = await context.RATDefaults.ToListAsync();
-    //    return defaults.Select(x =>
-    //     {
-    //         var ret = new RatKV()
-    //         {
-    //             Key = x.Key,
-    //             Name = x.Name
-    //         };
-    //         ret.KeyValueModels.Add(new() { Key = nameof(x.Weight), Value = x.Weight });
-    //         ret.KeyValueModels.Add(new() { Key = nameof(x.DKPS), Value = x.DKPS });
-    //         ret.KeyValueModels.Add(new() { Key = nameof(x.LC), Value = x.LC });
-    //         ret.KeyValueModels.Add(new() { Key = nameof(x.DIP), Value = x.DIP });
-    //         ret.KeyValueModels.Add(new() { Key = nameof(x.RUB), Value = x.RUB });
-    //         return ret;
-    //     });
-    //}
 }
