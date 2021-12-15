@@ -33,8 +33,7 @@ const CalculateContextProvider =({children})=> {
    const deleteAllData=()=>{
     setCalculateData(initialData)
    }
-    const postData= async(compId, payType)=>{ 
-      console.log(redirectPage) 
+    const postData= async(compId, payType)=>{  
       setRedirectPage(null)
         let postDatas=[];
         postDatas=calculateData.map(item=>{
@@ -42,8 +41,7 @@ const CalculateContextProvider =({children})=> {
            delete dummy.id  
             return dummy
         })
-       console.log({
-          
+       console.log({ 
         calculateModels:postDatas,
         compnyId:compId,
         currencyType:ct

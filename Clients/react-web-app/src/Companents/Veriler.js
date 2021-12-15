@@ -72,16 +72,16 @@ class Veriler extends React.Component {
                           
                             <div className="card-body">
                               {
-   
+    <div className="p-1">
               <InputCompanent  key={constants.id}  inputUUID={"grpKgPrice"}     defaultValue={constants.grpKgPrice}  type={'number'} label={"GRRP KG"} value={constants.grpKgPrice} parentHandler={  this.handleConstantsInput} />
-              
+              </div>
 
                     }
 
 {
-   
+    <div className="p-1">
    <InputCompanent  key={constants.id}  inputUUID={"transportation"}     defaultValue={constants.transportation}  type={'number'} label={"Nakliye"} value={constants.transportation} parentHandler={  this.handleConstantsInput} />
-   
+   </div>
 
          }
                             </div>
@@ -100,7 +100,7 @@ class Veriler extends React.Component {
                                         {
             this.state.products.map(el=>{
                
-              return <InputCompanent  key={el.id}  inputUUID={el.id}     defaultValue={el.unitPrice}  type={'number'} label={el.name} value={el.unitPrice} parentHandler={  this.handleOnBlurInput} />
+              return <div className="p-1"><InputCompanent  key={el.id}  inputUUID={el.id}     defaultValue={el.unitPrice}  type={'number'} label={el.name} value={el.unitPrice} parentHandler={  this.handleOnBlurInput} /></div>
             })
 
           }
@@ -122,15 +122,26 @@ class Veriler extends React.Component {
                             {
 this.state.rats.map(el=>{
    
-  return <div className="row">
-  <label>{el.name}</label>
-  <InputCompanent  key={`${el.id}-${el.key}-dip`}    inputUUID={`${el.id}-${el.key}-dip`}     defaultValue={el.dip}  type={'number'} label={"Daldırma"} value={el.dip} parentHandler={  this.ratInputHandler} />
-  <InputCompanent  key={`${el.id}-${el.key}-dkps`}     inputUUID={`${el.id}-${el.key}-dkps`}     defaultValue={el.dkps} type={'number'} label={"DKP Sac"} value={el.dkps} parentHandler={  this.ratInputHandler} />
-  <InputCompanent  key={`${el.id}-${el.key}-lc`}   inputUUID={`${el.id}-${el.key}-lc`}     defaultValue={el.lc} type={'number'} label={"lazer kesim"} value={el.lc} parentHandler={  this.ratInputHandler} />
-  <InputCompanent  key={`${el.id}-${el.key}-weight`}   inputUUID={`${el.id}-${el.key}-weight`}     defaultValue={el.weight} type={'number'} label={"AĞIRLIK"} value={el.weight} parentHandler={  this.ratInputHandler} />
-  <InputCompanent  key={`${el.id}-${el.key}-rub`}   inputUUID={`${el.id}-${el.key}-rub`}     defaultValue={el.rub} type={'number'} label={"Ovalama"} value={el.rub} parentHandler={  this.ratInputHandler} />
-
+  return (
+    <div className="table-responsive">
+    <table className="table table-striped table-hover custom-table text-nowrap"> 
+      <tbody>
+        <tr>
+          <td  className="p-1" >{el.name}</td>
+          <td className="p-1">  <InputCompanent  key={`${el.id}-${el.key}-dip`}    inputUUID={`${el.id}-${el.key}-dip`}     defaultValue={el.dip}  type={'number'} label={"Daldırma"} value={el.dip} parentHandler={  this.ratInputHandler} /></td>
+          <td className="p-1"><InputCompanent  key={`${el.id}-${el.key}-lc`}   inputUUID={`${el.id}-${el.key}-lc`}     defaultValue={el.lc} type={'number'} label={"lazer kesim"} value={el.lc} parentHandler={  this.ratInputHandler} />
+          </td>
+  
+  
+          <td className="p-1">  <InputCompanent  key={`${el.id}-${el.key}-weight`}   inputUUID={`${el.id}-${el.key}-weight`}     defaultValue={el.weight} type={'number'} label={"AĞIRLIK"} value={el.weight} parentHandler={  this.ratInputHandler} /></td>
+          <td className="p-1">  <InputCompanent  key={`${el.id}-${el.key}-rub`}   inputUUID={`${el.id}-${el.key}-rub`}     defaultValue={el.rub} type={'number'} label={"Ovalama"} value={el.rub} parentHandler={  this.ratInputHandler} /></td>
+          
+        </tr>
+       
+      </tbody>
+    </table>
   </div>
+  )
 })
 
 }
