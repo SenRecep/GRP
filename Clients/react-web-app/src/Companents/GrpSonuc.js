@@ -1,11 +1,14 @@
 import React, {useState, useContext, useEffect } from "react"; 
+import {CalculateContext} from '../contexts/CalculateContext';
 import { useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import MUIDataTable from "mui-datatables";
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { ApiError } from "../js/identityServerClient/centeralRequest.js";
+
 function GrpSonuc(props) {   
+  const { deleteAllData } = useContext(CalculateContext); 
     const [responseData, setresponseData] = useState([]);
     useEffect(() => {
        
@@ -15,7 +18,7 @@ function GrpSonuc(props) {
             setresponseData(companyResponse.data);
             console.log(responseData)
         };
-    
+        deleteAllData()
         getData();
     }, []);
     const newOnclick = async (event) => {

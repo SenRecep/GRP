@@ -40,7 +40,7 @@ const UserAdd = (props) => {
           phoneNumber:targets.userPhone.value,
           identityNumber:targets.identityNumber.value,
           address:targets.address.value,
-          role:[selectRole],
+          roles:[selectRole],
           password:targets.password.value
       }
     

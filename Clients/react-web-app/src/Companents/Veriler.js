@@ -73,14 +73,14 @@ class Veriler extends React.Component {
                             <div className="card-body">
                               {
    
-              <InputCompanent  key={constants.id}  inputUUID={"grpKgPrice"}     defaultValue={constants.grpKgPrice}  type={'number'} label={"grpKgPrice"} value={constants.grpKgPrice} parentHandler={  this.handleConstantsInput} />
+              <InputCompanent  key={constants.id}  inputUUID={"grpKgPrice"}     defaultValue={constants.grpKgPrice}  type={'number'} label={"GRRP KG"} value={constants.grpKgPrice} parentHandler={  this.handleConstantsInput} />
               
 
                     }
 
 {
    
-   <InputCompanent  key={constants.id}  inputUUID={"transportation"}     defaultValue={constants.transportation}  type={'number'} label={"transportation"} value={constants.transportation} parentHandler={  this.handleConstantsInput} />
+   <InputCompanent  key={constants.id}  inputUUID={"transportation"}     defaultValue={constants.transportation}  type={'number'} label={"Nakliye"} value={constants.transportation} parentHandler={  this.handleConstantsInput} />
    
 
          }
@@ -122,7 +122,7 @@ class Veriler extends React.Component {
                             {
 this.state.rats.map(el=>{
    
-  return <>
+  return <div className="row">
   <label>{el.name}</label>
   <InputCompanent  key={`${el.id}-${el.key}-dip`}    inputUUID={`${el.id}-${el.key}-dip`}     defaultValue={el.dip}  type={'number'} label={"Daldırma"} value={el.dip} parentHandler={  this.ratInputHandler} />
   <InputCompanent  key={`${el.id}-${el.key}-dkps`}     inputUUID={`${el.id}-${el.key}-dkps`}     defaultValue={el.dkps} type={'number'} label={"DKP Sac"} value={el.dkps} parentHandler={  this.ratInputHandler} />
@@ -130,7 +130,7 @@ this.state.rats.map(el=>{
   <InputCompanent  key={`${el.id}-${el.key}-weight`}   inputUUID={`${el.id}-${el.key}-weight`}     defaultValue={el.weight} type={'number'} label={"AĞIRLIK"} value={el.weight} parentHandler={  this.ratInputHandler} />
   <InputCompanent  key={`${el.id}-${el.key}-rub`}   inputUUID={`${el.id}-${el.key}-rub`}     defaultValue={el.rub} type={'number'} label={"Ovalama"} value={el.rub} parentHandler={  this.ratInputHandler} />
 
-  </>
+  </div>
 })
 
 }
