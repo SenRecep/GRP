@@ -1,11 +1,14 @@
 import React, {useState, useContext, useEffect } from "react"; 
+import {CalculateContext} from '../contexts/CalculateContext';
 import { useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import MUIDataTable from "mui-datatables";
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { ApiError } from "../js/identityServerClient/centeralRequest.js";
+
 function GrpSonuc(props) {   
+  const { deleteAllData } = useContext(CalculateContext); 
     const [responseData, setresponseData] = useState([]);
     useEffect(() => {
        
@@ -15,7 +18,7 @@ function GrpSonuc(props) {
             setresponseData(companyResponse.data);
             console.log(responseData)
         };
-    
+        deleteAllData()
         getData();
     }, []);
     const newOnclick = async (event) => {
@@ -108,60 +111,42 @@ function GrpSonuc(props) {
                                             </ThemeProvider> 
      
      
-             
-                  
-  <div class="ui grid">
-  <div class="four column row">
-    <div class="left floated column">   <div className="card ml-4 ">
-    <div className="content">
-      <div className="header"></div>
-      <div className="meta"><b>GRP KG Fiyatı</b></div>
-      <div className="description"> 
-      {responseData?.constants?.grpKgPrice}
-      </div>
-      <div className="meta"><b>Dolar Fiyatı</b></div>
-      <div className="description">
-      {responseData?.constants?.dollar} 
-      </div>
-      <div className="meta"><b>Nakliye</b></div>
-      <div className="description"> 
-      {responseData?.constants?.transportation}
-      </div>
-      <div className="meta"><b>Ara Toplam</b></div>
-      <div className="description">
-      {responseData?.total}
-      </div>
-      <div className="meta"><b>KDV</b></div>
-      <div className="description">
-      {responseData?.kdv}
-      </div>
-      <div className="meta"><b>Genel Toplam</b></div>
-      <div className="description">
-        {responseData?.fullTotal}
-      </div>
-    </div>
-  </div></div>
-    <div class="right floated column">
-    <div className="card ">
-    <div className="content">
-    <div className="meta"><b>İşlemler</b></div>
-      <div className="description">
-     
-<button class="ui button primary" onClick={newOnclick}>
+           <div className="row">
+             <div className="col-4">
+
+             <div className="card">
+  <div className="card-header">
+    Sonuç
+  </div>
+  <ul className="list-group list-group-flush">
+    <li className="list-group-item"><b>GRP KG Fiyatı</b>: {responseData?.constants?.grpKgPrice}</li>
+    <li className="list-group-item"><b>Dolar Fiyatı</b>: {responseData?.constants?.dollar}  </li>
+    <li className="list-group-item"><b>Nakliye</b>:  {responseData?.constants?.transportation}</li>
+    <li className="list-group-item"><b>Ara Toplam</b>: {responseData?.total}</li>
+    <li className="list-group-item"><b>KDV</b>:  {responseData?.kdv} </li>
+    <li className="list-group-item"><b>Genel Toplam</b>:    {responseData?.fullTotal} </li> 
+    
+  </ul>
+</div>
+
+
+
+             </div>
+             <div className="col-4">
+
+
+
+             <button className="ui button primary" onClick={newOnclick}>
   Teklif indir
 </button>
-<button class="ui button positive"  onClick={mailSendOnclick}>
+<button className="ui button positive"  onClick={mailSendOnclick}>
   Teklif Gönder
 </button>
-      </div>
-    </div>
-  </div>
-
-
-    </div>
-  </div>
-  
-</div>
+             </div>
+            
+             </div>  
+                  
+ 
           
         
 

@@ -10,33 +10,74 @@ import {
   } from 'semantic-ui-react'; 
 import { ThemeProvider } from "@mui/styles";
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import MUIDataTable from "mui-datatables";
-import axios from 'axios';
+import MUIDataTable from "mui-datatables"; 
 import rop_axios from '../js/identityServerClient/rop_axios.js';
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const GrpHesapla=(props)=> { 
-  const [firmData, setFirmData] = useState([]);
-  const [currencyType, setCurrencyType] = useState(true);
-
+  const [firmData, setFirmData] = useState([]); 
+  const [halfXInput, setHalfXInput] = useState('');
+  const [halfYInput, setHalfYInput] = useState('');
+  const [unitInput, setunitInput] = useState(1); 
+  const [halfZInput, setHalfZInput] = useState('');
+  const { calculateData, addData, deleteData, postData, currencySelectInput,setCurrencySelectInput, disableInputs, setDisableInputs, redirectPage } = useContext(CalculateContext); 
+  useEffect(() => { 
+    if(calculateData.length>0){
+      setDisableInputs(true)
+      
+    }
+    else{
+      setDisableInputs(false)
+    }
+  }, [calculateData]);
+ 
   useEffect(() => {
+    toast.configure();
+    
     const getFirmData = async () => {
         var companyResponse = await rop_axios.get("/company/companies");
         setFirmData(companyResponse.data);
         
     };
-
+    
     getFirmData();
 }, []);
     let firmOptions=firmData.map(item=>({
       key:Math.random(), text: item.title, value:item.id
     }))
-    const { calculateData, addData, deleteData, postData } = useContext(CalculateContext); 
+    
   
       const onDeleteData=(id) => {  
         deleteData(id);
       }
       const triggerPostData=()=>{
+      
+       
         postData(firrmSelectInput.companyId,paymentSelectInput.paymentSelectValue);
+        if(redirectPage){ 
+          toast.success('Yönlendiriliyor', {
+            position: "top-right",
+            autoClose: 10000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+          
+        }
+        else{
+          toast.error('Hatalı parametre lütfen değerleri kontrol ediniz', {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+        }
       }
       let theme = createTheme();
       theme = responsiveFontSizes(theme);
@@ -64,12 +105,11 @@ const GrpHesapla=(props)=> {
           label: "Kaide Tipi",
           options: {
             customBodyRender: (value, tableMeta, updateValue) => { 
-               
-              
+                
                 return (
                  
                   <>
-                  {tableMeta.rowData[2]==='0'?'Kiriş Kaide':'Düz Kaide'}
+                  {tableMeta.rowData[2]===0?'Kiriş Kaide':tableMeta.rowData[2]===1?'Düz Kaide':'Hatalı'}
                   </>
                 )
             }
@@ -148,8 +188,8 @@ const GrpHesapla=(props)=> {
         }
     ];
     const basetypeoptions = [
-        { key: 'k', text: 'Kiriş Kaide', value: '0' },
-        { key: 'd', text: 'Düz Kaide', value: '1' }, 
+        { key: 'k', text: 'Kiriş Kaide', value: '1' },
+        { key: 'd', text: 'Düz Kaide', value: '0' }, 
       ]
       const currencyOptions = [
         { key: 'd', text: 'Dolar', value: '0' },
@@ -178,9 +218,7 @@ const GrpHesapla=(props)=> {
       const [paymentSelectInput, setPaymentSelectInput] = useState({  
         paymentSelectValue:''
       });
-      const [currencySelectInput, setCurrencySelectInput] = useState({  
-        currencySelectvalue:''
-      });
+       
       const onFirmSelectChange = (evt, data) => { 
         setfirrmSelectInput({companyId:data.value}); 
      }
@@ -193,18 +231,19 @@ const GrpHesapla=(props)=> {
         setPaymentSelectInput({paymentSelectValue:data.value});
       }
       const onCurrencySelectChange = (evt, data) => { 
-        setCurrencySelectInput({currencySelectvalue:data.value});
+        console.log(disableInputs)
+        setCurrencySelectInput(data.value);
       }
-    const valideteForm=(unit, x, y, z, SelectInput)=>{
+    const valideteForm=(unit, x, y, z)=>{
         
         if(unit!=='' && x !=='' &&  y !=='' &&  z !==''  &&  unit !==''  && selectInput.selectValue !=='' && paymentSelectInput.paymentSelectValue !==''  )
         {  
-     
+  
   
             setinputValidate({
                 type:'success',
                 visible:true, 
-                validateMessage:'Başarılı bir şekilde hesaplandı yönlendiriliyorsunuz..',
+                validateMessage:'Başarılı bir şekilde eklendi',
                 header:'Başarılı'
             }) 
         
@@ -215,8 +254,12 @@ const GrpHesapla=(props)=> {
                 y:y,
                 z:z,
                 paymentType:paymentSelectInput.paymentSelectValue,
-                currencyType:+currencySelectInput.currencySelectvalue
+                currencyType:+currencySelectInput
              }
+
+
+
+          
             addData(data)
             
         } 
@@ -231,10 +274,43 @@ const GrpHesapla=(props)=> {
         }
        
     }
+    const halfhandleChange = (e) => { 
+        if(e.target.value%0.5===0|| e.target.value===0 ){ 
+
+          e.target.name==='x'?setHalfXInput( e.target.value  ):  e.target.name==='y'?setHalfYInput( e.target.value  ):e.target.name==='z'?setHalfZInput( e.target.value  ):  console.log(e.target.value)
+         
+        }else{
+          e.target.name==='x'?setHalfXInput( ''  ):  e.target.name==='y'?setHalfYInput( ''  ):e.target.name==='z'?setHalfZInput( '' ):  console.log(e.target.value)
+        
+          toast.error('Lütfen en boy yükseklik kat sayılarını 0.5 artıcak şekilde giriniz', {
+            position: "top-right",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+
+        } 
+      
+    };
+    const unitHandleChange = (e) => { 
+      if(e.target.value<0){ 
+
+        setunitInput(1)
+       
+      }
+      else{
+        setunitInput(e.target.value)
+
+      } 
+    
+  };
  const handleSubmit = (event) => {
         event.preventDefault();
         const {target} = event;  
-        valideteForm(target.unit.value, target.x.value,target.y.value,target.z.value, selectInput, paymentSelectInput)  
+        valideteForm(target.unit.value, target.x.value,target.y.value,target.z.value, selectInput, paymentSelectInput)   
       };
  return(
 
@@ -280,7 +356,9 @@ const GrpHesapla=(props)=> {
                                     <Form.Field
                                         control={Input}
                                         label='Depo Adet'
-                                        name='unit'
+                                        name='unit'  
+                                        value={unitInput}
+                                        onChange={unitHandleChange}
                                         placeholder='Depo Adet'
                                         type='number' 
                                     /> 
@@ -295,6 +373,8 @@ const GrpHesapla=(props)=> {
                                         label='En'
                                         name='x'
                                         placeholder='m' 
+                                        value={halfXInput}
+                                        onChange={halfhandleChange}
                                     /> 
                                     </Form.Group>
                                     
@@ -303,6 +383,8 @@ const GrpHesapla=(props)=> {
                                         control={Input}
                                         label='Boy'
                                         name='y'
+                                        value={halfYInput}
+                                        onChange={halfhandleChange}
                                         placeholder='m'
                                     />
                                    
@@ -312,6 +394,8 @@ const GrpHesapla=(props)=> {
                                         control={Input}
                                         label='Yükseklik'
                                         name='z'
+                                        value={halfZInput}
+                                        onChange={halfhandleChange}
                                         placeholder='m'
                                     />
 
@@ -323,10 +407,10 @@ const GrpHesapla=(props)=> {
                                         <Form.Select fluid options={paymentoptions}  label='Ödeme Şekli' placeholder='Ödeme Şekli' name='paymenttype' onChange={onPaymentSelectChange}/>
                                     </Form.Group>
                                     <Form.Group width={8}>
-                                        <Form.Select fluid options={firmOptions}  label='Firma Seç' placeholder='Firma Seç' name='compnyId' onChange={onFirmSelectChange}/>
+                                        <Form.Select fluid options={firmOptions} disabled={disableInputs} label='Firma Seç' placeholder='Firma Seç' name='compnyId' onChange={onFirmSelectChange}/>
                                     </Form.Group>
                                     <Form.Group width={8}>   
-                                         <Form.Select fluid options={currencyOptions}  label='Döciz Türü' placeholder='Döviz Türü' name='currencyType' onChange={onCurrencySelectChange}/>
+                                         <Form.Select fluid options={currencyOptions} disabled={disableInputs} value={currencySelectInput}  label='Döviz Türü' placeholder='Döviz Türü' name='currencyType' onChange={onCurrencySelectChange}/>
                                     </Form.Group> 
                                     <Button positive type='submit'>Ekle</Button> 
                                     <a onClick={triggerPostData} className="ui violet button">Hesapla</a>
