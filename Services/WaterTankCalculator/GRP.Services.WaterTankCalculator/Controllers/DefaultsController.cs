@@ -57,7 +57,8 @@ public class DefaultsController : ControllerBase
         {
             products,
             rats,
-            constants
+            constants,
+            dollar
         }).CreateResponseInstance();
     }
 
