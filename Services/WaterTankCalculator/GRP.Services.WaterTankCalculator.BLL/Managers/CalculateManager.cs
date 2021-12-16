@@ -5,6 +5,8 @@ using GRP.Services.WaterTankCalculator.Entities.Enums;
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Newtonsoft.Json;
+
 namespace GRP.Services.WaterTankCalculator.BLL.Managers;
 
 public class CalculateManager : ICalculateService

@@ -9,7 +9,7 @@ public class TotalCostManager : ITotalCostService
     {
         totalCost.Subtotal = moduleGroup.TotalCost + productGroup.TotalCost + ratGroup.TotalCost;
         totalCost.Financing = totalCost.Subtotal * 0.03f;
-        totalCost.GoesInvisible = totalCost.Subtotal * 0.02f;
+        totalCost.GoesInvisible = totalCost.Subtotal * 0.035f;
         totalCost.GrandTotal = totalCost.Subtotal + totalCost.Financing + totalCost.GoesInvisible;
         totalCost.Total = constants.Transportation + totalCost.GrandTotal;
         return totalCost;

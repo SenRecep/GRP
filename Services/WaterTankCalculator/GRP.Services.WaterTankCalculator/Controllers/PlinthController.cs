@@ -53,7 +53,7 @@ public class PlinthController : ControllerBase
             Dollar = Dollar,
             Transportation = transportation.Value
         };
-        ICollection<CalculateResponse> calculateResponses = new List<CalculateResponse>();
+        List<CalculateResponse> calculateResponses = new();
         foreach (var item in model.CalculateModels)
         {
             var response = await calculateService.CalculateAsync(constantsModel, item);

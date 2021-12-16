@@ -10,12 +10,12 @@ public abstract class ModuleManager : IModuleService
     {
         YIC19(moduleGroup.YIC19);
         YIC21(moduleGroup.YIC21, calculateModel, capacity);
-        YIC25(moduleGroup.YIC25, calculateModel, capacity);
+        YIC25(moduleGroup.YIC25,moduleGroup.YIC21, calculateModel, capacity);
         YIC22(moduleGroup.YIC22);
         YIC28(moduleGroup.YIC28, calculateModel);
         YIC13(moduleGroup.YIC13, calculateModel);
-        ADTT(moduleGroup.ADTT, calculateModel);
-        ATB(moduleGroup.ATB,calculateModel);
+        ADTT(moduleGroup.ADTT, calculateModel,capacity);
+        ATB(moduleGroup.ATB, calculateModel,capacity);
         ADBTT(moduleGroup.ADBTT);
         UDB22(moduleGroup.UDB22);
         UDB13(moduleGroup.UDB13);
@@ -40,16 +40,16 @@ public abstract class ModuleManager : IModuleService
     {
         if (module.IsNull()) return module;
         module.TotalOrders = (calculateModel.Width != calculateModel.Width.Int() ?
-            calculateModel.Height * 2 + calculateModel.Length * 2 :
+            calculateModel.Height * 2 + calculateModel.Length * 2 : (
             calculateModel.Length != calculateModel.Length.Int() ?
-            calculateModel.Height * 2 + calculateModel.Width * 2 : 0).Int();
+            calculateModel.Height * 2 + calculateModel.Width * 2 : 0)).Int();
         return module;
     }
     protected abstract Module YIC21(Module module, CalculateModel calculateModel, Capacity capacity);
-    protected abstract Module YIC25(Module module, CalculateModel calculateModel, Capacity capacity);
+    protected abstract Module YIC25(Module module, Module YIC21, CalculateModel calculateModel, Capacity capacity);
     protected abstract Module YIC28(Module module, CalculateModel calculateModel);
-    protected abstract Module ADTT(Module module, CalculateModel calculateModel);
-    protected abstract Module ATB(Module module, CalculateModel calculateModel);
-   
+    protected abstract Module ADTT(Module module, CalculateModel calculateModel, Capacity capacity);
+    protected abstract Module ATB(Module module, CalculateModel calculateModel,Capacity capacity);
+
 
 }

@@ -34,7 +34,7 @@ public static class MicrosoftIocExtension
         IConfiguration configuration,
         IWebHostEnvironment environment)
     {
-        string connectionString = configuration.GetCustomConnectionString(environment.GetConnectionType(true));
+        string connectionString = configuration.GetCustomConnectionString(environment.GetConnectionType());
         string migrationName = "GRP.Services.WaterTankCalculator";
 
         services.AddTransient<DbContext, WaterTankCalculatorDbContext>();
